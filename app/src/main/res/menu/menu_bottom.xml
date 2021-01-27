@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="@string/lbl_home"
+        android:icon="@drawable/ic_house"/>
+
+    <item
+        android:id="@+id/book"
+        android:title="@string/lbl_book"
+        android:icon="@drawable/ic_calendar"/>
+
+    <item
+        android:id="@+id/scan"
+        android:title="@string/lbl_scan"
+        android:icon="@drawable/ic_qr_code"/>
+
+    <item
+        android:id="@+id/setting"
+        android:title="Setting"
+        android:icon="@drawable/ic_settings"/>
+
+</menu>

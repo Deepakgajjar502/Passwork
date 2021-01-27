@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:insetLeft="4dp"
+    android:insetTop="6dp"
+    android:insetRight="4dp"
+    android:insetBottom="6dp">
+    <ripple android:color="?attr/colorControlHighlight">
+        <item>
+            <shape android:shape="rectangle"
+                android:tint="@color/dark_yellow">
+                <corners android:radius="100dp" />
+                <solid android:color="@color/yellow" />
+
+            </shape>
+        </item>
+
+        <item>
+            <shape>
+                <padding
+                    android:bottom="1dp"
+                    android:left="1dp"
+                    android:right="1dp"
+                    android:top="1dp" />
+                <solid android:color="#27C1C0C0" />
+                <corners android:radius="100dp" />
+            </shape>
+        </item>
+        <item>
+            <shape>
+                <padding
+                    android:bottom="1dp"
+                    android:left="1dp"
+                    android:right="1dp"
+                    android:top="1dp" />
+                <solid android:color="#27C1C0C0" />
+                <corners android:radius="100dp" />
+            </shape>
+        </item>
+        <item>
+            <shape>
+                <padding
+                    android:bottom="1dp"
+                    android:left="1dp"
+                    android:right="1dp"
+                    android:top="1dp" />
+                <solid android:color="#27C1C0C0" />
+                <corners android:radius="100dp" />
+            </shape>
+        </item>
+
+        <!-- Background -->
+        <item>
+            <shape android:shape="rectangle" android:padding="10dp">
+                <corners android:radius="100dp" />
+                <gradient
+                    android:angle="45"
+                    android:endColor="@color/dark_yellow"
+
+                    android:type="linear" />
+                <padding
+                    android:bottom="10dp"
+                    android:left="30dp"
+                    android:right="30dp"
+                    android:top="10dp" />
+            </shape>
+        </item>
+    </ripple>
+</inset>

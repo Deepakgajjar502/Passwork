@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_230sdp"
+        android:clickable="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:fitsSystemWindows="true"
+        android:background="@drawable/dashboard_bg"
+        android:longClickable="false"
+        android:animationCache="true"
+        android:duplicateParentState="true"
+        android:filterTouchesWhenObscured="true"
+        >
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false"
+            app:contentScrim="@color/accent"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:scrimAnimationDuration="200"
+            app:statusBarScrim="?attr/colorPrimaryDark" >
+
+                <!--Page Image Profile-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/layout_Image"
+                    >
+
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/view_pager2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/bg_gradient_hard"/>
+
+
+
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/indicator"
+                        android:background="@null"
+                        android:layout_below="@id/view_pager2"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="-50dp"
+                       />
+
+                    <FrameLayout
+                        android:translationZ="9dp"
+                        android:layout_width="31dp"
+                        android:layout_height="31dp"
+                        android:foregroundGravity="center_horizontal"
+                        android:layout_marginStart="11dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:id="@+id/back"
+                        android:clickable="true"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginTop="8dp"
+                        android:foreground="@drawable/custom_ripple"
+                        android:backgroundTint="#ffffff"
+                        android:background="@drawable/circlegradient">
+                        <ImageView
+                            android:layout_marginStart="-1dp"
+                            android:id="@+id/ImageBack"
+                            android:layout_gravity="center"
+                            android:layout_width="11dp"
+                            android:layout_height="11dp"
+                            android:src="@drawable/icon_back_vector"
+                            android:gravity="center" />
+                    </FrameLayout>
+
+
+
+
+
+
+
+            </RelativeLayout>
+
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <RelativeLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        >
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/rounded_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/_5sdp"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:src="@drawable/ic_star"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                android:text="4/5"/>
+
+
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:id="@+id/mainLayout"
+            android:orientation="vertical">
+
+
+
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CFE Offices - Business Center"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/_5sdp"
+
+            />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Near Chandivali Ice Factory, Mumbai, Pincode :400072"
+                android:textSize="@dimen/_12sdp"
+                android:drawableStart="@drawable/ic_maps_and_flags"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:drawablePadding="@dimen/_5sdp"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/black"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Address Jumeirah Resort is an iconic seaside resort located in the center of the lively Jumeirah Beach Residences and the Bluewater islands. \n \nBusiness spaces are readily avaialble to address all types of meeting demands. Dubai meeting venues, conference rooms and other seminar areas provide the perfect atomsphere with all the advanced audio-visual support that you may require to hit the right professional role.\n\nParking : Free self-parking available"
+
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_10sdp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/light_gray"
+                />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amenities"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/black"
+                />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_baseline_expand_more_24"/>
+
+                </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/light_gray"
+                />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Facilities"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:textSize="@dimen/_14sdp"
+                    android:textColor="@color/black"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/ic_baseline_expand_more_24"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@color/light_gray"
+                />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mainLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/_10sdp"
+            android:text="Book"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/ripple_effect_buttun_bg"
+            android:id="@+id/booking"/>
+
+    </RelativeLayout>
+
+
+    <!--    </com.liaoinstan.springview.widget.SpringView>-->
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

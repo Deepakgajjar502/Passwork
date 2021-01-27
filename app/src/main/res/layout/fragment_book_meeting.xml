@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gnt_test_background_color"
+    tools:context=".Fragment.BookMeeting">
+
+    <!-- TODO: Update blank fragment layout -->
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/Title"
+         android:text="BOOKING"
+         android:fontFamily="@font/mogella"
+         android:gravity="center_horizontal"
+         android:textSize="@dimen/_20sdp"
+         android:textColor="@color/black"
+         android:background="@drawable/dashboard_bg"
+         android:padding="@dimen/_10sdp"
+         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/selectBookType"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Personal"
+        android:textSize="@dimen/_15sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:drawableRight="@drawable/ic_arrow_drop_down_24"
+        android:background="@drawable/sociallogin"
+        android:layout_below="@id/Title"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_20sdp"
+        android:layout_below="@id/selectBookType"
+        card_view:cardCornerRadius="7dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="5dp"
+        card_view:cardMaxElevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp"
+            android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:theme="@style/TextLabel_select">
+
+
+            <EditText
+                android:id="@+id/edt_select_workspace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginEnd="-4dp"
+                android:hint="Work Space"
+                android:text="Select"
+                android:drawableTint="@color/gray"
+                android:drawableStart="@drawable/ic_maps_and_flags"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_24"
+                android:drawablePadding="@dimen/_5sdp"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:theme="@style/EditText" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:theme="@style/TextLabel_select">
+            <EditText
+                android:id="@+id/edt_Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginEnd="-4dp"
+                android:hint="Date"
+                android:text="Select"
+                android:drawableTint="@color/gray"
+                android:drawableStart="@drawable/ic_date"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_24"
+                android:drawablePadding="@dimen/_5sdp"
+                android:maxLength="50"
+                android:maxLines="1"
+                android:textSize="12sp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:theme="@style/EditText" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:theme="@style/TextLabel_select">
+                <EditText
+                    android:id="@+id/edt_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-4dp"
+                    android:layout_marginEnd="-4dp"
+                    android:hint="Type"
+                    android:text="Select"
+                    android:drawableTint="@color/gray"
+                    android:drawableStart="@drawable/ic_workspace"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_24"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:textSize="12sp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:theme="@style/EditText" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="@dimen/_30sdp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="Book"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:background="@drawable/bg_book_btn"
+                android:id="@+id/login"
+
+                />
+
+
+
+    </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>

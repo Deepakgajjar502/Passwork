@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:theme="@style/AppTheme"
+    tools:showIn="@layout/activity_welcome">
+
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:background="@null"
+       android:layout_above="@id/login"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:ci_drawable="@drawable/selected_dot"
+        app:ci_drawable_unselected="@drawable/selected_dot" />
+
+
+
+    <Button
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_margin="@dimen/_30sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/next"
+        android:textColor="@color/white"
+        android:background="@drawable/ripple_effect_buttun_bg"
+        android:id="@+id/login"
+
+        />
+
+
+
+
+</RelativeLayout>

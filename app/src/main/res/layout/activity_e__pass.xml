@@ -1,0 +1,252 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gnt_test_background_color">
+
+
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:id="@+id/officeImage"
+        android:src="@drawable/e_pass_bg"/>
+
+
+
+
+
+    <FrameLayout
+        android:translationZ="9dp"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        android:foregroundGravity="center_horizontal"
+        android:layout_marginStart="11dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/back"
+        android:clickable="true"
+        android:layout_marginEnd="11dp"
+        android:layout_marginTop="8dp"
+        android:foreground="@drawable/custom_ripple"
+        android:backgroundTint="#ffffff"
+        android:background="@drawable/circlegradient">
+        <ImageView
+            android:layout_marginStart="-1dp"
+            android:id="@+id/ImageBack"
+            android:layout_gravity="center"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:src="@drawable/icon_back_vector"
+            android:gravity="center" />
+    </FrameLayout>
+
+
+
+
+
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:src="@drawable/passwork_v_logo"
+        app:tint="@color/white"
+        android:id="@+id/logo"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtEpass"
+        android:gravity="center"
+        android:layout_below="@id/logo"
+        android:fontFamily="@font/thesla"
+        android:layout_centerHorizontal="true"
+        android:drawableStart="@drawable/ic_id_card"
+        android:drawablePadding="@dimen/_10sdp"
+        android:drawableTint="@color/white"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="E-PASS"/>
+
+
+
+
+
+
+
+<RelativeLayout
+android:layout_below="@id/officeImage"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="-20dp"
+    >
+
+<View
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/rounded_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Employee Name"
+        android:textSize="@dimen/_12sdp"
+        android:drawableStart="@drawable/ic_avatar"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableTint="@color/gray"
+        android:textColor="@color/gray"
+        android:layout_marginTop="@dimen/_5sdp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deepak Gajjar"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:src="@drawable/dotted"
+        android:layerType="software" />
+
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company Name"
+        android:gravity="center"
+        android:textSize="@dimen/_12sdp"
+        android:drawableStart="@drawable/ic_business"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableTint="@color/gray"
+        android:textColor="@color/gray"
+        android:layout_marginTop="@dimen/_15sdp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sharad Technology"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+
+        />
+
+          <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work Space Name"
+                android:gravity="center"
+                android:textSize="@dimen/_12sdp"
+              android:drawablePadding="@dimen/_5sdp"
+                android:drawableStart="@drawable/icon_passwork"
+              android:drawableTint="@color/gray"
+                android:textColor="@color/gray"
+                android:layout_marginTop="@dimen/_15sdp"
+
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CFE Offices - Business Center"
+                android:textSize="@dimen/_14sdp"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/_5sdp"
+
+                />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of E-Pass"
+        android:gravity="center"
+        android:textSize="@dimen/_12sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:drawableStart="@drawable/ic_date"
+        android:drawableTint="@color/gray"
+        android:textColor="@color/gray"
+        android:layout_marginTop="@dimen/_15sdp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="25-01-2021"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/_5sdp"
+
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:src="@drawable/dotted"
+        android:layerType="software" />
+
+    <ImageView
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/qr_code"
+        android:layout_gravity="center"
+        android:layerType="software" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dated 23-01-2021"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/light_gray"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_gravity="center"
+        />
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</RelativeLayout>
+
+</RelativeLayout>

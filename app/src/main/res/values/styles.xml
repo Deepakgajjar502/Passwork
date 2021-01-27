@@ -1,0 +1,57 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/ic_launcher_background</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+    </style>
+
+    <style name="TextLabel" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/dark_yellow</item>
+    </style>
+
+    <style name="DefaultEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/dark_yellow</item>
+    </style>
+
+    <style name="TextLabel_select" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="colorAccent">@color/gray</item>
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlActivated">@color/gray</item>
+    </style>
+
+    <style name="EditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/gray</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">#fff</item>
+        <item name="actionMenuTextColor">#fff</item>
+        <item name="android:textColor">#fff</item>
+    </style>
+
+    <style name="ProfileTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorPrimaryDark">@color/accent</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/accent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>
