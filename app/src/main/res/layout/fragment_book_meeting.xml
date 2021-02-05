@@ -3,58 +3,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gnt_test_background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
     tools:context=".Fragment.BookMeeting">
 
     <!-- TODO: Update blank fragment layout -->
-     <TextView
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:id="@+id/Title"
-         android:text="BOOKING"
-         android:fontFamily="@font/mogella"
-         android:gravity="center_horizontal"
-         android:textSize="@dimen/_20sdp"
-         android:textColor="@color/black"
-         android:background="@drawable/dashboard_bg"
-         android:padding="@dimen/_10sdp"
-         />
-
-    <TextView
+    <RelativeLayout
+        android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/selectBookType"
-        android:fontFamily="sans-serif-condensed"
-        android:text="Personal"
-        android:textSize="@dimen/_15sdp"
-        android:layout_margin="@dimen/_10sdp"
-        android:gravity="center_horizontal"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/arial"
+            android:padding="@dimen/_10sdp"
+            android:text="MEETING ROOM"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sdp" />
+
+
+    </RelativeLayout>
+
+
+    <noman.weekcalendar.WeekCalendar
+        android:id="@+id/weekCalendar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/titleLayout"
+        app:weekTextColor="@color/white"
+        app:daysBackgroundColor="@color/colorAccent"
+        app:daysTextColor="@color/white"
+        app:selectedBgColor="@color/accent"
+        app:todaysDateBgColor="@color/accent"
+        app:weekBackgroundColor="@color/colorAccent"
+        android:background="@color/colorAccent"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:drawableRight="@drawable/ic_arrow_drop_down_24"
-        android:background="@drawable/sociallogin"
-        android:layout_below="@id/Title"/>
+        android:layout_below="@id/weekCalendar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/round"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+
+            android:text="BOOK"/>
 
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_20sdp"
-        android:layout_below="@id/selectBookType"
-        card_view:cardCornerRadius="7dp"
-        card_view:cardBackgroundColor="@android:color/white"
-        card_view:cardElevation="5dp"
-        card_view:cardMaxElevation="6dp">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:layout_below="@id/round"
+            android:padding="@dimen/_5sdp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardElevation="5dp"
+            android:id="@+id/cardview"
+            app:cardMaxElevation="6dp"
+            android:layout_margin="@dimen/_10sdp">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/selectWorkspace"
+            android:background="@color/colorAccent"
             android:padding="@dimen/_10sdp"
             android:orientation="vertical">
-        <com.google.android.material.textfield.TextInputLayout
+
+
+            <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:theme="@style/TextLabel_select">
@@ -66,104 +100,91 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-4dp"
                 android:layout_marginEnd="-4dp"
-                android:hint="Work Space"
-                android:text="Select"
-                android:drawableTint="@color/gray"
-                android:drawableStart="@drawable/ic_maps_and_flags"
+                android:hint="Select Room"
+                android:text="Meeting Room -1"
+                android:focusable="false"
+                android:drawableTint="@color/white"
+                android:drawableStart="@drawable/ic_business"
                 android:drawableEnd="@drawable/ic_arrow_drop_down_24"
                 android:drawablePadding="@dimen/_5sdp"
                 android:maxLength="50"
+                android:textSize="@dimen/_12sdp"
                 android:maxLines="1"
-                android:textSize="12sp"
                 android:singleLine="true"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:theme="@style/EditText" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:theme="@style/TextLabel_select">
-            <EditText
-                android:id="@+id/edt_Date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-4dp"
-                android:layout_marginEnd="-4dp"
-                android:hint="Date"
-                android:text="Select"
-                android:drawableTint="@color/gray"
-                android:drawableStart="@drawable/ic_date"
-                android:drawableEnd="@drawable/ic_arrow_drop_down_24"
-                android:drawablePadding="@dimen/_5sdp"
-                android:maxLength="50"
-                android:maxLines="1"
-                android:textSize="12sp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:theme="@style/EditText" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:theme="@style/TextLabel_select">
+
+
                 <EditText
-                    android:id="@+id/edt_type"
+                    android:id="@+id/edt_select_capacity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="-4dp"
                     android:layout_marginEnd="-4dp"
-                    android:hint="Type"
-                    android:text="Select"
-                    android:drawableTint="@color/gray"
-                    android:drawableStart="@drawable/ic_workspace"
+                    android:hint="Capacity"
+                    android:text="14 Pax"
+                    android:focusable="false"
+                    android:drawableTint="@color/white"
+                    android:drawableStart="@drawable/ic_group"
                     android:drawableEnd="@drawable/ic_arrow_drop_down_24"
                     android:drawablePadding="@dimen/_5sdp"
                     android:maxLength="50"
+                    android:textSize="@dimen/_12sdp"
                     android:maxLines="1"
-                    android:textSize="12sp"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:theme="@style/EditText" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <Button
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/_30sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="Book"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/black"
-                android:background="@drawable/bg_book_btn"
-                android:id="@+id/login"
-
-                />
-
 
 
     </LinearLayout>
 
 
 
-    </androidx.cardview.widget.CardView>
 
+        </androidx.cardview.widget.CardView>
 
+        <com.ebanx.swipebtn.SwipeButton
+            android:id="@+id/swipe_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:inner_text="BOOK"
+            app:inner_text_color="@color/white"
+            app:inner_text_size="16sp"
+            app:inner_text_top_padding="18dp"
+            app:inner_text_bottom_padding="18dp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:inner_text_background="@drawable/book_btn_bg"
+            app:button_image_height="60dp"
+            app:button_image_width="100dp"
+            app:button_image_disabled="@drawable/ic_baseline_arrow_forward_24"
+            app:button_image_enabled="@drawable/ic_baseline_check_24"
+            app:button_left_padding="20dp"
+            app:button_right_padding="20dp"
+            app:button_top_padding="20dp"
+            app:button_bottom_padding="20dp"
+            app:button_background="@drawable/book_button_shape"
+            app:initial_state="disabled"
+            app:has_activate_state="true"
+            android:layout_below="@id/cardview"
 
-
-
+            />
+    </RelativeLayout>
 
 
 

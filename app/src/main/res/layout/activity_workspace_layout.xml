@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".Activity.WorkspaceLayout">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:theme="@style/ToolbarTheme"
+        app:titleTextColor="@color/white"
+        android:layout_gravity="top"
+        app:layout_collapseMode="pin"
+        app:titleTextAppearance="@style/Toolbar.TitleText"
+        android:background="@color/colorPrimaryDark"
+        android:elevation="5dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentLeft="true"
+               android:backgroundTint="@color/white"
+                app:tint="@color/white"
+                android:src="@drawable/icon_back_vector"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_16sdp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:text="Select Seat"/>
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:textSize="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:textColor="@color/white"
+        android:id="@+id/Title"
+        android:layout_centerHorizontal="true"
+        android:text="Work Wise Solution Pvt. Ltd."/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/layout_office"
+        android:adjustViewBounds="true"
+        android:layout_below="@id/Title"
+        android:id="@+id/officeLayout"/>
+
+
+
+        <GridView
+            android:numColumns="auto_fit"
+              android:layout_above="@id/swipe_btn"
+            android:gravity="center"
+            android:columnWidth="@dimen/_50sdp"
+            android:stretchMode="columnWidth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grid"
+            android:layout_below="@id/officeLayout"
+            />
+
+
+
+
+
+
+
+
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/swipe_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:inner_text="BOOK"
+        app:inner_text_color="@color/white"
+        app:inner_text_size="16sp"
+        app:inner_text_top_padding="18dp"
+        app:inner_text_bottom_padding="18dp"
+
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:inner_text_background="@drawable/book_btn_bg"
+        app:button_image_height="60dp"
+        app:button_image_width="90dp"
+        app:button_image_disabled="@drawable/ic_baseline_arrow_forward_24"
+        app:button_image_enabled="@drawable/ic_baseline_check_24"
+        app:button_left_padding="20dp"
+        app:button_right_padding="20dp"
+        app:button_top_padding="20dp"
+        app:button_bottom_padding="20dp"
+        app:button_background="@drawable/book_button_shape"
+        app:initial_state="disabled"
+        app:has_activate_state="true"
+        android:layout_alignParentBottom="true"
+        />
+
+
+</RelativeLayout>

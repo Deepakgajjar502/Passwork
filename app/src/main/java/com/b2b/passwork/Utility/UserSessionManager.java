@@ -29,13 +29,14 @@ public class UserSessionManager {
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
     private static final String DEVICE_TOKEN = "access_token";
     // SocialLoginUserDetail name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
+    public static final String KEY_ROLE = "name";
     public static final String KEY_FIRST_NAME = "first_name";
     public static final String KEY_LAST_NAME = "last_name";
     public static final String KEY_USER_TYPE = "user_type";
     public static final String KEY_ACCESS_TOKEN = "access_token";
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
+    public static final String KEY_MOBILE = "mobile";
     public static final String KEY_ID = "id";
     public static final String KEY_apiToken = "apiToken";
     public static final String KEY_AVATAR = "avatar";
@@ -114,7 +115,7 @@ public class UserSessionManager {
     }
 
     public void setUserDetail(String userName,  String email) {
-        editor.putString(KEY_NAME, userName);
+        editor.putString(KEY_ROLE, userName);
         editor.putString(KEY_EMAIL, email);
         editor.commit();
     }
@@ -213,7 +214,7 @@ public class UserSessionManager {
 
     public String getUserName() {
 
-        return pref.getString(KEY_NAME, "");
+        return pref.getString(KEY_ROLE, "");
     }
 
     public String getTrackIdforPurchase() {
@@ -233,15 +234,29 @@ public class UserSessionManager {
 
 
     //Create login session
-    public void setcreateUserLoginSession(String userId, String userName, String firstName, String lastName, String userType, String accessToken, String email, String avtar, String contry){        // Storing login value as TRUE
+   /* public void setcreateUserLoginSession(String userId, String userName, String firstName, String lastName, String userType, String accessToken, String email, String avtar, String contry){        // Storing login value as TRUE
 
-        editor.putString(KEY_NAME, userName);
+        editor.putString(KEY_ROLE, userName);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_FIRST_NAME, firstName);
         editor.putString(KEY_LAST_NAME, lastName);
         editor.putString(KEY_USER_TYPE, userType);
         editor.putString(KEY_AVATAR, avtar);
         editor.putString(KEY_COUNTRY, contry);
+        editor.putString(KEY_ACCESS_TOKEN, accessToken);
+        editor.putString(KEY_ID, userId);
+        // commit changes
+        editor.commit();
+
+    }*/
+
+    public void setUserLoginSession(String userId, String role, String firstName, String lastName, String emailid, String accessToken, String mobileNo){        // Storing login value as TRUE
+
+        editor.putString(KEY_ROLE, role);
+        editor.putString(KEY_EMAIL, emailid);
+        editor.putString(KEY_FIRST_NAME, firstName);
+        editor.putString(KEY_LAST_NAME, lastName);
+        editor.putString(KEY_MOBILE, mobileNo);
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
         editor.putString(KEY_ID, userId);
         // commit changes
@@ -314,7 +329,7 @@ public class UserSessionManager {
         HashMap<String, String> user = new HashMap<String, String>();
 
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_ROLE, pref.getString(KEY_ROLE, null));
         user.put(KEY_FIRST_NAME, pref.getString(KEY_FIRST_NAME, null));
         user.put(KEY_LAST_NAME, pref.getString(KEY_LAST_NAME, null));
         user.put(KEY_AVATAR, pref.getString(KEY_AVATAR, null));

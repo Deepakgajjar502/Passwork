@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#000000</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#B3B2B2</color>
-    <color name="accent">#fbaa03</color>
+    <color name="colorPrimary">#2d343c</color>5069ea
+    <color name="colorPrimaryDark">#22272b</color>
+    <color name="colorAccent">#4e5661</color>
+    <color name="accent">#ffa600</color>
     <color name="black_trans">#DF0B0B0B</color>
     <color name="light_black_trans">#B70B0B0B</color>
     <color name="black">#000000</color>
@@ -15,6 +15,6 @@
     <color name="dark_yellow">#fbaa03</color>
     <color name="yellow">#ffbd35</color>
     <color name="light_yellow">#F5FFE66C</color>
-    <color name="gnt_test_background_color">#6FE4E4E4</color>
+    <color name="gnt_test_background_color">#E4E4E4</color>
     <color name="activated_color">#E8E8E8</color>
 </resources>

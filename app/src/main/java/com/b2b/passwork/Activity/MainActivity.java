@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,11 @@ import com.b2b.passwork.Fragment.QRScanerFragment;
 import com.b2b.passwork.Fragment.SettingFragment;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.workspace_interface;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity   {
     @BindView(R.id.bottomBar)
     SmoothBottomBar bottomBar;
 
-
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +110,38 @@ public class MainActivity extends AppCompatActivity   {
         return false;
     }
 
+
+    @Override
+    public void onBackPressed() {
+          if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                getSupportFragmentManager().popBackStack();
+            } else {
+                if (doubleBackToExitPressedOnce) {
+                    super.onBackPressed();
+                    finishAffinity();
+                    return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+
+
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+
+            }
+
+
+            // or just go back to main activity
+
+
+        }
 
 
 

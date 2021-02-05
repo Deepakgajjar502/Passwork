@@ -36,6 +36,7 @@
             android:id="@+id/title"
             android:textSize="@dimen/_13sdp"
             android:textStyle="bold"
+                android:theme="@style/Textview_bold"
             android:layout_above="@id/address"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_1sdp"

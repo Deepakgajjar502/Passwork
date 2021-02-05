@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Passwork</string>
+
+    <string name="server_client_id" translatable="false">845194297638-lpt1fovjfl5vmea6l4ak9qfrnekacvo2.apps.googleusercontent.com</string>
+
+
+
     <string name="next">NEXT</string>
     <string name="skip">Skip</string>
     <string name="select_your_space">Select Your Space</string>
@@ -16,6 +21,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_e_pass">EPass</string>
+    <string name="noInternet">Internet not available, Please check your internet connectivity and try again.</string>
+    <string name="enter_valid_email">Please enter valid email address</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

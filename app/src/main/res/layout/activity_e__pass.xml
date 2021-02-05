@@ -7,7 +7,6 @@
 
 
 
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
@@ -97,6 +96,9 @@ android:layout_marginTop="-20dp"
 
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
 <LinearLayout
@@ -238,15 +240,10 @@ android:layout_marginTop="-20dp"
 
         </LinearLayout>
 
-
-
-
-
-
-
-
+    </ScrollView>
 
 
 </RelativeLayout>
+
 
 </RelativeLayout>

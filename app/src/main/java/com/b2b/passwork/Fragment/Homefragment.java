@@ -1,12 +1,14 @@
 package com.b2b.passwork.Fragment;
 
-import android.content.Context;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,29 +17,26 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-
-import com.b2b.passwork.Activity.MainActivity;
-import com.b2b.passwork.Activity.WorkspaceDetail;
+import com.b2b.passwork.Activity.WorkspaceLayout;
 import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
 import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.LinePagerIndicatorDecoration;
 import com.b2b.passwork.Utility.PicassoHelper;
-import com.b2b.passwork.interfaces.OnItemClickListener;
-import com.b2b.passwork.interfaces.workspace_interface;
+import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.relex.circleindicator.CircleIndicator;
 
 
-public class Homefragment extends Fragment  {
+public class Homefragment extends Fragment implements View.OnClickListener {
 
 
     @BindView(R.id.UserName)
@@ -46,13 +45,12 @@ public class Homefragment extends Fragment  {
     ImageView profile;
 
 
-
     String[] OfficeName = new String[]{"CFE Offices - Business Center", "WorkWise Solutions Pvt. Ltd", "Rise India", "Bloomdesk Coworking Space", "Millennial Pod", "Spartan Co-Work"};
     String[] OfficeAddress = new String[]{"Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory,Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072"};
     Integer[] OfficeImage = new Integer[]{R.drawable.office_a, R.drawable.office_b, R.drawable.office_c, R.drawable.office_d, R.drawable.office_e, R.drawable.office_f};
     String[] SheduleOfficeName = new String[]{"Millennial Pod", "Spartan Co-Work"};
     Integer[] SheduleOfficeImage = new Integer[]{R.drawable.office_e, R.drawable.office_f};
-    String[] SheduleDate = new String[]{"25-11-2021", "27-11-2021"};
+    String[] SheduleDate = new String[]{"02-02-2021", "05-02-2021"};
     String[] TypeofBook = new String[]{"Personal", "Group Meeting"};
 
     WorkSpaceListAdaptor Adaptor;
@@ -67,8 +65,18 @@ public class Homefragment extends Fragment  {
     TextView round;
     @BindView(R.id.ListWorkSpace)
     ViewPager2 ListWorkSpace;
-
-
+    @BindView(R.id.workspace)
+    LinearLayout workspace;
+    @BindView(R.id.selectDate)
+    TextInputLayout selectDate;
+    final Calendar myCalendar = Calendar.getInstance();
+    DatePickerDialog.OnDateSetListener date;
+    @BindView(R.id.sheducl)
+    TextView sheducl;
+    @BindView(R.id.edt_select_workspaceDate)
+    EditText edtSelectWorkspace;
+    @BindView(R.id.workspaceDetail)
+    LinearLayout workspaceDetail;
 
 
     @Override
@@ -79,7 +87,8 @@ public class Homefragment extends Fragment  {
         View view = inflater.inflate(R.layout.fragment_home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-
+        edtSelectWorkspace.setOnClickListener(this);
+        workspace.setOnClickListener(this);
         Picasso.get().load(R.drawable.progile)
                 .transform(new PicassoHelper.PicassoCircleTransformation())
                 .into(profile);
@@ -112,13 +121,49 @@ public class Homefragment extends Fragment  {
         ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
         horizontaLayoutManagaer.findFirstVisibleItemPosition();
 
+        date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            }
+
+        };
 
 
         return view;
     }
 
 
+    @Override
+    public void onClick(View view) {
 
 
+        switch (view.getId()) {
+            case R.id.edt_select_workspaceDate:
+                Log.e("click", "working");
+                new DatePickerDialog(getActivity(), R.style.DialogTheme, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
+                //do your stuff
+                break;
+
+            case R.id.workspace:
+                Log.e("click", "working");
+                Intent intent = new Intent(getContext(), WorkspaceLayout.class);
+                startActivity(intent);
+
+
+                //do your stuff
+                break;
+
+        }
+
+    }
 }

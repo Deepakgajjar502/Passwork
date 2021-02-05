@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
-        android:src="@drawable/logo"
+        android:src="@drawable/icon_passwork_spalce"
         android:layout_gravity="center"
         android:id="@+id/Logo"
 

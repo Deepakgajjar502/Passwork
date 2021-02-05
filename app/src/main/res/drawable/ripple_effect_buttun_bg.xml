@@ -7,9 +7,9 @@
     <ripple android:color="?attr/colorControlHighlight">
         <item>
             <shape android:shape="rectangle"
-                android:tint="@color/dark_yellow">
-                <corners android:radius="100dp" />
-                <solid android:color="@color/yellow" />
+                android:tint="@color/blue">
+                <corners android:radius="10dp" />
+                <solid android:color="@color/dark_blue" />
 
             </shape>
         </item>
@@ -21,8 +21,8 @@
                     android:left="1dp"
                     android:right="1dp"
                     android:top="1dp" />
-                <solid android:color="#27C1C0C0" />
-                <corners android:radius="100dp" />
+                <solid android:color="@color/blue" />
+                <corners android:radius="10dp" />
             </shape>
         </item>
         <item>
@@ -32,8 +32,8 @@
                     android:left="1dp"
                     android:right="1dp"
                     android:top="1dp" />
-                <solid android:color="#27C1C0C0" />
-                <corners android:radius="100dp" />
+                <solid android:color="@color/blue" />
+                <corners android:radius="10dp" />
             </shape>
         </item>
         <item>
@@ -43,18 +43,18 @@
                     android:left="1dp"
                     android:right="1dp"
                     android:top="1dp" />
-                <solid android:color="#27C1C0C0" />
-                <corners android:radius="100dp" />
+                <solid android:color="@color/blue" />
+                <corners android:radius="10dp" />
             </shape>
         </item>
 
         <!-- Background -->
         <item>
             <shape android:shape="rectangle" android:padding="10dp">
-                <corners android:radius="100dp" />
+                <corners android:radius="10dp" />
                 <gradient
                     android:angle="45"
-                    android:endColor="@color/dark_yellow"
+                    android:endColor="@color/dark_blue"
 
                     android:type="linear" />
                 <padding

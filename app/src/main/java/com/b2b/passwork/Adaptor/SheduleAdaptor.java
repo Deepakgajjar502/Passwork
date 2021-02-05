@@ -91,7 +91,7 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
 
         public viewHolder(View itemView) {
             super(itemView);
-            officeImage = itemView.findViewById(R.id.imageOffice);
+           // officeImage = itemView.findViewById(R.id.imageOffice);
             OfficeTitle =  itemView.findViewById(R.id.title);
             OfficeDate =  itemView.findViewById(R.id.dateShedule);
             BookingType =  itemView.findViewById(R.id.type);
