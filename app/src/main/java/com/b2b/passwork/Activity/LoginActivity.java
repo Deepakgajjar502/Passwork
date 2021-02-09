@@ -169,14 +169,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 StaticUtil.showToast(LoginActivity.this, response1.getMessage());
 
+                                Log.e("CorporateName", response1.getProfile().getCorporateName());
+
+                                session.setUserLoginSession(response1.getProfile().getId(), response1.getProfile().getRole(),  response1.getProfile().getFirstName(), response1.getProfile().getLastName(),  response1.getProfile().getEmail(), response1.getToken(),response1.getProfile().getMobile() , response1.getProfile().getCorporateName(), response1.getProfile().getCorporateId()   );
+                                session.setUserLogin(true);
+
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainIntent);
                                 finish();
-
-                                session.setUserLoginSession(response1.getProfile().getId(), response1.getProfile().getRole(),  response1.getProfile().getFirstName(), response1.getProfile().getLastName(),  response1.getProfile().getEmail(), response1.getToken(),response1.getProfile().getMobile()  );
-                                session.setUserLogin(true);
-
-
                             }else {
 
                                 StaticUtil.showIOSLikeDialog(LoginActivity.this, response1.getMessage());

@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/UserName"
             android:textSize="@dimen/_13sdp"
-
             android:text="Hello, Deepak Gajjar"
             android:textColor="@color/white"
             android:theme="@style/Textview_bold"

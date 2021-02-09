@@ -161,7 +161,7 @@
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
                 android:background="@color/gnt_test_background_color"
-
+                android:id="@+id/editProfileLayout"
                 android:layout_marginTop="@dimen/_10sdp">
 
                 <ImageView
@@ -193,6 +193,7 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
+                android:id="@+id/changePasswordLayout"
                 android:background="@color/gnt_test_background_color"
                 android:layout_marginTop="@dimen/_10sdp">
 
@@ -422,6 +423,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:id="@+id/LogoutLayout"
                 android:padding="@dimen/_10sdp"
                 android:background="@color/gnt_test_background_color"
                 android:layout_marginTop="@dimen/_10sdp">
@@ -454,7 +456,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_50sdp"
-
             android:visibility="gone" />
 
     </RelativeLayout>

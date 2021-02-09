@@ -41,7 +41,8 @@ public class UserSessionManager {
     public static final String KEY_apiToken = "apiToken";
     public static final String KEY_AVATAR = "avatar";
     public static final String KEY_COVERIMAGE = "cover";
-    public static final String KEY_COUNTRY = "country";
+    public static final String KEY_COMPANY_NAME = "company_name";
+    public static final String KEY_COMPANY_ID = "company_id";
     public static final String KEY_GENDER = "gender";
     public static final String KEY_PURCHASE = "purcahse";
     public static final String KEY_LIKED = "like";
@@ -250,7 +251,7 @@ public class UserSessionManager {
 
     }*/
 
-    public void setUserLoginSession(String userId, String role, String firstName, String lastName, String emailid, String accessToken, String mobileNo){        // Storing login value as TRUE
+    public void setUserLoginSession(String userId, String role, String firstName, String lastName, String emailid, String accessToken, String mobileNo, String companyName, String companyId){        // Storing login value as TRUE
 
         editor.putString(KEY_ROLE, role);
         editor.putString(KEY_EMAIL, emailid);
@@ -259,18 +260,19 @@ public class UserSessionManager {
         editor.putString(KEY_MOBILE, mobileNo);
         editor.putString(KEY_ACCESS_TOKEN, accessToken);
         editor.putString(KEY_ID, userId);
+        editor.putString(KEY_COMPANY_ID, companyId);
+        editor.putString(KEY_COMPANY_NAME, companyName);
         // commit changes
         editor.commit();
 
     }
 
-    public void setUpdateProfile(String firstName, String lastName, String country, String gender) {
+    public void setUpdateProfile(String firstName, String lastName, String mobile) {
 
 
         editor.putString(KEY_FIRST_NAME, firstName);
         editor.putString(KEY_LAST_NAME, lastName);
-        editor.putString(KEY_COUNTRY, country);
-        editor.putString(KEY_GENDER, gender);
+        editor.putString(KEY_MOBILE, mobile);
         // commit changes
         editor.commit();
 
@@ -332,10 +334,11 @@ public class UserSessionManager {
         user.put(KEY_ROLE, pref.getString(KEY_ROLE, null));
         user.put(KEY_FIRST_NAME, pref.getString(KEY_FIRST_NAME, null));
         user.put(KEY_LAST_NAME, pref.getString(KEY_LAST_NAME, null));
-        user.put(KEY_AVATAR, pref.getString(KEY_AVATAR, null));
-        user.put(KEY_COUNTRY, pref.getString(KEY_COUNTRY, null));        // user email id
+       user.put(KEY_COMPANY_NAME, pref.getString(KEY_COMPANY_NAME, null));
+       user.put(KEY_ACCESS_TOKEN, pref.getString(KEY_ACCESS_TOKEN, null));
+        user.put(KEY_MOBILE, pref.getString(KEY_MOBILE, null));     // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-        user.put(KEY_USER_TYPE, pref.getString(KEY_USER_TYPE, null));
+      //  user.put(KEY_USER_TYPE, pref.getString(KEY_USER_TYPE, null));
         // user email id
         user.put(KEY_ID, pref.getString(KEY_ID, null));
         //   user.put(KEY_ID, pref.getString(KEY_apiToken, null));
@@ -358,7 +361,6 @@ public class UserSessionManager {
         editor.putInt(KEY_LIKED , 0);
         editor.putInt(KEY_RECENTPLAY , 0);
         editor.putInt(KEY_FAV , 0);
-
         editor.commit();
         // After logout redirect user to Login Activity
         Intent i = new Intent(_context, LoginActivity.class);

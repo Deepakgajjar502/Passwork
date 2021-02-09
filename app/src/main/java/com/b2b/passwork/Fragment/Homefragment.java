@@ -27,10 +27,12 @@ import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
 import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.LinePagerIndicatorDecoration;
 import com.b2b.passwork.Utility.PicassoHelper;
+import com.b2b.passwork.Utility.UserSessionManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +79,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     EditText edtSelectWorkspace;
     @BindView(R.id.workspaceDetail)
     LinearLayout workspaceDetail;
-
+    UserSessionManager session;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +88,16 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_home_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        session = new UserSessionManager(getActivity());
+        HashMap<String, String> user = session.getUserDetails();
+
+        String firstName = user.get(UserSessionManager.KEY_FIRST_NAME);
+        String LastName = user.get(UserSessionManager.KEY_LAST_NAME);
+
+                UserName.setText("Hello "+firstName +" "  + LastName+" !");
+
+
 
         edtSelectWorkspace.setOnClickListener(this);
         workspace.setOnClickListener(this);

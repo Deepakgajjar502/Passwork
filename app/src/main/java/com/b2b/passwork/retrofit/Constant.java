@@ -15,6 +15,7 @@ public class Constant {
 
   public static final String LIST_lOGIN = "user/login";
   public static final String USER_PROFILE = "user/get-profile";
-
+  public static final String USER_PROFILE_UPDATE = "user/update-profile";
+  public static final String USER_PASSWORD_UPDATE = "user/change-password";
 
 }
