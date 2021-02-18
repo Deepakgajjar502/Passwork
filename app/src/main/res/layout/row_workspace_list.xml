@@ -22,57 +22,40 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/office_image"
+            android:layout_alignParentBottom="true"
             android:scaleType="centerCrop"
             android:foreground="@drawable/bg_gradient_hard"
             />
-
-
-
 
 
             <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title"
-            android:textSize="@dimen/_13sdp"
+            android:textSize="@dimen/_15sdp"
             android:textStyle="bold"
-                android:theme="@style/Textview_bold"
+            android:theme="@style/Textview_bold"
             android:layout_above="@id/address"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_1sdp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/address"
-            android:drawableStart="@drawable/ic_location"
             android:layout_marginTop="@dimen/_5sdp"
             android:drawableTint="@color/white"
             android:drawablePadding="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_10sdp"
-            android:layout_above="@id/timeing"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_8sdp"
+            android:layout_alignParentBottom="true"
             />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/timeing"
-                android:textSize="@dimen/_8sdp"
-                android:textStyle="bold"
-                android:text="9:00 am to 9:00 pm"
-                android:drawableStart="@drawable/ic_clock"
-                android:drawablePadding="@dimen/_3sdp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                />
+
         </RelativeLayout>
 
 

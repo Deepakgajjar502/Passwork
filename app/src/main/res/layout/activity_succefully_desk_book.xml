@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".Activity.SuccefullyDeskBook">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/ic_rank"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:text="Your Desk Booking is Confirmed"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_13sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/BookingNumber"
+            android:text="Booking Number"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:id="@+id/dateDetail"
+            android:textSize="@dimen/_13sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawableTint="@color/white"
+            android:text="Booking Number"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_gray"
+            android:layout_gravity="center"
+            android:id="@+id/DeskDetail"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableLeft="@drawable/ic_maps_and_flags"
+            android:drawableTint="@color/light_gray"
+          />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_gray"
+            android:layout_gravity="center"
+            android:id="@+id/WorkSpaceName"
+            android:textSize="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+         />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_gray"
+            android:layout_gravity="center"
+            android:id="@+id/deskWorkspaceAddress"
+            android:textSize="@dimen/_10sdp"
+             />
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+       android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_15sdp"
+       android:layout_centerHorizontal="true"
+        android:id="@+id/btnDone"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        android:text="Done"
+        />
+
+</RelativeLayout>

@@ -17,5 +17,10 @@ public class Constant {
   public static final String USER_PROFILE = "user/get-profile";
   public static final String USER_PROFILE_UPDATE = "user/update-profile";
   public static final String USER_PASSWORD_UPDATE = "user/change-password";
+  public static final String USER_WORKSPACE_LIST = "booking/workspace-list";
+  public static final String GET_FLOOR_LIST = "booking/getFloors";
+  public static final String GET_SEATS_LIST= "booking/getSeats";
+  public static final String GET_SAVE_BOOKING= "booking/saveBooking";
+  public static final String GET_UPCOMING_BOOKING= "booking/upcoming";
 
 }

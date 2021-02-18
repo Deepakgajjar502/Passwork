@@ -60,5 +60,6 @@ dependencies {
     implementation 'com.gdacciaro:iosdialog:1.0.2'
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
     implementation 'com.google.firebase:firebase-analytics'
+    compileOnly 'com.google.android.wearable:wearable:2.8.1'
 
 }

@@ -27,6 +27,7 @@ public class UserSessionManager {
     private static final String APP_VERSION = "app_version";
     // All Shared Preferences Keys
     private static final String IS_USER_LOGIN = "IsUserLoggedIn";
+    private static final String IS_FIRST_TIME = "is_first_time";
     private static final String DEVICE_TOKEN = "access_token";
     // SocialLoginUserDetail name (make variable public to access from outside)
     public static final String KEY_ROLE = "name";
@@ -49,18 +50,18 @@ public class UserSessionManager {
     public static final String KEY_FAV = "favourite";
     public static final String KEY_RECENTPLAY = "recentplay";
     public static final String KEY_ONETIME_CALL_API = "onetimecallapi";
-    private static final String KEY_TRACK_URL = "track_url";
-    private static final String PREF_TYPE = "purchaseType";
-    private static final String LANGUANGE = "language";
-    private static final String LANGUANGE_NAME = "language_name";
+    public static final String KEY_TRACK_URL = "track_url";
+    public static final String PREF_TYPE = "purchaseType";
+    public static final String LANGUANGE = "language";
+    public static final String LANGUANGE_NAME = "language_name";
 
     // Shared preferences file name
-    private static final String PREF_NAME = "welcome";
-    private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
-    private static final String IS_NIGHT_MODE = "IsNightMode";
-    private static final String IS_PURCHASE_TRACK_ID = "IsTrackId";
-    private static final String IS_PURCHASE_TRACK_TILE = "IsTrackTitle";
-    private static final String IS_PURCHASE_TRACK_PRODUCERNAME = "IsProducerName";
+    public static final String PREF_NAME = "welcome";
+    public static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    public static final String IS_NIGHT_MODE = "IsNightMode";
+    public static final String IS_WORKSPACE_ID = "Isworkspace_id";
+    public static final String IS_WORKSPACE_TILE = "IsworkspaceTitle";
+    public static final String IS_WORKSPACE_ADDRESS = "Isworkspace_address";
 
 
 
@@ -71,7 +72,7 @@ public class UserSessionManager {
     }
 
     public void setFirstTimeLaunch(boolean isFirstTime) {
-        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime).apply();;
+        editor.putBoolean(IS_FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
     }
 
@@ -107,11 +108,10 @@ public class UserSessionManager {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
     }
 
-    public void setTrackforPurchase(String TrackId, String trackName, String ProducerName, String trackurl) {
-        editor.putString(IS_PURCHASE_TRACK_ID, TrackId);
-        editor.putString(IS_PURCHASE_TRACK_TILE, trackName);
-        editor.putString(IS_PURCHASE_TRACK_PRODUCERNAME, ProducerName);
-        editor.putString(KEY_TRACK_URL, trackurl);
+    public void setworkspaceDetail(String workspaceID, String workspaceName, String workspaceAddress) {
+        editor.putString(IS_WORKSPACE_ID, workspaceID);
+        editor.putString(IS_WORKSPACE_TILE, workspaceName);
+        editor.putString(IS_WORKSPACE_ADDRESS, workspaceAddress);
         editor.commit();
     }
 
@@ -218,20 +218,6 @@ public class UserSessionManager {
         return pref.getString(KEY_ROLE, "");
     }
 
-    public String getTrackIdforPurchase() {
-        return pref.getString(IS_PURCHASE_TRACK_ID, "");
-    }
-
-    public String getTrackURLforPurchase() {
-        return pref.getString(KEY_TRACK_URL, "");
-    }
-
-    public String getTrackTitleforPurchase() {
-        return pref.getString(IS_PURCHASE_TRACK_TILE, "");
-    }
-    public String getProdcuerNameforPurchase() {
-        return pref.getString(IS_PURCHASE_TRACK_PRODUCERNAME, "");
-    }
 
 
     //Create login session
@@ -269,7 +255,6 @@ public class UserSessionManager {
 
     public void setUpdateProfile(String firstName, String lastName, String mobile) {
 
-
         editor.putString(KEY_FIRST_NAME, firstName);
         editor.putString(KEY_LAST_NAME, lastName);
         editor.putString(KEY_MOBILE, mobile);
@@ -281,6 +266,11 @@ public class UserSessionManager {
 
     public void setUserLogin(boolean isFirstTime) {
         editor.putBoolean(IS_USER_LOGIN, isFirstTime);
+        editor.commit();
+    }
+
+    public void setFirstTime(boolean isFirstTime) {
+        editor.putBoolean(IS_FIRST_TIME, isFirstTime);
         editor.commit();
     }
 
@@ -321,7 +311,20 @@ public class UserSessionManager {
     }
 
 
+    public HashMap<String, String> getworkspaceList(){
 
+        //Use hashmap to store user credentials
+        HashMap<String, String> user = new HashMap<String, String>();
+        // user name
+        user.put(IS_WORKSPACE_ID, pref.getString(IS_WORKSPACE_ID, null));
+        user.put(IS_WORKSPACE_TILE, pref.getString(IS_WORKSPACE_TILE, null));
+        user.put(IS_WORKSPACE_ADDRESS, pref.getString(IS_WORKSPACE_ADDRESS, null));
+        //   user.put(KEY_ID, pref.getString(KEY_apiToken, null));
+
+        // return user
+
+        return user;
+    }
 
 
 
@@ -338,7 +341,7 @@ public class UserSessionManager {
        user.put(KEY_ACCESS_TOKEN, pref.getString(KEY_ACCESS_TOKEN, null));
         user.put(KEY_MOBILE, pref.getString(KEY_MOBILE, null));     // user email id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-      //  user.put(KEY_USER_TYPE, pref.getString(KEY_USER_TYPE, null));
+       user.put(KEY_COMPANY_ID, pref.getString(KEY_COMPANY_ID, null));
         // user email id
         user.put(KEY_ID, pref.getString(KEY_ID, null));
         //   user.put(KEY_ID, pref.getString(KEY_apiToken, null));
@@ -380,6 +383,8 @@ public class UserSessionManager {
     public boolean isUserLoggedIn() {
         return pref.getBoolean(IS_USER_LOGIN, false);
     }
+
+
 
 
 }

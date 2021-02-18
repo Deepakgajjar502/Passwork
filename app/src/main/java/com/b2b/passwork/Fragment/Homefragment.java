@@ -3,6 +3,7 @@ package com.b2b.passwork.Fragment;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,18 +26,33 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.b2b.passwork.Activity.WorkspaceLayout;
 import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
+import com.b2b.passwork.Model.FloorList.FloorsItem;
+import com.b2b.passwork.Model.ProfileResponse;
+import com.b2b.passwork.Model.WorkspaceList.WorkspacesItem;
+import com.b2b.passwork.Model.WorkspaceList.workspaceListResponse;
 import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.LinePagerIndicatorDecoration;
 import com.b2b.passwork.Utility.PicassoHelper;
+import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
+import com.b2b.passwork.retrofit.RestManager;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Homefragment extends Fragment implements View.OnClickListener {
@@ -47,9 +64,10 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     ImageView profile;
 
 
-    String[] OfficeName = new String[]{"CFE Offices - Business Center", "WorkWise Solutions Pvt. Ltd", "Rise India", "Bloomdesk Coworking Space", "Millennial Pod", "Spartan Co-Work"};
-    String[] OfficeAddress = new String[]{"Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory,Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072", "Near Chandivali Ice Factory, Mumbai,\nPincode :400072"};
-    Integer[] OfficeImage = new Integer[]{R.drawable.office_a, R.drawable.office_b, R.drawable.office_c, R.drawable.office_d, R.drawable.office_e, R.drawable.office_f};
+    String[] OfficeTitle = new String[]{"Desk Booking", "Meeting Room", "Service Request"};
+    String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference", "Reach out to us for any support or supplies requests"};
+
+    Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.service};
     String[] SheduleOfficeName = new String[]{"Millennial Pod", "Spartan Co-Work"};
     Integer[] SheduleOfficeImage = new Integer[]{R.drawable.office_e, R.drawable.office_f};
     String[] SheduleDate = new String[]{"02-02-2021", "05-02-2021"};
@@ -62,7 +80,6 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     SheduleAdaptor sheduleAdaptor;
     @BindView(R.id.header)
     LinearLayout header;
-
     @BindView(R.id.round)
     TextView round;
     @BindView(R.id.ListWorkSpace)
@@ -80,6 +97,11 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.workspaceDetail)
     LinearLayout workspaceDetail;
     UserSessionManager session;
+    String CorporateId, Token;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    List<WorkspacesItem> workspacesList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,10 +116,14 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
         String firstName = user.get(UserSessionManager.KEY_FIRST_NAME);
         String LastName = user.get(UserSessionManager.KEY_LAST_NAME);
+        Token =  user.get(UserSessionManager.KEY_ACCESS_TOKEN);
+        CorporateId = user.get(UserSessionManager.KEY_COMPANY_ID);
+        UserName.setText("Hello " + firstName + " " + LastName + " !");
 
-                UserName.setText("Hello "+firstName +" "  + LastName+" !");
 
-
+        if(session.isFirstTimeLaunch()){
+            getWorkspaceList(CorporateId);
+        }
 
         edtSelectWorkspace.setOnClickListener(this);
         workspace.setOnClickListener(this);
@@ -105,14 +131,14 @@ public class Homefragment extends Fragment implements View.OnClickListener {
                 .transform(new PicassoHelper.PicassoCircleTransformation())
                 .into(profile);
 
-        Adaptor = new WorkSpaceListAdaptor(getActivity(), OfficeName, OfficeImage, OfficeAddress);
+        Adaptor = new WorkSpaceListAdaptor(getActivity(), OfficeTitle, OfficeImage, OfficesubTitle);
         ListWorkSpace.setAdapter(Adaptor);
 
         ListWorkSpace.setClipToPadding(false);
         ListWorkSpace.setClipChildren(false);
         ListWorkSpace.setOffscreenPageLimit(3);
         ListWorkSpace.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        ListWorkSpace.setCurrentItem(1);
+        //    ListWorkSpace.setCurrentItem(1);
         CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
         compositePageTransformer.addTransformer(new MarginPageTransformer(20));
         compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
@@ -148,7 +174,75 @@ public class Homefragment extends Fragment implements View.OnClickListener {
         };
 
 
+
+
+
         return view;
+    }
+
+    private void getWorkspaceList(String corporateId) {
+
+        progressBar.setVisibility(View.VISIBLE);
+
+
+        Map<String, String> jsonParams = new ArrayMap<>();
+//put something inside the map, could be null
+        jsonParams.put("corporate_id", corporateId);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
+        String token = "Bearer " + Token;
+
+        Call<workspaceListResponse> responseBody = RestManager.getInstance().getService()
+                .getWorkspaceList(token, body);
+
+        //"artist",
+        responseBody.enqueue(new Callback<workspaceListResponse>() {
+            @Override
+            public void onResponse(Call<workspaceListResponse> call, Response<workspaceListResponse> response) {
+                //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                if (response.body() != null) {
+
+                    if (response.isSuccessful()) {
+
+                        workspaceListResponse response1 = response.body();
+
+                        if(response1.getStatus()==1){
+
+                          workspacesList = response1.getWorkspaces();
+                            String   workspaceID = workspacesList.get(0).getId();
+                            String workspaceName = workspacesList.get(0).getName();
+                            String workspaceAddress = workspacesList.get(0).getDisplayLocation();
+                            Log.e("worksapace",response1.getWorkspaces().get(0).getId());
+                            session.setFirstTimeLaunch(false);
+                            session.setworkspaceDetail(workspaceID, workspaceName, workspaceAddress);
+
+
+                        }else {
+
+
+
+                        }
+
+
+
+
+                    } else {
+                        StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<workspaceListResponse> call, Throwable t) {
+                // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
+                Log.e("error", t.getMessage().toString());
+            }
+        });
+
+
     }
 
 

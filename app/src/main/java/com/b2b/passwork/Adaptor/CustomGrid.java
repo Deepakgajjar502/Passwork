@@ -8,23 +8,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.b2b.passwork.Activity.WorkspaceLayout;
+import com.b2b.passwork.Model.SeatList.SeatsItem;
 import com.b2b.passwork.R;
+
+import java.util.List;
 
 public class CustomGrid  extends BaseAdapter {
     private Context mContext;
-    private final String[] web;
-    private final int[] Imageid;
+    List<SeatsItem> seats;
 
-    public CustomGrid(Context c,String[] web,int[] Imageid ) {
-        mContext = c;
-        this.Imageid = Imageid;
-        this.web = web;
+
+    public CustomGrid(WorkspaceLayout workspaceLayout, List<SeatsItem> seats) {
+
+        this.mContext = workspaceLayout;
+        this.seats = seats;
     }
 
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return web.length;
+        return seats.size();
     }
 
     @Override
@@ -42,22 +46,27 @@ public class CustomGrid  extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        View grid;
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v;
 
-        if (convertView == null) {
 
-            grid = new View(mContext);
-            grid = inflater.inflate(R.layout.row_grid_single, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
-            ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
-            textView.setText(web[position]);
-            imageView.setImageResource(Imageid[position]);
-        } else {
-            grid = (View) convertView;
+        if(convertView==null)
+        {
+            LayoutInflater inflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.row_grid_single, null);
+        }else{
+            v = convertView;
         }
 
-        return grid;
+            TextView textView = (TextView) v.findViewById(R.id.grid_text);
+            ImageView imageView = (ImageView)v.findViewById(R.id.grid_image);
+            textView.setText(seats.get(position).getSeatId()+"");
+            if(seats.get(position).isAvailable()){
+                imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_working));
+        }else {
+                imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_working_select));
+            }
+
+        return v;
     }
 }

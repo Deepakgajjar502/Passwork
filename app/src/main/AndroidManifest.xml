@@ -3,7 +3,6 @@
     package="com.b2b.passwork">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,7 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.WorkspaceLayout"></activity>
+        <activity android:name=".Activity.SuccefullyDeskBook"></activity>
+        <activity android:name=".Activity.BookDesk" />
+        <!--
+               Set to true if your app is Standalone, that is, it does not require the handheld
+               app to run.
+        -->
+        <activity android:name=".Activity.WorkspaceLayout" />
         <activity android:name=".Activity.E_Pass" />
         <activity android:name=".Activity.WelcomeActivity" />
         <activity android:name=".Activity.LoginActivity" />

@@ -111,7 +111,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_42sdp"
+            android:layout_height="@dimen/_45sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -142,7 +142,7 @@
         >
         <Button
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_42sdp"
+            android:layout_height="@dimen/_45sdp"
             android:text="@string/Lbl_GooglePlus"
             android:background="@drawable/sociallogin"
             android:padding="@dimen/_10sdp"

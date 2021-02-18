@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,8 +36,6 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     workspaceDetailPageAdaptor adapter;
     @BindView(R.id.view_pager2)
     ViewPager viewPager2;
-
-
     int currentPage = 0;
     Timer timer;
     final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
@@ -54,6 +54,10 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     AppBarLayout appBarLayout;
     @BindView(R.id.parent)
     CoordinatorLayout parent;
+    @BindView(R.id.mainLayout)
+    LinearLayout mainLayout;
+    @BindView(R.id.booking)
+    Button booking;
 
 
     @Override

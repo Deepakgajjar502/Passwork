@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_75sdp"
+        android:layout_height="@dimen/_50sdp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:layout_margin="@dimen/_10sdp"
@@ -92,13 +92,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/round"
-        android:gravity="center_horizontal"
         android:theme="@style/Textview_bold"
         android:textStyle="bold"
-        android:textSize="@dimen/_12sdp"
+        android:textSize="@dimen/_18sdp"
         android:textColor="@color/white"
         android:layout_below="@id/ListofShedule"
-        android:text="BOOK SEAT"/>
+        android:text="Services"/>
 
 
     <androidx.viewpager2.widget.ViewPager2
@@ -106,8 +105,8 @@
         android:layout_below="@id/round"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -119,6 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/round"
+        android:visibility="gone"
         android:orientation="vertical">
 
 
@@ -357,5 +357,12 @@
     </LinearLayout>
 
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone" />
 
 </RelativeLayout>

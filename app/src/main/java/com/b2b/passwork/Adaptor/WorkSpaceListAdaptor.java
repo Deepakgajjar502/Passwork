@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.b2b.passwork.Activity.BookDesk;
 import com.b2b.passwork.Activity.WorkspaceDetail;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.OnItemClickListener;
@@ -58,9 +59,12 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(holder.itemView.getContext(), WorkspaceDetail.class);
-                    holder.itemView.getContext().startActivity(intent);
-                    ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
+                    if(position==0) {
+                        Intent intent = new Intent(holder.itemView.getContext(), BookDesk.class);
+                        holder.itemView.getContext().startActivity(intent);
+                        ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+
+                    }
                 }
             });
 
