@@ -1,8 +1,13 @@
 package com.b2b.passwork.Model.FloorList;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class FloorsItem{
+import java.io.Serializable;
+
+public class FloorsItem implements Serializable {
 
 	@SerializedName("floor_name")
 	private String floorName;
@@ -18,6 +23,13 @@ public class FloorsItem{
 
 	@SerializedName("floor_id")
 	private int floorId;
+
+	@SerializedName("available")
+	private int available;
+
+
+	@SerializedName("booked")
+	private int booked;
 
 	public void setFloorName(String floorName){
 		this.floorName = floorName;
@@ -57,5 +69,21 @@ public class FloorsItem{
 
 	public int getFloorId(){
 		return floorId;
+	}
+
+	public int getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(int available) {
+		this.available = available;
+	}
+
+	public int getBooked() {
+		return booked;
+	}
+
+	public void setBooked(int booked) {
+		this.booked = booked;
 	}
 }

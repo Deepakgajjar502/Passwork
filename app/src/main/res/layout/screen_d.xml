@@ -13,14 +13,14 @@
         android:layout_centerInParent="true"
         android:adjustViewBounds="true"
         android:id="@+id/screen_a"
-        android:src="@drawable/screen_d" />
+        android:src="@drawable/manage_employee" />
 
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_your_space"
+        android:text="@string/title_4"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/title"
@@ -33,10 +33,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/subtitle"
+        android:text="@string/subtitle_1"
         android:textColor="@color/gray"
-        android:id="@+id/subTitle"
+        android:id="@+id/subTitle_4"
         android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:gravity="center"
         android:layout_marginTop="@dimen/_35sdp"
         android:textSize="@dimen/_12sdp"

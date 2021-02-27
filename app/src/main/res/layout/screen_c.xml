@@ -13,14 +13,14 @@
         android:adjustViewBounds="true"
         android:layout_centerInParent="true"
         android:id="@+id/screen_a"
-        android:src="@drawable/screen_c" />
+        android:src="@drawable/scan_qr" />
 
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/select_your_space"
+        android:text="@string/title_3"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:id="@+id/title"
@@ -33,12 +33,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/subtitle"
+        android:text="@string/subtitle_3"
         android:textColor="@color/gray"
         android:id="@+id/subTitle"
         android:layout_centerInParent="true"
         android:gravity="center"
-
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_35sdp"
         android:textSize="@dimen/_12sdp"
         android:layout_centerHorizontal="true"

@@ -61,5 +61,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
     implementation 'com.google.firebase:firebase-analytics'
     compileOnly 'com.google.android.wearable:wearable:2.8.1'
-
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
+    implementation 'com.brucetoo.pickview:library:1.2.3'
 }

@@ -75,6 +75,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     String Token;
     @BindView(R.id.changePasswordLayout)
     LinearLayout changePasswordLayout;
+    @BindView(R.id.BookingHistoryLayout)
+    LinearLayout BookingHistoryLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +99,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         LogoutLayout.setOnClickListener(this);
         editProfileLayout.setOnClickListener(this);
         changePasswordLayout.setOnClickListener(this);
+        BookingHistoryLayout.setOnClickListener(this);
 
 
         getProfileAPI();
@@ -200,6 +203,13 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
             case R.id.changePasswordLayout:
 
                 loadFragment(new ChangePassword());
+
+
+                break;
+
+            case R.id.BookingHistoryLayout:
+
+                loadFragment(new CustomCalenderFragment());
 
 
                 break;

@@ -6,8 +6,14 @@
 
     <string name="next">NEXT</string>
     <string name="skip">Skip</string>
-    <string name="select_your_space">Select Your Space</string>
-    <string name="subtitle">Personal working spaces, co-working spaces, meeting room and private cabin</string>
+    <string name="title_1">Book Your Desk</string>
+    <string name="subtitle_1">You can book personal working spaces, co-working spaces</string>
+    <string name="title_2">Book Meeting Room</string>
+    <string name="subtitle_2">You can book meeting room and invite employee for meeting</string>
+    <string name="title_3">Scan QR Code for Check-In </string>
+    <string name="subtitle_3">Scan QR Code for Quick Check-In</string>
+    <string name="title_4">Manage Desk with Employee </string>
+    <string name="subtitle_4">You can manage desk with employee </string>
     <string name="lbl_login">Login</string>
     <string name="Lbl_email">Email</string>
     <string name="lbl_password">Password</string>

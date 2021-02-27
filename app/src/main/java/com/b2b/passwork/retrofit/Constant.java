@@ -22,5 +22,7 @@ public class Constant {
   public static final String GET_SEATS_LIST= "booking/getSeats";
   public static final String GET_SAVE_BOOKING= "booking/saveBooking";
   public static final String GET_UPCOMING_BOOKING= "booking/upcoming";
-
+  public static final String GET_HISOTRY_BOOKING= "booking/history";
+  public static final String GET_ROOM= "booking/getBays";
+  public static final String GET_CHECK_IN= "booking/checkin-by-booking";
 }

@@ -14,7 +14,7 @@
         android:layout_height="@dimen/_50sdp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_margin="@dimen/_25sdp"
         android:id="@+id/header"
         >
 
@@ -75,11 +75,17 @@
         android:drawablePadding="@dimen/_10sdp"
         android:text="Upcoming Schedule"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_125sdp"
+        android:layout_below="@id/sheducl"
+        android:id="@+id/sheducleLayout"
+        android:orientation="vertical">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sheducl"
         android:layout_margin="@dimen/_5sdp"
         android:scrollbars="vertical"
         android:id="@+id/ListofShedule"
@@ -87,6 +93,32 @@
         />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp"
+       android:id="@+id/NoRecordUpcoming"
+        android:visibility="gone"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/bg_no_record_found"
+       android:layout_below="@id/ListofShedule">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_10sdp"
+            android:text="There are currently no upcoming schedule."
+            android:textColor="@color/white"
+
+            android:textSize="@dimen/_15sdp"
+            />
+
+
+
+    </LinearLayout>
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -96,7 +128,7 @@
         android:textStyle="bold"
         android:textSize="@dimen/_18sdp"
         android:textColor="@color/white"
-        android:layout_below="@id/ListofShedule"
+        android:layout_below="@id/sheducleLayout"
         android:text="Services"/>
 
 

@@ -7,33 +7,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.b2b.passwork.Activity.E_Pass;
-import com.b2b.passwork.Activity.WorkspaceDetail;
+import com.b2b.passwork.Model.Upcoming.upcomingDataItem;
 import com.b2b.passwork.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class SheduleAdaptor extends RecyclerView.Adapter {
     Context context;
     // List<CategoryInformation> arrayList;
-    Integer[] OfficeImage;
-    String[] OfficeName;
-    String[] OfficeDate;
-
-    String[] TypeofBook;
-    public SheduleAdaptor(FragmentActivity activity, String[] Name, Integer[] Image, String[] officeDate, String[] typeofBook) {
+    List<upcomingDataItem> UpcomingScheduleList;
+    public SheduleAdaptor(FragmentActivity activity, List<upcomingDataItem> UpcomingSchedule) {
         this.context =  activity;
-        this.OfficeName = Name;
-        this.OfficeImage = Image;
-        this.OfficeDate = officeDate;
-        this.TypeofBook = typeofBook;
+        this.UpcomingScheduleList = UpcomingSchedule;
+
     }
 
 
@@ -49,21 +46,51 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         try {
 
-           /* Picasso.get().load(OfficeImage[position])
-                    .centerCrop()
-                    .into(((WorkSpaceListAdaptor.viewHolder) holder).officeImage);*/
-            ((SheduleAdaptor.viewHolder)holder).OfficeTitle.setText(OfficeName[position]);
-            ((SheduleAdaptor.viewHolder)holder).OfficeDate.setText(OfficeDate[position]);
-            ((SheduleAdaptor.viewHolder)holder).BookingType.setText(TypeofBook[position]);
-            ((SheduleAdaptor.viewHolder)holder).officeImage.setImageResource(OfficeImage[position]);
+            String BookType;
+            if(UpcomingScheduleList.get(position).getType().equals("desk")){
+                BookType = "Personal";
+            }else {
+                BookType = "Group Meeting";
+            }
 
+            String startDateTime =UpcomingScheduleList.get(position).getStartDatetime();
+            SimpleDateFormat startinput = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+            SimpleDateFormat startoutput = new SimpleDateFormat("dd-MMM-yy");
 
+            String endDateTime =UpcomingScheduleList.get(position).getEndDatetime();
+            SimpleDateFormat endinput = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
+            SimpleDateFormat endoutput = new SimpleDateFormat("dd-MMM-yy");
+            String StartDate = "";
+            String EndDate = "";
+            try {
+                Date   startDate = startinput.parse(startDateTime);
+                Date   endtDate = endinput.parse(endDateTime);
+                StartDate =endoutput.format(startDate);
+                EndDate =endoutput.format(endtDate);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Desk - "+UpcomingScheduleList.get(position).getSeats());
+         ((SheduleAdaptor.viewHolder)holder).OfficeDate.setText(StartDate +" to "+EndDate);
+            ((SheduleAdaptor.viewHolder)holder).OfficeTitle.setText(BookType);
+            ((SheduleAdaptor.viewHolder)holder).BookingNumber.setText("Booking No- "+ UpcomingScheduleList.get(position).getBookingNumber());
+
+            String finalStartDate = StartDate;
+            String finalEndDate = EndDate;
             ((SheduleAdaptor.viewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
 
            @Override
                 public void onClick(View v) {
 
                     Intent intent = new Intent(holder.itemView.getContext(), E_Pass.class);
+                    intent.putExtra("workspaceName", UpcomingScheduleList.get(position).getWorkspaceName());
+                    intent.putExtra("SeatNumber", UpcomingScheduleList.get(position).getSeats());
+                    intent.putExtra("StartDate", finalStartDate);
+                    intent.putExtra("EndDate", finalEndDate);
+               intent.putExtra("workspaceId", UpcomingScheduleList.get(position).getWorkspaceId());
+               intent.putExtra("Booking", UpcomingScheduleList.get(position).getBookingNumber());
                     holder.itemView.getContext().startActivity(intent);
                     ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
                 }
@@ -77,21 +104,22 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
 
-        return OfficeName.length;
+        return UpcomingScheduleList.size();
     }
 
 
 
     class viewHolder extends RecyclerView.ViewHolder {
-        ImageView officeImage;
+        TextView BookingNumber;
         TextView OfficeTitle;
         TextView OfficeDate;
         TextView BookingType;
         CardView cardView;
 
+
         public viewHolder(View itemView) {
             super(itemView);
-           // officeImage = itemView.findViewById(R.id.imageOffice);
+            BookingNumber = itemView.findViewById(R.id.BookingNumber);
             OfficeTitle =  itemView.findViewById(R.id.title);
             OfficeDate =  itemView.findViewById(R.id.dateShedule);
             BookingType =  itemView.findViewById(R.id.type);

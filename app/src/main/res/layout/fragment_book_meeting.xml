@@ -12,7 +12,8 @@
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <TextView
@@ -20,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/arial"
+            android:fontFamily="@font/nunito_regular"
             android:padding="@dimen/_10sdp"
             android:text="MEETING ROOM"
             android:textColor="@color/white"
@@ -36,20 +37,87 @@
         android:layout_height="65dp"
         android:layout_below="@id/titleLayout"
         app:weekTextColor="@color/white"
-        app:daysBackgroundColor="@color/colorAccent"
+        app:daysBackgroundColor="@color/colorPrimary"
         app:daysTextColor="@color/white"
         app:selectedBgColor="@color/accent"
         app:todaysDateBgColor="@color/accent"
-        app:weekBackgroundColor="@color/colorAccent"
-        android:background="@color/colorAccent"/>
+        app:weekBackgroundColor="@color/colorPrimary"
+        android:background="@color/colorPrimary"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weekCalendar"
+        android:layout_margin="@dimen/_5sdp"
+        android:gravity="center"
+        android:id="@+id/Timing"
+        android:weightSum="4">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:text="Start Time: "
+        android:textSize="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="10:00 AM"
+            android:textSize="@dimen/_10sdp"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:drawableTint="@color/white"
+            android:padding="@dimen/_5sdp"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_no_record_found"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/selectStartTime"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:text="End Time: "
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:drawableTint="@color/white"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:text="12:30 AM"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_no_record_found"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/selectEndTime"
+            />
+
+
+    </LinearLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layout_below="@id/weekCalendar">
+        android:layout_below="@id/Timing">
 
         <TextView
             android:layout_width="match_parent"
@@ -58,9 +126,34 @@
             android:gravity="center_horizontal"
             android:textStyle="bold"
             android:textSize="@dimen/_12sdp"
+            android:layout_margin="@dimen/_5sdp"
             android:textColor="@color/white"
+            android:text="BOOK MEETING ROOM"/>
 
-            android:text="BOOK"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/_13sdp"
+            android:padding="@dimen/_5sdp"
+            android:drawableTint="@color/white"
+            android:drawableRight="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:text="All Floors"
+            android:textColor="@color/white"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/selectFloor"
+           android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@id/round"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/MeetingRoom"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_below="@id/selectFloor"
+            />
 
 
         <androidx.cardview.widget.CardView
@@ -71,6 +164,7 @@
             android:padding="@dimen/_5sdp"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardElevation="5dp"
+            android:visibility="gone"
             android:id="@+id/cardview"
             app:cardMaxElevation="6dp"
             android:layout_margin="@dimen/_10sdp">
@@ -83,6 +177,38 @@
             android:background="@color/colorAccent"
             android:padding="@dimen/_10sdp"
             android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:theme="@style/TextLabel_select">
+
+
+                <EditText
+                    android:id="@+id/edt_select_floor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-4dp"
+                    android:layout_marginEnd="-4dp"
+                    android:hint="Select Floor"
+
+                    android:focusable="false"
+                    android:drawableTint="@color/white"
+                    android:drawableStart="@drawable/ic_stairs"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_24"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:maxLength="50"
+                    android:textSize="@dimen/_12sdp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:theme="@style/EditText" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -101,10 +227,10 @@
                 android:layout_marginStart="-4dp"
                 android:layout_marginEnd="-4dp"
                 android:hint="Select Room"
-                android:text="Meeting Room -1"
+
                 android:focusable="false"
                 android:drawableTint="@color/white"
-                android:drawableStart="@drawable/ic_business"
+                android:drawableStart="@drawable/ic_meeting_room"
                 android:drawableEnd="@drawable/ic_arrow_drop_down_24"
                 android:drawablePadding="@dimen/_5sdp"
                 android:maxLength="50"
@@ -133,7 +259,6 @@
                     android:layout_marginStart="-4dp"
                     android:layout_marginEnd="-4dp"
                     android:hint="Capacity"
-                    android:text="14 Pax"
                     android:focusable="false"
                     android:drawableTint="@color/white"
                     android:drawableStart="@drawable/ic_group"
@@ -159,19 +284,20 @@
         <com.ebanx.swipebtn.SwipeButton
             android:id="@+id/swipe_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:inner_text="BOOK"
+            android:layout_height="60dp"
+            app:inner_text="SWIPE TO BOOK"
             app:inner_text_color="@color/white"
             app:inner_text_size="16sp"
             app:inner_text_top_padding="18dp"
             app:inner_text_bottom_padding="18dp"
+            app:inner_text_left_padding="20dp"
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/_50sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             app:inner_text_background="@drawable/book_btn_bg"
             app:button_image_height="60dp"
-            app:button_image_width="100dp"
+            app:button_image_width="60dp"
             app:button_image_disabled="@drawable/ic_baseline_arrow_forward_24"
             app:button_image_enabled="@drawable/ic_baseline_check_24"
             app:button_left_padding="20dp"
@@ -182,11 +308,19 @@
             app:initial_state="disabled"
             app:has_activate_state="true"
             android:layout_below="@id/cardview"
-
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
             />
     </RelativeLayout>
 
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/white"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone" />
 
 
 

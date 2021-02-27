@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.SuccefullyDeskBook"></activity>
+        <activity android:name=".Activity.QRCodeScan"></activity>
+        <activity android:name=".Activity.SuccefullyDeskBook" />
         <activity android:name=".Activity.BookDesk" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld

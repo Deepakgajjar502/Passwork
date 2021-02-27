@@ -34,7 +34,7 @@ public class floor_adaptor extends RecyclerView.Adapter {
     List<FloorsItem> floors;
     String workspaceName, workspaceId;
     private OnItemClickListener onItemClickListener;
-    public floor_adaptor(BookDesk bookDesk, List<FloorsItem> floors, String workspaceName, String workspaceId) {
+    public floor_adaptor(Context bookDesk, List<FloorsItem> floors, String workspaceName, String workspaceId) {
         this.context =  bookDesk;
         this.floors = floors;
         this.workspaceName = workspaceName;
@@ -53,12 +53,10 @@ public class floor_adaptor extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         try {
-
-
-
+             int TotalVideo = floors.get(position).getAvailable()+floors.get(position).getBooked();
             ((floor_adaptor.viewHolder)holder).workSpaceTitle.setText(workspaceName);
             ((floor_adaptor.viewHolder)holder).FloorName.setText(floors.get(position).getFloorName());
-
+            ((floor_adaptor.viewHolder)holder).avaibleSeats.setText(floors.get(position).getBooked()+"/"+TotalVideo);
 
 
         }catch (Exception ex){
@@ -79,12 +77,14 @@ public class floor_adaptor extends RecyclerView.Adapter {
 
         TextView workSpaceTitle;
         TextView FloorName;
+        TextView avaibleSeats;
         LinearLayout workspaceLayout;
 
         public viewHolder(View itemView) {
             super(itemView);
             workSpaceTitle =   itemView.findViewById(R.id.workspaceName);
             FloorName =   itemView.findViewById(R.id.FloorName);
+            avaibleSeats =   itemView.findViewById(R.id.availableSeats);
             workspaceLayout =  itemView.findViewById(R.id.workspace);
             workspaceLayout.setOnClickListener(this);
         }

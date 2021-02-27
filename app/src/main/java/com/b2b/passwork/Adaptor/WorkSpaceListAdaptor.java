@@ -12,11 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Activity.BookDesk;
 import com.b2b.passwork.Activity.WorkspaceDetail;
+import com.b2b.passwork.Fragment.BookMeeting;
+import com.b2b.passwork.Fragment.CustomCalenderFragment;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 
@@ -64,6 +67,9 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                         holder.itemView.getContext().startActivity(intent);
                         ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 
+                    }else if(position==1){
+
+                        loadFragment(new BookMeeting());
                     }
                 }
             });
@@ -94,6 +100,20 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
             OfficeAddress =  itemView.findViewById(R.id.address);
         }
 
+
+    }
+
+    private boolean loadFragment(Fragment fragment) {
+        if (fragment != null) {
+
+            ((FragmentActivity)context).getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("null")
+                    .replace(R.id.fragmentContainer, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
 
     }
 

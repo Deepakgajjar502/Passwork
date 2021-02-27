@@ -2,6 +2,7 @@ package com.b2b.passwork.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -79,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         GoogleloginButton.setOnClickListener(this);

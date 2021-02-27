@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Activity.BookDesk;
@@ -50,9 +52,10 @@ public class SeatListAdaptor extends RecyclerView.Adapter {
             ((SeatListAdaptor.viewHolder) holder).textView.setText(seats.get(position).getSeatId()+"");
 
             if(seats.get(position).isAvailable()){
-                ((SeatListAdaptor.viewHolder) holder).imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_working));
+                ((SeatListAdaptor.viewHolder) holder).imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_armchair));
             }else {
-                ((SeatListAdaptor.viewHolder) holder).imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_working_select));
+                ((SeatListAdaptor.viewHolder) holder).imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_armchair_selected));
+                ((SeatListAdaptor.viewHolder) holder).imageView.setColorFilter(ContextCompat.getColor(mContext, R.color.green));
             }
 
            /* ((SeatListAdaptor.viewHolder) holder).imageView.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +89,7 @@ public class SeatListAdaptor extends RecyclerView.Adapter {
 
         ImageView imageView;
         TextView textView;
-        LinearLayout SeatLayout;
+        RelativeLayout SeatLayout;
 
         public viewHolder(View itemView) {
             super(itemView);

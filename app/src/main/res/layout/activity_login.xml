@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:id="@+id/imageView"
         android:visibility="visible"
-        android:background="@drawable/login_bg"
+        android:background="@drawable/office_bg_login"
         android:foreground="@color/black_trans"
         />
 
@@ -44,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:theme="@style/TextLabel">
         <EditText
             android:id="@+id/edt_email"
@@ -112,7 +113,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:text="@string/lbl_login"
@@ -125,43 +126,43 @@
             />
 
 
+        <FrameLayout
+            android:id="@+id/FrameLayout2"
 
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/_15sdp"
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:text="@string/Lbl_GooglePlus"
+                android:background="@drawable/sociallogin"
+                android:padding="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:id="@+id/imgGmail"
+                android:drawableLeft="@drawable/ic_google"
+                />
+
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/Googlelogin_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textAlignment="center"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal" />
+
+        </FrameLayout>
     </LinearLayout>
 
 
 
-    <FrameLayout
-        android:id="@+id/FrameLayout2"
 
-        android:layout_marginStart="@dimen/_30sdp"
-        android:layout_marginEnd="@dimen/_30sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/_35sdp"
-        >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:text="@string/Lbl_GooglePlus"
-            android:background="@drawable/sociallogin"
-            android:padding="@dimen/_10sdp"
-            android:textAllCaps="false"
-            android:id="@+id/imgGmail"
-            android:drawableLeft="@drawable/ic_google"
-            />
-
-
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/Googlelogin_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:visibility="gone"
-            android:layout_gravity="center_horizontal" />
-
-    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"

@@ -7,7 +7,16 @@
     android:weightSum="100"
     android:orientation="vertical"
     android:background="@color/black_trans"
-    tools:context=".Fragment.QRScanerFragment">
+    >
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/white"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone" />
+
 
     <!-- TODO: Update blank fragment layout -->
     <com.budiyev.android.codescanner.CodeScannerView

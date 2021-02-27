@@ -2,42 +2,22 @@ package com.b2b.passwork.Activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import com.b2b.passwork.Adaptor.pageAdapter;
-import com.b2b.passwork.Adaptor.workspaceDetailPageAdaptor;
 import com.b2b.passwork.Fragment.BookMeeting;
 
 import com.b2b.passwork.Fragment.Homefragment;
-import com.b2b.passwork.Fragment.QRScanerFragment;
 import com.b2b.passwork.Fragment.SettingFragment;
 import com.b2b.passwork.R;
-import com.b2b.passwork.interfaces.workspace_interface;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ibrahimsn.lib.OnItemSelectedListener;
 import me.ibrahimsn.lib.SmoothBottomBar;
-import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity   {
 
@@ -72,15 +52,10 @@ public class MainActivity extends AppCompatActivity   {
 
 
                 }else if(i==2){
-                    loadFragment(new QRScanerFragment());
-
-
-                }else if(i==3){
                     loadFragment(new SettingFragment());
 
 
                 }
-
 
 
                 return false;

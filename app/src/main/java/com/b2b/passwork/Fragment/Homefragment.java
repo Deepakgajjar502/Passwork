@@ -26,8 +26,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.b2b.passwork.Activity.WorkspaceLayout;
 import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
-import com.b2b.passwork.Model.FloorList.FloorsItem;
-import com.b2b.passwork.Model.ProfileResponse;
+import com.b2b.passwork.Model.Upcoming.UpComingResponse;
+import com.b2b.passwork.Model.Upcoming.upcomingDataItem;
 import com.b2b.passwork.Model.WorkspaceList.WorkspacesItem;
 import com.b2b.passwork.Model.WorkspaceList.workspaceListResponse;
 import com.b2b.passwork.R;
@@ -68,10 +68,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference", "Reach out to us for any support or supplies requests"};
 
     Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.service};
-    String[] SheduleOfficeName = new String[]{"Millennial Pod", "Spartan Co-Work"};
-    Integer[] SheduleOfficeImage = new Integer[]{R.drawable.office_e, R.drawable.office_f};
-    String[] SheduleDate = new String[]{"02-02-2021", "05-02-2021"};
-    String[] TypeofBook = new String[]{"Personal", "Group Meeting"};
+
 
     WorkSpaceListAdaptor Adaptor;
 
@@ -101,6 +98,10 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     List<WorkspacesItem> workspacesList;
+    String UserId;
+    List<upcomingDataItem> UpcomingScheduleList;
+    @BindView(R.id.NoRecordUpcoming)
+    LinearLayout NoRecordUpcoming;
 
 
     @Override
@@ -116,12 +117,13 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
         String firstName = user.get(UserSessionManager.KEY_FIRST_NAME);
         String LastName = user.get(UserSessionManager.KEY_LAST_NAME);
-        Token =  user.get(UserSessionManager.KEY_ACCESS_TOKEN);
+        Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
         CorporateId = user.get(UserSessionManager.KEY_COMPANY_ID);
+        UserId = user.get(UserSessionManager.KEY_ID);
         UserName.setText("Hello " + firstName + " " + LastName + " !");
 
 
-        if(session.isFirstTimeLaunch()){
+        if (session.isFirstTimeLaunch()) {
             getWorkspaceList(CorporateId);
         }
 
@@ -152,13 +154,6 @@ public class Homefragment extends Fragment implements View.OnClickListener {
         ListWorkSpace.setPageTransformer(compositePageTransformer);
 
 
-        sheduleAdaptor = new SheduleAdaptor(getActivity(), SheduleOfficeName, SheduleOfficeImage, SheduleDate, TypeofBook);
-        LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        ListWorkShedule.setLayoutManager(horizontaLayoutManagaer);
-        ListWorkShedule.setAdapter(sheduleAdaptor);
-        ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
-        horizontaLayoutManagaer.findFirstVisibleItemPosition();
-
         date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -174,10 +169,82 @@ public class Homefragment extends Fragment implements View.OnClickListener {
         };
 
 
-
+        getUpcomming(UserId);
 
 
         return view;
+    }
+
+    private void getUpcomming(String userId) {
+
+
+        Map<String, String> jsonParams = new ArrayMap<>();
+//put something inside the map, could be null
+        jsonParams.put("id", userId);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
+        String token = "Bearer " + Token;
+
+        Call<UpComingResponse> responseBody = RestManager.getInstance().getService()
+                .getUpcommingBooking(token, body);
+
+        //"artist",
+        responseBody.enqueue(new Callback<UpComingResponse>() {
+            @Override
+            public void onResponse(Call<UpComingResponse> call, Response<UpComingResponse> response) {
+                //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                if (response.body() != null) {
+
+                    if (response.isSuccessful()) {
+
+                        UpComingResponse response1 = response.body();
+
+                        if (response1.getStatus() == 1) {
+
+                            UpcomingScheduleList = response1.getData();
+                            if (UpcomingScheduleList != null) {
+                                if(UpcomingScheduleList.size()!=0){
+                                sheduleAdaptor = new SheduleAdaptor(getActivity(), UpcomingScheduleList);
+                                LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                ListWorkShedule.setLayoutManager(horizontaLayoutManagaer);
+                                ListWorkShedule.setAdapter(sheduleAdaptor);
+                                ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
+                                horizontaLayoutManagaer.findFirstVisibleItemPosition();
+                                ListWorkShedule.setVisibility(View.VISIBLE);
+                                NoRecordUpcoming.setVisibility(View.GONE);
+                            } else {
+                                ListWorkShedule.setVisibility(View.GONE);
+                                NoRecordUpcoming.setVisibility(View.VISIBLE);
+                            }}
+                                else {
+                                ListWorkShedule.setVisibility(View.GONE);
+                                NoRecordUpcoming.setVisibility(View.VISIBLE);
+                            }
+
+
+                        } else {
+
+
+                        }
+
+
+                    } else {
+                        StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UpComingResponse> call, Throwable t) {
+                // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
+                Log.e("error", t.getMessage().toString());
+            }
+        });
+
+
     }
 
     private void getWorkspaceList(String corporateId) {
@@ -206,24 +273,21 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
                         workspaceListResponse response1 = response.body();
 
-                        if(response1.getStatus()==1){
+                        if (response1.getStatus() == 1) {
 
-                          workspacesList = response1.getWorkspaces();
-                            String   workspaceID = workspacesList.get(0).getId();
+                            workspacesList = response1.getWorkspaces();
+                            String workspaceID = workspacesList.get(0).getId();
                             String workspaceName = workspacesList.get(0).getName();
                             String workspaceAddress = workspacesList.get(0).getDisplayLocation();
-                            Log.e("worksapace",response1.getWorkspaces().get(0).getId());
+                            Log.e("worksapace", response1.getWorkspaces().get(0).getId());
                             session.setFirstTimeLaunch(false);
                             session.setworkspaceDetail(workspaceID, workspaceName, workspaceAddress);
 
 
-                        }else {
-
+                        } else {
 
 
                         }
-
-
 
 
                     } else {

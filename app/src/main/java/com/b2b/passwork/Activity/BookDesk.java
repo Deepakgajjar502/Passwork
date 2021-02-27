@@ -34,7 +34,10 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,10 +63,8 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
     Toolbar toolbar;
     @BindView(R.id.weekCalendar)
     WeekCalendar weekCalendar;
-
     @BindView(R.id.workspaceDetail)
     LinearLayout workspaceDetail;
-
     UserSessionManager session;
     MaterialDatePicker materialDatePicker;
     @BindView(R.id.selectDate)
@@ -92,6 +93,21 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         HashMap<String, String> workspace = session.getworkspaceList();
         WorkspaceId = workspace.get(UserSessionManager.IS_WORKSPACE_ID);
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
+
+
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrow = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
+     EndDate = dateFormat.format(tomorrow);
+        StartDate = dateFormat.format(tomorrow);
+
+        selectDate.setText("Selected Date is : " +EndDate);
+
         getFloorDetail(WorkspaceId);
 
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
@@ -144,6 +160,8 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
         jsonParams.put("workspace_id", workspaceId);
+        jsonParams.put("start_datetime", StartDate);
+        jsonParams.put("end_datetime", EndDate);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
 
@@ -164,14 +182,11 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
                         if (response1.getStatus() == 1) {
                             floors = response1.getFloors();
-
-
                             adaptor = new floor_adaptor(BookDesk.this,floors, workspaceName,WorkspaceId );
                             LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(BookDesk.this, LinearLayoutManager.VERTICAL, false);
                             floorDetail.setLayoutManager(horizontaLayoutManagaer);
                             adaptor.setOnItemClickListener(BookDesk.this);
                             floorDetail.setAdapter(adaptor);
-
 
 
                         } else {
@@ -235,12 +250,14 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
                 }else {
 
-
+                    String floor_name = floors.get(position).getFloorName();
                     Intent intent = new Intent(BookDesk.this, WorkspaceLayout.class);
                     intent.putExtra("workspace_id",WorkspaceId );
                     intent.putExtra("floor_id", floors.get(position).getFloorId()+"" );
                     intent.putExtra("startDate",StartDate );
                     intent.putExtra("endDate",EndDate );
+                    intent.putExtra("floor_name",floor_name );
+                    intent.putExtra("FloorList",(Serializable)floors );
                     startActivity(intent);
                 }
 

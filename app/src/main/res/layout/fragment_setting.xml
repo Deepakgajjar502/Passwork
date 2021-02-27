@@ -226,6 +226,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:id="@+id/BookingHistoryLayout"
                 android:padding="@dimen/_10sdp"
                 android:background="@color/gnt_test_background_color"
                 android:layout_marginTop="@dimen/_10sdp">
