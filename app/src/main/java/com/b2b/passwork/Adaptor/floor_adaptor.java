@@ -56,7 +56,7 @@ public class floor_adaptor extends RecyclerView.Adapter {
              int TotalVideo = floors.get(position).getAvailable()+floors.get(position).getBooked();
             ((floor_adaptor.viewHolder)holder).workSpaceTitle.setText(workspaceName);
             ((floor_adaptor.viewHolder)holder).FloorName.setText(floors.get(position).getFloorName());
-            ((floor_adaptor.viewHolder)holder).avaibleSeats.setText(floors.get(position).getBooked()+"/"+TotalVideo);
+            ((floor_adaptor.viewHolder)holder).avaibleSeats.setText(floors.get(position).getAvailable()+"/"+TotalVideo);
 
 
         }catch (Exception ex){

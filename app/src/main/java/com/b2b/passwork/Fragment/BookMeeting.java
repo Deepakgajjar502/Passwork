@@ -1,7 +1,9 @@
 package com.b2b.passwork.Fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.ArrayMap;
@@ -15,11 +17,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.b2b.passwork.Activity.BookDesk;
+import com.b2b.passwork.Activity.WorkspaceDetail;
+import com.b2b.passwork.Adaptor.Room_adaptor;
 import com.b2b.passwork.Adaptor.floor_adaptor;
 import com.b2b.passwork.Model.Employee.EmployeeResponse;
 import com.b2b.passwork.Model.Employee.EmployeesItem;
@@ -31,21 +39,20 @@ import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.TimePickerPopWin;
 import com.b2b.passwork.Utility.UserSessionManager;
+import com.b2b.passwork.interfaces.OnItemClickListener;
 import com.b2b.passwork.retrofit.RestManager;
-import com.bruce.pickerview.popwindow.DatePickerPopWin;
-import com.ebanx.swipebtn.OnActiveListener;
-import com.ebanx.swipebtn.SwipeButton;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -59,7 +66,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class BookMeeting extends Fragment implements View.OnClickListener {
+public class BookMeeting extends Fragment implements View.OnClickListener, OnItemClickListener {
 
 
     @BindView(R.id.Title)
@@ -72,15 +79,14 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
     EditText edtSelectWorkspace;
     @BindView(R.id.selectWorkspace)
     LinearLayout selectWorkspace;
-    @BindView(R.id.swipe_btn)
-    SwipeButton swipeBtn;
+
     UserSessionManager session;
     String WorkspaceId, Token, selectDate, workspaceName;
     @BindView(R.id.round)
     TextView round;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    floor_adaptor adaptor;
+
     List<FloorsItem> floors;
     ArrayList<String> listofFloorName = new ArrayList<>();
 
@@ -101,6 +107,11 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
     @BindView(R.id.cardview)
     CardView cardview;
     String StarTime, EndTime;
+    Room_adaptor adaptor;
+    @BindView(R.id.selectFloor)
+    TextView selectFloor;
+    @BindView(R.id.MeetingRoom)
+    RecyclerView MeetingRoom;
 
 
     @Override
@@ -119,6 +130,13 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
         CorporateId = user.get(UserSessionManager.KEY_COMPANY_ID);
 
+        Date c = Calendar.getInstance().getTime();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String formattedDate = df.format(c);
+        selectDate = formattedDate;
+
+
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(DateTime dateTime) {
@@ -130,6 +148,7 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
         });
 
         edtSelectFloor.setOnClickListener(this);
+        selectFloor.setOnClickListener(this);
         edtSelectCapacity.setOnClickListener(this);
         edtSelectWorkspace.setOnClickListener(this);
         selectStartTime.setOnClickListener(this);
@@ -144,29 +163,32 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
 
         Calendar nowAMPM = Calendar.getInstance();
         String AM_PM;
-        if(nowAMPM.get(Calendar.AM_PM) == Calendar.AM){
+        if (nowAMPM.get(Calendar.AM_PM) == Calendar.AM) {
             // AM
-              AM_PM = "AM";
+            AM_PM = "AM";
 
-        }else{
+        } else {
             // PM
-           AM_PM = "PM";
+            AM_PM = "PM";
 
         }
 
-        selectStartTime.setText(currentTime +" "+ AM_PM);
-        selectEndTime.setText(endTime.format(now.getTime()) + " "+AM_PM );
-      //  getFloorDetail(WorkspaceId);
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrow = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 
-        swipeBtn.setOnActiveListener(new OnActiveListener() {
-            @Override
-            public void onActive() {
+      String  EndDate = dateFormat.format(tomorrow);
+      String  StartDate = dateFormat.format(tomorrow);
 
-                bookMeatingAPI(EmplopeeId, WorkspaceId, selectDate, selectDate);
+        selectStartTime.setText(currentTime + " " + AM_PM);
+        selectEndTime.setText(endTime.format(now.getTime()) + " " + AM_PM);
+        listofFloorName.add("All Floors");
+        getFloorDetail(WorkspaceId, StartDate, EndDate );
 
-            }
-        });
 
         getBay(WorkspaceId, "all");
 
@@ -174,20 +196,16 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    private void bookMeatingAPI(String emplopeeId, String workspaceId, String startDate, String EndDate) {
 
-
-
-
-    }
-
-    private void getFloorDetail(String workspaceId) {
+    private void getFloorDetail(String workspaceId, String startDate, String endDate) {
 
         progressBar.setVisibility(View.VISIBLE);
 
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
         jsonParams.put("workspace_id", workspaceId);
+        jsonParams.put("start_datetime", startDate);
+        jsonParams.put("end_datetime", endDate);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
 
@@ -312,7 +330,7 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
 
-            case R.id.edt_select_floor:
+            case R.id.selectFloor:
 
 
                 selectFloorDailog();
@@ -354,15 +372,15 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
     private void openTime(String type) {
 
 
-        TimePickerPopWin timePickerPopWin=new TimePickerPopWin.Builder(getActivity(), new TimePickerPopWin.OnTimePickListener() {
+        TimePickerPopWin timePickerPopWin = new TimePickerPopWin.Builder(getActivity(), new TimePickerPopWin.OnTimePickListener() {
             @Override
             public void onTimePickCompleted(int hour, int minute, String AM_PM, String time) {
 
-                if(type.equals("Start")) {
-                    selectStartTime.setText(String.format("%02d", hour)+":"+String.format("%02d", minute)+ " "+AM_PM);
+                if (type.equals("Start")) {
+                    selectStartTime.setText(String.format("%02d", hour) + ":" + String.format("%02d", minute) + " " + AM_PM);
 
-                }else {
-                    selectEndTime.setText(String.format("%02d", hour)+":"+String.format("%02d", minute)+ " "+AM_PM);
+                } else {
+                    selectEndTime.setText(String.format("%02d", hour) + ":" + String.format("%02d", minute) + " " + AM_PM);
 
                 }
 
@@ -407,15 +425,14 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
     private void selectFloorDailog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select Room");
+        builder.setTitle("Select Floor");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.select_dialog_singlechoice, listofFloorName);
         builder.setAdapter(dataAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                edtSelectFloor.setText(listofFloorName.get(which));
+                selectFloor.setText(listofFloorName.get(which));
                 // Toast.makeText(WorkspaceLayout.this, floors.get(which).getFloorName(), Toast.LENGTH_SHORT).show();
-
 
 
             }
@@ -480,11 +497,11 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
 
                             rooms = response1.getBays();
 
-                            for (int l = 0; l < rooms.size(); l++) {
-
-                                listofRoom.add(rooms.get(l).getBayName());
-
-                            }
+                            adaptor = new Room_adaptor(getActivity(),rooms );
+                            LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                            MeetingRoom.setLayoutManager(horizontaLayoutManagaer);
+                            adaptor.setOnItemClickListener(BookMeeting.this::onItemClick);
+                            MeetingRoom.setAdapter(adaptor);
 
 
                         } else {
@@ -513,4 +530,26 @@ public class BookMeeting extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onItemClick(View v, int position) {
+
+        if (v.getId() == R.id.cardview) {
+
+                Log.e("click", "working");
+            Intent intent = new Intent(getActivity(), WorkspaceDetail.class);
+            intent.putExtra("roomName",rooms.get(position).getBayName());
+            intent.putExtra("roomDis", rooms.get(position).getBayDescription());
+            intent.putExtra("capacity", rooms.get(position).getSeatsCount());
+            intent.putExtra("BayId", rooms.get(position).getBayId()+"");
+            intent.putExtra("date", selectDate);
+            intent.putExtra("startTime", selectStartTime.getText().toString());
+            intent.putExtra("EndTime", selectEndTime.getText().toString());
+
+
+            startActivity(intent);
+            ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
+
+        }
+
+    }
 }

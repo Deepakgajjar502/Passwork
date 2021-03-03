@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -19,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import com.b2b.passwork.Model.EventDetailModel;
 import com.b2b.passwork.Model.Upcoming.upcomingDataItem;
 import com.b2b.passwork.R;
+import com.b2b.passwork.interfaces.OnItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +38,7 @@ public class MyGridAdapter extends ArrayAdapter {
     List<EventDetailModel> HisotryScheduleList;
     ArrayList<EventDetailModel> DayDetaiList =new ArrayList<>();
     Context mcontext;
+
 
     public MyGridAdapter(Context context, List<Date> dates, Calendar calendar, ArrayList<EventDetailModel> upcomingScheduleList) {
         super(context, R.layout.single_cell_layout);
@@ -81,6 +84,7 @@ public class MyGridAdapter extends ArrayAdapter {
         TextView DayNumber = view.findViewById(R.id.calendar_date);
         TextView EventTitle = view.findViewById(R.id.eventId);
         ImageView circle = view.findViewById(R.id.EventDetail);
+        LinearLayout dateLayout = view.findViewById(R.id.calendar_dateLayout);
         DayNumber.setText(String.valueOf(DayNo));
 
         Calendar TodayCalender = Calendar.getInstance();
@@ -133,6 +137,8 @@ public class MyGridAdapter extends ArrayAdapter {
 
 
         }
+
+
 
 
         return view;

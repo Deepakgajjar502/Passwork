@@ -64,10 +64,10 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     ImageView profile;
 
 
-    String[] OfficeTitle = new String[]{"Desk Booking", "Meeting Room", "Service Request"};
+    String[] OfficeTitle = new String[]{"Desk Booking", "Meeting Room", "Surveys", "Service Request"};
     String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference", "Reach out to us for any support or supplies requests"};
 
-    Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.service};
+    Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.poll, R.drawable.service};
 
 
     WorkSpaceListAdaptor Adaptor;
@@ -208,7 +208,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
                                 LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
                                 ListWorkShedule.setLayoutManager(horizontaLayoutManagaer);
                                 ListWorkShedule.setAdapter(sheduleAdaptor);
-                                ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
+                             //   ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
                                 horizontaLayoutManagaer.findFirstVisibleItemPosition();
                                 ListWorkShedule.setVisibility(View.VISIBLE);
                                 NoRecordUpcoming.setVisibility(View.GONE);

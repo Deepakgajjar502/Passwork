@@ -13,6 +13,7 @@
         android:layout_height="48dp"
         app:theme="@style/ToolbarTheme"
         android:layout_gravity="top"
+        android:layout_marginTop="@dimen/_30sdp"
         app:layout_collapseMode="pin"
         app:titleTextAppearance="@style/Toolbar.TitleText"
         android:background="@color/colorAccent"

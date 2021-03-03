@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/ic_user_employee"
+        android:padding="@dimen/_5sdp"
+        android:id="@+id/imageEmplyee"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/txtEmplyeeName"
+        android:layout_toRightOf="@id/imageEmplyee"
+        android:layout_margin="@dimen/_5sdp"
+        android:textSize="@dimen/_14sdp"
+        android:textStyle="bold"
+
+        android:textColor="@color/black"
+        android:text="Deepak Gajjar"/>
+
+    <ImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:src="@drawable/ic_baseline_delete_forever_24"
+        android:padding="@dimen/_5sdp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/Deleteimage"
+        app:tint="@color/red" />
+
+</RelativeLayout>

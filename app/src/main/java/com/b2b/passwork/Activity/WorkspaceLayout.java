@@ -2,16 +2,21 @@ package com.b2b.passwork.Activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -71,7 +76,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
     ImageView officeLayout;
     @BindView(R.id.grid)
     RecyclerView grid;
-    String startDate, EndDate, workspaceId, floorId, floorName;
+    String startDate, EndDate, workspaceId, floorId, floorName, UserId;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     UserSessionManager session;
@@ -102,7 +107,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
     TextView floorDetail;
     @BindView(R.id.selectedDate)
     TextView selectedDate;
-    ArrayAdapter arrayAdapter;
+
     ArrayList<String> listofFloorName = new ArrayList<>();
     @BindView(R.id.Calender)
     ImageView Calender;
@@ -119,6 +124,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         session = new UserSessionManager(this);
         HashMap<String, String> user = session.getUserDetails();
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
+        UserId = user.get(UserSessionManager.KEY_ID);
         HashMap<String, String> workspace = session.getworkspaceList();
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
         workspaceAddress = workspace.get(UserSessionManager.IS_WORKSPACE_ADDRESS);
@@ -129,9 +135,9 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         floorId = getIntent().getStringExtra("floor_id");
         floorName = getIntent().getStringExtra("floor_name");
         floors = (ArrayList<FloorsItem>) getIntent().getSerializableExtra("FloorList");
-        StatusBottomSheet = findViewById(R.id.DeskBookLayout);
+     /*   StatusBottomSheet = findViewById(R.id.DeskBookLayout);
         sheetBehavior = BottomSheetBehavior.from(StatusBottomSheet);
-        sheetBehavior.setPeekHeight(0);
+        sheetBehavior.setPeekHeight(0);*/
         backButton.setOnClickListener(this);
         Calender.setOnClickListener(this);
         Title.setText(workspaceName);
@@ -139,8 +145,11 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         grid.setLayoutManager(new GridLayoutManager(WorkspaceLayout.this, 6));
         floorDetail.setText(floorName);
         floorDetail.setOnClickListener(this);
+        if(startDate.equals(EndDate)){
+            selectedDate.setText("Selected Date : " + startDate );
+        }else {
         selectedDate.setText("Selected Date : " + startDate + " to " + EndDate);
-
+        }
         getSeats(workspaceId, floorId, startDate, EndDate);
 
         for (int l = 0; l < floors.size(); l++) {
@@ -151,32 +160,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         }
 
 
-        sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                switch (newState) {
-                    case BottomSheetBehavior.STATE_HIDDEN:
-                        break;
-                    case BottomSheetBehavior.STATE_EXPANDED: {
 
-                    }
-                    break;
-                    case BottomSheetBehavior.STATE_COLLAPSED: {
-
-                    }
-                    break;
-                    case BottomSheetBehavior.STATE_DRAGGING:
-                        break;
-                    case BottomSheetBehavior.STATE_SETTLING:
-                        break;
-                }
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
-        });
 
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
@@ -188,7 +172,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
                 EndDate = dateTime.toLocalDate().toString();
 
 
-                selectedDate.setText("Selected Date : " + startDate + " to " + EndDate);
+                selectedDate.setText("Selected Date : " + startDate );
 
                 getSeats(workspaceId, floorId, startDate, EndDate);
             }
@@ -234,14 +218,14 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
-        jsonParams.put("id", workspaceId);
+    //    jsonParams.put("id", workspaceId);
         jsonParams.put("type", "desk");
         jsonParams.put("workspace_id", workspaceId);
-        jsonParams.put("facility_id", "1");
-        jsonParams.put("guest_count", "0");
-        jsonParams.put("meeting_topic", "asd");
+   //     jsonParams.put("facility_id", "1");
+    //    jsonParams.put("guest_count", "0");
+    //    jsonParams.put("meeting_topic", "asd");
         jsonParams.put("seats", seatId);
-        jsonParams.put("guest_info", "");
+        jsonParams.put("employees", UserId);
         jsonParams.put("start_datetime", startDate);
         jsonParams.put("end_datetime", endDate);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
@@ -265,7 +249,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
                         if (response1.getStatus() == 1) {
 
                             Intent intent = new Intent(WorkspaceLayout.this, SuccefullyDeskBook.class);
-                            intent.putExtra("bookingNumber", response1.getBookingNumber());
+                            intent.putExtra("bookingNumber", response1.getBookingNumber().get(0));
                             intent.putExtra("startDate", startDate);
                             intent.putExtra("endDate", endDate);
                             intent.putExtra("workspaceName", workspaceName);
@@ -411,30 +395,90 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         ImageView imageView = v.findViewById(R.id.grid_image);
         if (v.getId() == R.id.seatLayout) {
 
+            if(seats.get(position).isAvailable()) {
+                if (!seats.get(position).getSelected()) {
+                    for (int l = 0; l < seats.size(); l++) {
 
-            for (int l = 0; l < seats.size(); l++) {
+
+                        if (seats.get(l).getSelected()) {
+                            seats.get(l).setSelected(false);
+                            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair));
+                            imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
+                            Log.e("seatId", seats.get(l).getSeatId() + "");
+                            adapter.notifyItemChanged(l);
+                        }
+                    }
 
 
-                if (seats.get(l).getSelected()) {
-                    seats.get(l).setSelected(false);
-                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair));
-                    imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
-                    Log.e("seatId", seats.get(l).getSeatId() + "");
-                    adapter.notifyItemChanged(l);
+                    seatId = seats.get(position).getSeatId() + "";
+                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair_selected));
+                    seats.get(position).setSelected(true);
+                    imageView.setColorFilter(ContextCompat.getColor(this, R.color.dark_blue));
                 }
+
+                //   bookDailog();
+
+                // toggleBottomSheet();
+                DailogDeskBookDetail();
             }
-
-
-            seatId = seats.get(position).getSeatId() + "";
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair_selected));
-            seats.get(position).setSelected(true);
-            imageView.setColorFilter(ContextCompat.getColor(this, R.color.dark_blue));
-
-               //  bookDailog();
-
-             toggleBottomSheet();
-
         }
+    }
+
+    private void DailogDeskBookDetail() {
+
+        final Dialog dialog = new Dialog(this, R.style.DialogTheme);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+      //  window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.desk_book_dailog);
+
+        SwipeButton btnBookNOw = (SwipeButton) dialog.findViewById(R.id.swipe_btn);
+        TextView DeskTitle = (TextView) dialog.findViewById(R.id.deskTitle);
+        TextView SelectedStartDate = (TextView) dialog.findViewById(R.id.BookingStartDate);
+        TextView SelectedEndDate = (TextView) dialog.findViewById(R.id.BookingEndDate);
+        TextView WorkspaceTitle = (TextView) dialog.findViewById(R.id.deskWorkspaceTitle);
+        TextView WorkspaceAddress = (TextView) dialog.findViewById(R.id.deskWorkspaceAddress);
+        TextView FloorName = (TextView) dialog.findViewById(R.id.FloorName);
+
+        ImageView CLoseimage = (ImageView) dialog.findViewById(R.id.btn_close);
+
+        WorkspaceTitle.setText(workspaceName);
+        WorkspaceAddress.setText(workspaceAddress);
+        DeskTitle.setText("Desk " + seatId);
+
+        if(startDate.equals(EndDate)){
+            SelectedStartDate.setText("START DATE : " + startDate);
+        }else {
+        SelectedStartDate.setText("START DATE : " + startDate);
+          SelectedEndDate.setText("END DATE : " + EndDate);
+        }
+        FloorName.setText(floorName);
+
+        btnBookNOw.setOnActiveListener(new OnActiveListener() {
+            @Override
+            public void onActive() {
+
+                bookseatAPI(seatId, workspaceId, startDate, EndDate);
+
+            }
+        });
+
+        CLoseimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+              dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
     }
 
     private void bookDailog() {
@@ -532,4 +576,6 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
 
     }
+
+
 }

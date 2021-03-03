@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,11 +48,6 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
         try {
 
             String BookType;
-            if(UpcomingScheduleList.get(position).getType().equals("desk")){
-                BookType = "Personal";
-            }else {
-                BookType = "Group Meeting";
-            }
 
             String startDateTime =UpcomingScheduleList.get(position).getStartDatetime();
             SimpleDateFormat startinput = new SimpleDateFormat("yyyy-MM-dd HH:mm a");
@@ -71,9 +67,23 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            if(UpcomingScheduleList.get(position).getType().equals("desk")){
+                BookType = "Personal";
+                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_desk));
+                ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Desk - "+UpcomingScheduleList.get(position).getSeats());
+            }else {
+                BookType = "Meeting";
+                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_meeting_room));
+                ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Topic - "+UpcomingScheduleList.get(position).getMeetingTopic());
+            }
 
-            ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Desk - "+UpcomingScheduleList.get(position).getSeats());
-         ((SheduleAdaptor.viewHolder)holder).OfficeDate.setText(StartDate +" to "+EndDate);
+            if(StartDate.equals(EndDate)){
+                ((SheduleAdaptor.viewHolder)holder).OfficeDate.setText(StartDate);
+            }else {
+                ((SheduleAdaptor.viewHolder)holder).OfficeDate.setText(StartDate +" to "+EndDate);
+            }
+
+
             ((SheduleAdaptor.viewHolder)holder).OfficeTitle.setText(BookType);
             ((SheduleAdaptor.viewHolder)holder).BookingNumber.setText("Booking No- "+ UpcomingScheduleList.get(position).getBookingNumber());
 
@@ -84,9 +94,17 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
            @Override
                 public void onClick(View v) {
 
+               String SeatNumber = "";
+               if(UpcomingScheduleList.get(position).getType().equals("desk")){
+                   SeatNumber = "DESK-"+UpcomingScheduleList.get(position).getSeats();
+               }else {
+                   SeatNumber = "MEETING AGENDA-"+UpcomingScheduleList.get(position).getMeetingTopic();
+               }
+
+
                     Intent intent = new Intent(holder.itemView.getContext(), E_Pass.class);
                     intent.putExtra("workspaceName", UpcomingScheduleList.get(position).getWorkspaceName());
-                    intent.putExtra("SeatNumber", UpcomingScheduleList.get(position).getSeats());
+                    intent.putExtra("SeatNumber", SeatNumber);
                     intent.putExtra("StartDate", finalStartDate);
                     intent.putExtra("EndDate", finalEndDate);
                intent.putExtra("workspaceId", UpcomingScheduleList.get(position).getWorkspaceId());
@@ -115,6 +133,7 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
         TextView OfficeDate;
         TextView BookingType;
         CardView cardView;
+        ImageView iconBook;
 
 
         public viewHolder(View itemView) {
@@ -124,6 +143,7 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
             OfficeDate =  itemView.findViewById(R.id.dateShedule);
             BookingType =  itemView.findViewById(R.id.type);
             cardView =  itemView.findViewById(R.id.cardview);
+            iconBook =  itemView.findViewById(R.id.icon_book);
         }
     }
 

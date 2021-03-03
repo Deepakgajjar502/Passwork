@@ -2,12 +2,10 @@ package com.b2b.passwork.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class SeatBookResponse{
+public class MeetingBookResponse{
 
 	@SerializedName("booking_number")
-	private List<String> bookingNumber;
+	private String bookingNumber;
 
 	@SerializedName("message")
 	private String message;
@@ -15,11 +13,11 @@ public class SeatBookResponse{
 	@SerializedName("status")
 	private int status;
 
-	public void setBookingNumber(List<String> bookingNumber){
+	public void setBookingNumber(String bookingNumber){
 		this.bookingNumber = bookingNumber;
 	}
 
-	public List<String> getBookingNumber(){
+	public String getBookingNumber(){
 		return bookingNumber;
 	}
 

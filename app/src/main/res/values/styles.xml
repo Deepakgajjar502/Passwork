@@ -69,7 +69,19 @@
         <item name="android:textColor">#fff</item>
     </style>
 
+    <style name="TextLabel_meeting" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/black</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
 
+    </style>
+
+    <style name="DefaultEditText_meeting" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+
+    </style>
 
     <style name="ProfileTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
@@ -83,7 +95,7 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -95,8 +107,11 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
-    <style name="DialogAnimation_2">
-        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_up</item>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+    </style>
+    <style name="DialogThemeDatePricker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 </resources>

@@ -91,7 +91,7 @@ public class E_Pass extends AppCompatActivity {
         bookingNumber.setText("Booking No.-" + bookingNo);
         EmployeeName.setText(firstName + " " + LastName);
         CompanyName.setText(companyName);
-        txtEpass.setText("E-PASS / DESK-" + Seats);
+        txtEpass.setText("E-PASS / " + Seats);
         workSpaceName.setText(workspaceName);
         if (startDate.equals(EndDate)) {
             EpassDate.setText(startDate);

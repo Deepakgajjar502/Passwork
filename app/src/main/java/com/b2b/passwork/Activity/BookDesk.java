@@ -121,6 +121,8 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
 
                 selectDate.setText("Selected Date is : " +EndDate);
+                getFloorDetail(WorkspaceId);
+
             }
         });
 

@@ -173,8 +173,14 @@ public class CustomCalenderFragment extends Fragment {
 
                                     EventDetailModel model = new EventDetailModel();
                                     model.setEventDate(ConvertStringToEventDate(UpcomingScheduleList.get(i).getStartDatetime()));
-                                    model.setEventTitle(UpcomingScheduleList.get(i).getSeats());
                                     model.setEventType(UpcomingScheduleList.get(i).getType());
+
+                                    if(UpcomingScheduleList.get(i).getType().equals("desk"))
+                                    {
+                                        model.setEventTitle(UpcomingScheduleList.get(i).getSeats());
+                                    }else {
+                                        model.setEventTitle("Meeting");
+                                    }
                                     eventDetaiList.add(model);
 
                                 }

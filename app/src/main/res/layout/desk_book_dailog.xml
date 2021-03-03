@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/DeskBookLayout"
-    app:layout_behavior="@string/bottom_sheet_behavior"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/dialog_bg">
+    android:background="@drawable/bottom_sheet_dialog_bg">
 
 
     <ImageView
@@ -15,13 +14,18 @@
         android:layout_height="@dimen/_2sdp"
         android:layout_gravity="center"
         android:src="@drawable/book_btn_bg"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/line"
         app:tint="@color/white" />
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
+        android:layout_below="@id/line"
+        android:id="@+id/titleLayout"
         android:orientation="vertical">
 
         <TextView
@@ -49,6 +53,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/titleLayout"
+        android:layout_margin="@dimen/_5sdp"
+        android:id="@+id/BookDetailLayout"
         android:orientation="vertical">
 
     <TextView
@@ -109,7 +116,8 @@
 
     <com.ebanx.swipebtn.SwipeButton
         android:id="@+id/swipe_btn"
-        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         app:inner_text="SWIPE TO BOOK"
         app:inner_text_color="@color/white"
@@ -118,8 +126,6 @@
         app:inner_text_bottom_padding="18dp"
         app:inner_text_left_padding="20dp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_50sdp"
-        android:layout_marginEnd="@dimen/_50sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         app:inner_text_background="@drawable/book_btn_bg"
         app:button_image_height="60dp"
@@ -133,9 +139,9 @@
         app:button_background="@drawable/book_button_shape"
         app:initial_state="disabled"
         app:has_activate_state="true"
-        android:layout_below="@id/cardview"
+        android:layout_below="@id/BookDetailLayout"
         />
 
 
 
-</LinearLayout>
+</RelativeLayout>
