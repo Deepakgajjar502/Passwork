@@ -83,6 +83,9 @@
         android:fontFamily="@font/open_scan_bold"
         />
 
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

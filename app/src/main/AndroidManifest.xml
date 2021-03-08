@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.QRCodeScan"></activity>
+        <activity android:name=".Activity.Service_Request"></activity>
+        <activity android:name=".Activity.SurveysRequest"></activity>
+        <activity android:name=".Activity.QRCodeScan" />
         <activity android:name=".Activity.SuccefullyDeskBook" />
         <activity android:name=".Activity.BookDesk" />
         <!--

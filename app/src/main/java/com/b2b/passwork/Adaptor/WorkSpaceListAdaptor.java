@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Activity.BookDesk;
+import com.b2b.passwork.Activity.Service_Request;
+import com.b2b.passwork.Activity.SurveysRequest;
 import com.b2b.passwork.Activity.WorkspaceDetail;
 import com.b2b.passwork.Fragment.BookMeeting;
 import com.b2b.passwork.Fragment.CustomCalenderFragment;
@@ -70,9 +72,16 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                     }else if(position==1){
 
                         loadFragment(new BookMeeting());
-                    }else if(position==1){
+                    }else if(position==2){
 
+                        Intent intent = new Intent(holder.itemView.getContext(), SurveysRequest.class);
+                        holder.itemView.getContext().startActivity(intent);
+                        ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                    }else if(position==3){
 
+                        Intent intent = new Intent(holder.itemView.getContext(), Service_Request.class);
+                        holder.itemView.getContext().startActivity(intent);
+                        ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                     }
                 }
             });

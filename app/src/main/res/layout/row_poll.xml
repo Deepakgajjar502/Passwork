@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="10dp"
+        android:layout_margin="@dimen/_10sdp"
+        android:id="@+id/cardview"
+        card_view:cardElevation="10dp"
+        card_view:cardMaxElevation="10dp">
+
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+        android:padding="@dimen/_5sdp"
+            android:orientation="vertical">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/black"
+        android:id="@+id/txtQust"
+        android:textStyle="bold"
+        android:text="What are the best place to visit in Austria?"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_calendar_end"
+            android:textSize="@dimen/_7sdp"
+            android:layout_margin="@dimen/_2sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:id="@+id/txtendDate"
+            android:layout_gravity="start"
+            android:text="endDate"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_select"
+        android:textSize="@dimen/_7sdp"
+        android:layout_margin="@dimen/_2sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:id="@+id/txtmultiSelect"
+        android:layout_gravity="end"
+        android:text="Multi Select"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_anonymos"
+        android:textSize="@dimen/_7sdp"
+        android:layout_margin="@dimen/_2sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        android:id="@+id/txtAnonymous"
+        android:layout_gravity="end"
+        android:text="Anonymous"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/_20sdp">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/seek_bar_1"
+            android:max="100"
+            android:progress="25"
+            android:thumb="@android:color/transparent"
+            android:progressDrawable="@drawable/progress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_option1"
+            android:text="Java"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_percent1"
+            android:text="25%"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="0dp"
+            android:paddingEnd="32dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/seek_bar_2"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"
+            android:progressDrawable="@drawable/progress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_option2"
+            android:text="Kotlin"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_percent2"
+            android:text="25%"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="0dp"
+            android:paddingEnd="32dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/seek_bar_3"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"
+            android:progressDrawable="@drawable/progress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_option3"
+            android:text="Java"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_percent3"
+            android:text="25%"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="0dp"
+            android:paddingEnd="32dp"/>
+    </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/votes"
+            android:text="18 Votes"
+            android:textSize="@dimen/_7sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_gravity="end"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUBMIT"
+            android:id="@+id/btnSubmit"
+            android:gravity="center"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_book_btn"
+            android:layout_margin="@dimen/_20sdp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
+
+
+
+

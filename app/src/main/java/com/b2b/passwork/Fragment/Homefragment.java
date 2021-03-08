@@ -65,7 +65,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
 
     String[] OfficeTitle = new String[]{"Desk Booking", "Meeting Room", "Surveys", "Service Request"};
-    String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference", "Reach out to us for any support or supplies requests"};
+    String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference",  "Take participants in survey for help better making discussion",  "Reach out to us for any support or supplies requests"};
 
     Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.poll, R.drawable.service};
 

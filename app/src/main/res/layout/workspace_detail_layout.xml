@@ -115,7 +115,6 @@
                             android:text="Room Detail"
                             android:textSize="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_35sdp"
-
                             />
 
 

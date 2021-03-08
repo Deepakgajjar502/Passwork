@@ -5,6 +5,7 @@ import com.b2b.passwork.Model.DefaultResponse;
 import com.b2b.passwork.Model.Employee.EmployeeResponse;
 import com.b2b.passwork.Model.FloorList.FloorListResponse;
 import com.b2b.passwork.Model.Login.LoginResponse;
+import com.b2b.passwork.Model.MeetingBookResponse;
 import com.b2b.passwork.Model.ProfileResponse;
 import com.b2b.passwork.Model.Room.GetRoomResponse;
 import com.b2b.passwork.Model.SeatBookResponse;
@@ -46,6 +47,9 @@ public interface APIService {
 
     @POST(Constant.GET_SAVE_BOOKING)
     Call<SeatBookResponse> getSAVEBOOK(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_SAVE_BOOKING)
+    Call<MeetingBookResponse> getMEETINGBOOK(@Header("Authorization") String token, @Body RequestBody body);
 
     @POST(Constant.GET_UPCOMING_BOOKING)
     Call<UpComingResponse> getUpcommingBooking(@Header("Authorization") String token, @Body RequestBody body);
