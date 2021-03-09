@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,16 +25,22 @@ public class CateogryAdaptor extends RecyclerView.Adapter {
         ArrayList<CategoryModel> CategoryList;
         String workspaceName, workspaceId;
     private OnItemClickListener onItemClickListener;
+    Button btnNext;
+    boolean btnDisable = false;
+
+    private static int lastCheckedPos = -1;
 
 
 
-public CateogryAdaptor(FragmentActivity activity, ArrayList<CategoryModel> rooms) {
+    public CateogryAdaptor(FragmentActivity activity, ArrayList<CategoryModel> categoryList,  Button btnNext) {
         this.context =  activity;
-        this.CategoryList = rooms;
-        }
+        this.CategoryList = categoryList;
+        this.btnNext = btnNext;
+
+    }
 
 
-@Override
+    @Override
 public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.row_category, viewGroup, false);
         return new CateogryAdaptor.viewHolder(view);
@@ -40,20 +48,15 @@ public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewT
 
 
 
+
 @Override
 public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        try {
-
 
         ((CateogryAdaptor.viewHolder)holder).txtCagetory.setText(CategoryList.get(position).getCategoryTitle());
 
-
-
-        }catch (Exception ex){
+        ((CateogryAdaptor.viewHolder)holder).bind(CategoryList.get(position));
 
         }
-        }
-
 
 @Override
 public int getItemCount() {
@@ -68,19 +71,51 @@ public int getItemCount() {
 class viewHolder extends RecyclerView.ViewHolder  implements  View.OnClickListener{
 
     TextView txtCagetory;
+    RelativeLayout row_category;
+
 
 
 
     public viewHolder(View itemView) {
         super(itemView);
         txtCagetory =   itemView.findViewById(R.id.txtCageogry);
-        txtCagetory.setOnClickListener(this);
+        row_category =  itemView.findViewById(R.id.row_Category);
+
+        row_category.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
         onItemClickListener.onItemClick(view, getAdapterPosition());
+    }
+
+    public void bind(CategoryModel model) {
+
+        if(lastCheckedPos== -1){
+            txtCagetory.setBackgroundResource(R.drawable.bg_book_btn);
+        }else {
+            if(lastCheckedPos == getAdapterPosition()){
+                txtCagetory.setBackgroundResource(R.drawable.bg_category);
+            }else {
+                txtCagetory.setBackgroundResource(R.drawable.bg_book_btn);
+            }
+        }
+        row_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txtCagetory.setBackgroundResource(R.drawable.bg_category);
+                if(lastCheckedPos != getAdapterPosition()){
+                    notifyItemChanged(lastCheckedPos);
+                    lastCheckedPos = getAdapterPosition();
+
+                    btnNext.setBackgroundColor(context.getResources().getColor(R.color.accent)  );
+                }
+
+
+            }
+        });
+
     }
 }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener)
@@ -89,5 +124,12 @@ class viewHolder extends RecyclerView.ViewHolder  implements  View.OnClickListen
     }
 
 
+    public CategoryModel getSelect(){
+
+    if(lastCheckedPos != -1){
+        return CategoryList.get(lastCheckedPos);
+    }
+return  null;
+    }
 
 }

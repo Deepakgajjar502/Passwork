@@ -117,13 +117,55 @@
         android:layout_centerHorizontal="true"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/address"
+        android:layout_margin="@dimen/_5sdp"
+        android:id="@+id/toggleLayout"
+        android:orientation="horizontal">
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:id="@+id/bookforOther"
+        android:layoutDirection="ltr"
+       />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            android:layout_toRightOf="@id/bookforOther"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="Desk Book for Other"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:drawablePadding="@dimen/_5sdp"
+
+            android:visibility="invisible"
+            android:id="@+id/TotalSelectedEmp"
+            android:drawableRight="@drawable/ic_arrow"
+            android:drawableTint="@color/white"
+            android:text="5 selected"
+            android:drawableLeft="@drawable/ic_group"/>
+
+
+    </RelativeLayout>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/address"
+        android:layout_below="@id/toggleLayout"
         android:textSize="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_2sdp"
         android:layout_marginBottom="@dimen/_10sdp"

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,8 +29,6 @@ public class SeatListAdaptor extends RecyclerView.Adapter {
     private OnItemClickListener onItemClickListener;
     private Context mContext;
     List<SeatsItem> seats;
-    int lastItemSelectedPos = -1;
-
 
     public SeatListAdaptor(WorkspaceLayout workspaceLayout, List<SeatsItem> seats) {
         this.mContext = workspaceLayout;
@@ -50,6 +49,7 @@ public class SeatListAdaptor extends RecyclerView.Adapter {
 
 
             ((SeatListAdaptor.viewHolder) holder).textView.setText(seats.get(position).getSeatId()+"");
+
 
             if(seats.get(position).isAvailable()){
                 ((SeatListAdaptor.viewHolder) holder).imageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_armchair));
@@ -96,7 +96,7 @@ public class SeatListAdaptor extends RecyclerView.Adapter {
             imageView = itemView.findViewById(R.id.grid_image);
             textView = itemView.findViewById(R.id.grid_text);
             SeatLayout = itemView.findViewById(R.id.seatLayout);
-            SeatLayout.setOnClickListener(this);
+           SeatLayout.setOnClickListener(this);
         }
 
         @Override

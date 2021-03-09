@@ -223,12 +223,15 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
 
                         } else {
-
+                            ListWorkShedule.setVisibility(View.GONE);
+                            NoRecordUpcoming.setVisibility(View.VISIBLE);
 
                         }
 
 
                     } else {
+                        ListWorkShedule.setVisibility(View.GONE);
+                        NoRecordUpcoming.setVisibility(View.VISIBLE);
                         StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
                     }
                 }
@@ -241,6 +244,8 @@ public class Homefragment extends Fragment implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
                 StaticUtil.showIOSLikeDialog(getActivity(), "Someting went wrong");
                 Log.e("error", t.getMessage().toString());
+                ListWorkShedule.setVisibility(View.GONE);
+                NoRecordUpcoming.setVisibility(View.VISIBLE);
             }
         });
 

@@ -2,25 +2,21 @@ package com.b2b.passwork.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
 import com.b2b.passwork.Adaptor.CateogryAdaptor;
-import com.b2b.passwork.Adaptor.subCategoryAdaptor;
 import com.b2b.passwork.Model.CategoryModel;
 import com.b2b.passwork.R;
-import com.b2b.passwork.interfaces.OnItemClickListener;
 import com.b2b.passwork.interfaces.fragment_position;
 
 import java.util.ArrayList;
@@ -29,15 +25,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ServiceCategory extends Fragment implements View.OnClickListener, OnItemClickListener, fragment_position {
+public class SubCategory extends Fragment implements View.OnClickListener, fragment_position {
 
 
     @BindView(R.id.serveryCategory)
     RecyclerView serveryCategory;
     ArrayList<CategoryModel> categoryList = new ArrayList();
-    subCategoryAdaptor adaptor;
+    CateogryAdaptor adaptor;
     @BindView(R.id.btnNext)
     Button btnNext;
+
     fragment_position position;
 
     @Override
@@ -51,49 +48,50 @@ public class ServiceCategory extends Fragment implements View.OnClickListener, O
                     + " must implement FragmentToActivity");
         }
     }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_service_category, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_sub_category, container, false);
         ButterKnife.bind(this, view);
         categoryList.clear();
         btnNext.setOnClickListener(this);
-        screenOpen(1);
-        CategoryModel model = new CategoryModel("1", "Access Control System");
+
+        screenOpen(2);
+        CategoryModel model = new CategoryModel("1", "Floor is wet/slippery/ dirty");
         categoryList.add(model);
-        model = new CategoryModel("2", "Air-Conditioning");
+        model = new CategoryModel("2", "Drain/ Washbasin choke");
         categoryList.add(model);
-        model = new CategoryModel("3", "Cleaning");
+        model = new CategoryModel("3", "Urinal Pot to be cleaned");
         categoryList.add(model);
-        model = new CategoryModel("4", "Electrical");
+        model = new CategoryModel("4", "WE- not clean");
         categoryList.add(model);
-        model = new CategoryModel("5", "Hardware");
+        model = new CategoryModel("5", "Coffee spillage");
         categoryList.add(model);
-        model = new CategoryModel("6", "IT");
+        model = new CategoryModel("6", "Soap empty in soap dispenser");
         categoryList.add(model);
-        model = new CategoryModel("7", "Manpower Service");
+        model = new CategoryModel("7", "Foul smell");
         categoryList.add(model);
-        model = new CategoryModel("8", "Pantry");
-        categoryList.add(model);
-        model = new CategoryModel("9", "Pest Control");
-        categoryList.add(model);
-        model = new CategoryModel("10", "Plumbing");
-        categoryList.add(model);
-        model = new CategoryModel("11", "Stationary");
+        model = new CategoryModel("8", "Transh Bin not cleared");
         categoryList.add(model);
 
 
 
-        adaptor = new subCategoryAdaptor(getActivity(), categoryList,  btnNext);
+
+        adaptor = new CateogryAdaptor(getActivity(), categoryList,  btnNext);
         LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         serveryCategory.setLayoutManager(horizontaLayoutManagaer);
-        adaptor.setOnItemClickListener(ServiceCategory.this::onItemClick);
         serveryCategory.setAdapter(adaptor);
+
+
+
+
 
 
         return view;
     }
-
 
     @Override
     public void onClick(View view) {
@@ -103,9 +101,8 @@ public class ServiceCategory extends Fragment implements View.OnClickListener, O
             case R.id.btnNext:
 
                 if(adaptor.getSelect() !=null){
-                  //  Toast.makeText(getActivity(), adaptor.getSelect().getCategoryTitle(), Toast.LENGTH_SHORT).show();
-                    loadFragment(new SubCategory());
-
+                    Toast.makeText(getActivity(), adaptor.getSelect().getCategoryTitle(), Toast.LENGTH_SHORT).show();
+                    loadFragment(new WhenandWhere());
 
                 }else {
                     Toast.makeText(getActivity(), "Please slect Category", Toast.LENGTH_SHORT).show();
@@ -115,9 +112,10 @@ public class ServiceCategory extends Fragment implements View.OnClickListener, O
 
 
         }
+
     }
 
-    private void loadFragment(SubCategory subCategory) {
+    private void loadFragment(WhenandWhere subCategory) {
         FragmentTransaction transaction =    getActivity().getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(android.R.anim.slide_in_left,
                 android.R.anim.slide_out_right);
@@ -129,14 +127,6 @@ public class ServiceCategory extends Fragment implements View.OnClickListener, O
     }
 
     @Override
-    public void onItemClick(View view, int position) {
-
-
-
-    }
-
-
-    @Override
     public void screenOpen(int screenPossion) {
 
         position.screenOpen(screenPossion);
@@ -144,4 +134,3 @@ public class ServiceCategory extends Fragment implements View.OnClickListener, O
 
     }
 }
-

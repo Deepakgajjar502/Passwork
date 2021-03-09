@@ -4,11 +4,21 @@ public class CategoryModel {
 
     String categoryId;
     String CategoryTitle;
+    boolean isChecked = false;
 
 
     public CategoryModel(String categoryId, String categoryTitle) {
         this.categoryId = categoryId;
         CategoryTitle = categoryTitle;
+
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public String getCategoryId() {

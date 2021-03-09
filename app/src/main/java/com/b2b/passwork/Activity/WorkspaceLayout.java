@@ -11,17 +11,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,6 +43,7 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.joda.time.DateTime;
 import org.json.JSONObject;
@@ -114,6 +115,13 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
     @BindView(R.id.weekCalendar)
     WeekCalendar weekCalendar;
     MaterialDatePicker materialDatePicker;
+    @BindView(R.id.bookforOther)
+    SwitchMaterial bookforOther;
+    @BindView(R.id.TotalSelectedEmp)
+    TextView TotalSelectedEmp;
+    @BindView(R.id.Avaialble)
+    CardView Avaialble;
+    Boolean multipleSelection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,10 +153,10 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         grid.setLayoutManager(new GridLayoutManager(WorkspaceLayout.this, 6));
         floorDetail.setText(floorName);
         floorDetail.setOnClickListener(this);
-        if(startDate.equals(EndDate)){
-            selectedDate.setText("Selected Date : " + startDate );
-        }else {
-        selectedDate.setText("Selected Date : " + startDate + " to " + EndDate);
+        if (startDate.equals(EndDate)) {
+            selectedDate.setText("Selected Date : " + startDate);
+        } else {
+            selectedDate.setText("Selected Date : " + startDate + " to " + EndDate);
         }
         getSeats(workspaceId, floorId, startDate, EndDate);
 
@@ -160,19 +168,31 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         }
 
 
+        bookforOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
+                if(isChecked){
+
+                    multipleSelection = true;
+                }
+                else {
+
+                    multipleSelection = false;
+                }
+            }
+        });
 
         weekCalendar.setOnDateClickListener(new OnDateClickListener() {
             @Override
             public void onDateClick(DateTime dateTime) {
 
 
-
                 startDate = dateTime.toLocalDate().toString();
                 EndDate = dateTime.toLocalDate().toString();
 
 
-                selectedDate.setText("Selected Date : " + startDate );
+                selectedDate.setText("Selected Date : " + startDate);
 
                 getSeats(workspaceId, floorId, startDate, EndDate);
             }
@@ -218,12 +238,12 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
-    //    jsonParams.put("id", workspaceId);
+        //    jsonParams.put("id", workspaceId);
         jsonParams.put("type", "desk");
         jsonParams.put("workspace_id", workspaceId);
-   //     jsonParams.put("facility_id", "1");
-    //    jsonParams.put("guest_count", "0");
-    //    jsonParams.put("meeting_topic", "asd");
+        //     jsonParams.put("facility_id", "1");
+        //    jsonParams.put("guest_count", "0");
+        //    jsonParams.put("meeting_topic", "asd");
         jsonParams.put("seats", seatId);
         jsonParams.put("employees", UserId);
         jsonParams.put("start_datetime", startDate);
@@ -345,7 +365,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
                             adapter = new SeatListAdaptor(WorkspaceLayout.this, seats);
                             adapter.setOnItemClickListener(WorkspaceLayout.this);
                             grid.setAdapter(adapter);
-                            txtTotalSeat.setText(seats.size()+"" );
+                            txtTotalSeat.setText(seats.size() + "");
 
                             for (int l = 0; l < seats.size(); l++) {
 
@@ -395,7 +415,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         ImageView imageView = v.findViewById(R.id.grid_image);
         if (v.getId() == R.id.seatLayout) {
 
-            if(seats.get(position).isAvailable()) {
+            if (seats.get(position).isAvailable()) {
                 if (!seats.get(position).getSelected()) {
                     for (int l = 0; l < seats.size(); l++) {
 
@@ -416,10 +436,13 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
                     imageView.setColorFilter(ContextCompat.getColor(this, R.color.dark_blue));
                 }
 
-                //   bookDailog();
 
-                // toggleBottomSheet();
-                DailogDeskBookDetail();
+                if(multipleSelection){
+
+                }else {
+
+                    DailogDeskBookDetail();
+                }
             }
         }
     }
@@ -430,7 +453,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-      //  window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        //  window.setLayout(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.desk_book_dailog);
@@ -449,11 +472,11 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         WorkspaceAddress.setText(workspaceAddress);
         DeskTitle.setText("Desk " + seatId);
 
-        if(startDate.equals(EndDate)){
+        if (startDate.equals(EndDate)) {
             SelectedStartDate.setText("START DATE : " + startDate);
-        }else {
-        SelectedStartDate.setText("START DATE : " + startDate);
-          SelectedEndDate.setText("END DATE : " + EndDate);
+        } else {
+            SelectedStartDate.setText("START DATE : " + startDate);
+            SelectedEndDate.setText("END DATE : " + EndDate);
         }
         FloorName.setText(floorName);
 
@@ -470,7 +493,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view) {
 
-              dialog.dismiss();
+                dialog.dismiss();
             }
         });
 
@@ -553,8 +576,8 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         WorkspaceTitle.setText(workspaceName);
         WorkspaceAddress.setText(workspaceAddress);
         DeskTitle.setText("Desk " + seatId);
-        SelectedStartDate.setText("START DATE : " + startDate +" to " + "END DATE : " + EndDate);
-      //  SelectedEndDate.setText("END DATE : " + EndDate);
+        SelectedStartDate.setText("START DATE : " + startDate + " to " + "END DATE : " + EndDate);
+        //  SelectedEndDate.setText("END DATE : " + EndDate);
         FloorName.setText(floorName);
 
         btnBookNOw.setOnActiveListener(new OnActiveListener() {
