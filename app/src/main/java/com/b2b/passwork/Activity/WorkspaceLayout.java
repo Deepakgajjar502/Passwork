@@ -439,6 +439,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
                 if(multipleSelection){
 
+
                 }else {
 
                     DailogDeskBookDetail();
