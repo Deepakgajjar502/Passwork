@@ -6,6 +6,7 @@ import com.b2b.passwork.Model.Employee.EmployeeResponse;
 import com.b2b.passwork.Model.FloorList.FloorListResponse;
 import com.b2b.passwork.Model.Login.LoginResponse;
 import com.b2b.passwork.Model.MeetingBookResponse;
+import com.b2b.passwork.Model.PollList.PollListResponse;
 import com.b2b.passwork.Model.ProfileResponse;
 import com.b2b.passwork.Model.Room.GetRoomResponse;
 import com.b2b.passwork.Model.SeatBookResponse;
@@ -65,6 +66,9 @@ public interface APIService {
 
     @POST(Constant.GET_CHECK_IN)
     Call<DefaultResponse> getCheckIn(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_POLL_LIST)
+    Call<PollListResponse> GetPollList(@Header("Authorization") String token, @Body RequestBody body);
 
 }
 

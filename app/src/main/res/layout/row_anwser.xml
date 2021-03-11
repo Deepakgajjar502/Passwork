@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/seek_bar"
+            android:max="100"
+            android:progress="0"
+            android:thumb="@android:color/transparent"
+            android:progressDrawable="@drawable/progress"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_option"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingStart="32dp"
+            android:paddingEnd="0dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_percent"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="0dp"
+            android:paddingEnd="32dp"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

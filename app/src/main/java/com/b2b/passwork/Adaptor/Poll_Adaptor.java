@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Model.AnswerModel;
+import com.b2b.passwork.Model.PollList.OptionsItem;
+import com.b2b.passwork.Model.PollList.QuestionsItem;
 import com.b2b.passwork.Model.PollModel;
 import com.b2b.passwork.Model.Room.BaysItem;
 import com.b2b.passwork.R;
@@ -26,16 +28,21 @@ import java.util.List;
 public class Poll_Adaptor extends RecyclerView.Adapter {
     Context context;
     // List<CategoryInformation> arrayList;
-    List<PollModel> rollList;
+    List<QuestionsItem> rollList;
     String workspaceName, workspaceId;
     private OnItemClickListener onItemClickListener;
-    TimeSlot_Adaptor madapter;
-    List<AnswerModel> AnswerList;
+    Poll_Answer_Adaptor madapter;
+    List<OptionsItem> AnswerList;
 
-    public Poll_Adaptor(FragmentActivity activity, List<PollModel> rooms) {
+    public Poll_Adaptor(Context context, List<QuestionsItem> questList) {
+        this.context =  context;
+        this.rollList = questList;
+    }
+
+   /* public Poll_Adaptor(FragmentActivity activity, List<PollModel> rooms) {
         this.context =  activity;
         this.rollList = rooms;
-    }
+    }*/
 
 
     @Override
@@ -50,28 +57,26 @@ public class Poll_Adaptor extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         try {
 
-
-            ((Poll_Adaptor.viewHolder)holder).txtQuest.setText(rollList.get(position).getQues()+"");
-            if(rollList.get(position).getMultiSelect()){
+            Log.e("get_quest", rollList.get(position).getQuestionText());
+            ((Poll_Adaptor.viewHolder)holder).txtQuest.setText(rollList.get(position).getQuestionText()+"");
+            if(rollList.get(position).isQuestionType()){
                 ((Poll_Adaptor.viewHolder)holder).txtMultiselect.setVisibility(View.VISIBLE);
                 ((Poll_Adaptor.viewHolder)holder).btnSubmit.setVisibility(View.VISIBLE);
             }else {
                 ((Poll_Adaptor.viewHolder)holder).txtMultiselect.setVisibility(View.GONE);
                 ((Poll_Adaptor.viewHolder)holder).btnSubmit.setVisibility(View.GONE);
             }
-            if(rollList.get(position).getAnonymous()){
-                ((Poll_Adaptor.viewHolder)holder).txtAmony.setVisibility(View.VISIBLE);
-            }else {
-                ((Poll_Adaptor.viewHolder)holder).txtAmony.setVisibility(View.GONE);
-            }
-            ((Poll_Adaptor.viewHolder)holder).txtvotes.setText(rollList.get(position).getTotalParticipaent()+" votes");
-            ((Poll_Adaptor.viewHolder)holder).txtDate.setText("End Date : "+rollList.get(position).getEndDate()+"");
+
+            ((Poll_Adaptor.viewHolder)holder).txtvotes.setText(rollList.get(position).getTotalOfAnswers()+" votes");
 
 
-      /*      madapter = new TimeSlot_Adaptor(your_array_list, context);
-            LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-            ((Room_adaptor.viewHolder)holder).timeSlot.setLayoutManager(horizontaLayoutManagaer);
-            ((Room_adaptor.viewHolder)holder).timeSlot.setAdapter(madapter);*/
+            AnswerList = rollList.get(position).getOptions();
+
+
+            madapter = new Poll_Answer_Adaptor( context, AnswerList);
+            LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            ((Poll_Adaptor.viewHolder)holder).rec_Anw.setLayoutManager(horizontaLayoutManagaer);
+            ((Poll_Adaptor.viewHolder)holder).rec_Anw.setAdapter(madapter);
 
 
 
@@ -95,9 +100,9 @@ public class Poll_Adaptor extends RecyclerView.Adapter {
 
         TextView txtQuest;
         TextView txtMultiselect;
-        TextView txtAmony;
+
         TextView txtvotes;
-        TextView txtDate;
+        RecyclerView rec_Anw;
         Button btnSubmit;
 
 
@@ -105,9 +110,8 @@ public class Poll_Adaptor extends RecyclerView.Adapter {
             super(itemView);
             txtQuest =   itemView.findViewById(R.id.txtQust);
             txtMultiselect =   itemView.findViewById(R.id.txtmultiSelect);
-            txtAmony =   itemView.findViewById(R.id.txtAnonymous);
             txtvotes =   itemView.findViewById(R.id.votes);
-            txtDate =   itemView.findViewById(R.id.txtendDate);
+            rec_Anw =   itemView.findViewById(R.id.rec_anw);
             btnSubmit =  itemView.findViewById(R.id.btnSubmit);
 
         }
