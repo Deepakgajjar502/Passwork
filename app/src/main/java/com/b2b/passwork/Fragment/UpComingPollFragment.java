@@ -35,8 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OnGoingPollFragment extends Fragment {
-
+public class UpComingPollFragment extends Fragment {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -51,34 +50,33 @@ public class OnGoingPollFragment extends Fragment {
     String Token, workspaceName, workspaceAddress;
     @BindView(R.id.noRecordFoundLayout)
     LinearLayout noRecordFoundLayout;
-      OnGoingPollFragment OnGoingPollFragment;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_on_going_poll, container, false);
+        View view = inflater.inflate(R.layout.fragment_up_coming_poll, container, false);
         ButterKnife.bind(this, view);
 
         session = new UserSessionManager(getContext());
         HashMap<String, String> user = session.getUserDetails();
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
 
-
-        getPollListOnGoing();
+        getPollListUpGoing();
 
 
         return view;
     }
 
-    private void getPollListOnGoing() {
+    private void getPollListUpGoing() {
 
 
         progressBar.setVisibility(View.VISIBLE);
         Map<String, Integer> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
-        jsonParams.put("type", 1);
+        jsonParams.put("type", 2);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
 
@@ -100,7 +98,7 @@ public class OnGoingPollFragment extends Fragment {
                         if (response1.getStatus() == 1) {
 
                             ListofPoll = response1.getData();
-                            mAdaptor = new Poll_listAdaptor(getActivity(), ListofPoll, "ongoing", progressBar);
+                            mAdaptor = new Poll_listAdaptor(getActivity(), ListofPoll, "upcoming", progressBar);
                             LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             recPoll.setLayoutManager(horizontaLayoutManagaer);
                             recPoll.setAdapter(mAdaptor);

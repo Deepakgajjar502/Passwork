@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.b2b.passwork.Fragment.ChangePassword;
 import com.b2b.passwork.Fragment.OnGoingPollFragment;
+import com.b2b.passwork.Fragment.ResultPollFragment;
+import com.b2b.passwork.Fragment.UpComingPollFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -22,11 +24,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }
         else if (position == 1)
         {
-            fragment = new OnGoingPollFragment();
+            fragment = new UpComingPollFragment();
         }
         else if (position == 2)
         {
-            fragment = new OnGoingPollFragment();
+            fragment = new ResultPollFragment();
         }
         return fragment;
     }

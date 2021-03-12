@@ -26,4 +26,9 @@ public class Constant {
   public static final String GET_ROOM= "booking/getBays";
   public static final String GET_CHECK_IN= "booking/checkin-by-booking";
   public static final String GET_POLL_LIST= "polls/list";
+  public static final String GET_POLL_RESULT= "polls/result-list";
+  public static final String GET_POLL_SAVE= "polls/save";
+
+
+
 }

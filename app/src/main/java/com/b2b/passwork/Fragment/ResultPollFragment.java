@@ -1,6 +1,11 @@
 package com.b2b.passwork.Fragment;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,13 +14,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.b2b.passwork.Adaptor.Poll_listAdaptor;
 import com.b2b.passwork.Model.PollList.PollListResponse;
 import com.b2b.passwork.Model.PollList.pollDataItem;
+
 import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
@@ -24,6 +26,7 @@ import com.b2b.passwork.retrofit.RestManager;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OnGoingPollFragment extends Fragment {
 
+public class ResultPollFragment extends Fragment {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -51,39 +54,40 @@ public class OnGoingPollFragment extends Fragment {
     String Token, workspaceName, workspaceAddress;
     @BindView(R.id.noRecordFoundLayout)
     LinearLayout noRecordFoundLayout;
-      OnGoingPollFragment OnGoingPollFragment;
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_on_going_poll, container, false);
+        View view = inflater.inflate(R.layout.fragment_result_poll, container, false);
         ButterKnife.bind(this, view);
 
         session = new UserSessionManager(getContext());
         HashMap<String, String> user = session.getUserDetails();
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
 
+        getPollResult();
 
-        getPollListOnGoing();
 
 
         return view;
     }
 
-    private void getPollListOnGoing() {
+    private void getPollResult() {
 
 
         progressBar.setVisibility(View.VISIBLE);
-        Map<String, Integer> jsonParams = new ArrayMap<>();
+        Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
-        jsonParams.put("type", 1);
+        jsonParams.put("type", "1");
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
 
         Call<PollListResponse> responseBody = RestManager.getInstance().getService()
-                .GetPollList(token, body);
+                .GetPollResult(token);
 
         //"artist",
         responseBody.enqueue(new Callback<PollListResponse>() {
@@ -100,7 +104,8 @@ public class OnGoingPollFragment extends Fragment {
                         if (response1.getStatus() == 1) {
 
                             ListofPoll = response1.getData();
-                            mAdaptor = new Poll_listAdaptor(getActivity(), ListofPoll, "ongoing", progressBar);
+                            Collections.reverse(ListofPoll);
+                            mAdaptor = new Poll_listAdaptor(getActivity(), ListofPoll, "result", progressBar);
                             LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                             recPoll.setLayoutManager(horizontaLayoutManagaer);
                             recPoll.setAdapter(mAdaptor);

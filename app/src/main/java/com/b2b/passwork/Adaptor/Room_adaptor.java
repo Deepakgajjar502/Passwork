@@ -75,23 +75,7 @@ public class Room_adaptor extends RecyclerView.Adapter {
             ((Room_adaptor.viewHolder)holder).timeSlot.setLayoutManager(horizontaLayoutManagaer);
             ((Room_adaptor.viewHolder)holder).timeSlot.setAdapter(madapter);
 
-            /*((viewHolder) holder).cardview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-
-
-                    Intent intent = new Intent(holder.itemView.getContext(), WorkspaceDetail.class);
-                    intent.putExtra("roomName",rooms.get(position).getBayName());
-                    intent.putExtra("roomDis", rooms.get(position).getBayDescription());
-                    intent.putExtra("capacity", rooms.get(position).getSeatsCount());
-                    intent.putExtra("BayId", rooms.get(position).getBayId());
-              *//*      intent.putExtra("workspaceId", UpcomingScheduleList.get(position).getWorkspaceId());
-                    intent.putExtra("Booking", UpcomingScheduleList.get(position).getBookingNumber()); *//*
-                    holder.itemView.getContext().startActivity(intent);
-                    ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
-                }
-            });*/
 
 
         }catch (Exception ex){

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.b2b.passwork.Fragment.OnGoingPollFragment;
 import com.b2b.passwork.Model.PollList.QuestionsItem;
 import com.b2b.passwork.Model.PollList.pollDataItem;
 import com.b2b.passwork.R;
@@ -21,7 +20,7 @@ import com.b2b.passwork.interfaces.OnItemClickListener;
 
 import java.util.List;
 
-public class Poll_listAdaptor extends RecyclerView.Adapter {
+public class Result_Adaptor extends RecyclerView.Adapter {
     Context context;
     // List<CategoryInformation> arrayList;
     List<pollDataItem> rollList;
@@ -31,21 +30,19 @@ public class Poll_listAdaptor extends RecyclerView.Adapter {
     Poll_Adaptor madapter;
     String fragment;
     ProgressBar progressBar;
-    OnGoingPollFragment activity;
 
-    public Poll_listAdaptor(FragmentActivity activity, List<pollDataItem> rooms, String fragment, ProgressBar progressBar) {
+
+    public Result_Adaptor(FragmentActivity activity, List<pollDataItem> rooms, String fragment) {
         this.context =  activity;
         this.rollList = rooms;
         this.fragment = fragment;
-        this.progressBar = progressBar;
-
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.row_poll_list, viewGroup, false);
-        return new Poll_listAdaptor.viewHolder(view);
+        return new Result_Adaptor.viewHolder(view);
     }
 
 
@@ -68,10 +65,13 @@ public class Poll_listAdaptor extends RecyclerView.Adapter {
 
             QuestList = rollList.get(position).getQuestions();
 
-            madapter = new Poll_Adaptor( context, QuestList, fragment, rollList.get(position).getPollId(), progressBar);
+          //  madapter = new Poll_Adaptor( context, QuestList, fragment, rollList.get(position).getPollId(), progressBar);
             LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             ((Poll_listAdaptor.viewHolder)holder).QuesRecy.setLayoutManager(horizontaLayoutManagaer);
             ((Poll_listAdaptor.viewHolder)holder).QuesRecy.setAdapter(madapter);
+
+
+
 
 
 
@@ -122,3 +122,4 @@ public class Poll_listAdaptor extends RecyclerView.Adapter {
 
 
 }
+

@@ -8,6 +8,7 @@ import com.b2b.passwork.Model.Login.LoginResponse;
 import com.b2b.passwork.Model.MeetingBookResponse;
 import com.b2b.passwork.Model.PollList.PollListResponse;
 import com.b2b.passwork.Model.ProfileResponse;
+
 import com.b2b.passwork.Model.Room.GetRoomResponse;
 import com.b2b.passwork.Model.SeatBookResponse;
 import com.b2b.passwork.Model.SeatList.SeatListResponse;
@@ -69,6 +70,13 @@ public interface APIService {
 
     @POST(Constant.GET_POLL_LIST)
     Call<PollListResponse> GetPollList(@Header("Authorization") String token, @Body RequestBody body);
+
+
+    @POST(Constant.GET_POLL_RESULT)
+    Call<PollListResponse> GetPollResult(@Header("Authorization") String token);
+
+    @POST(Constant.GET_POLL_SAVE)
+    Call<DefaultResponse> getPollSave(@Header("Authorization") String token, @Body RequestBody body);
 
 }
 
