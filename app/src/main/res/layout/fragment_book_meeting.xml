@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/nunito_regular"
+           
             android:padding="@dimen/_10sdp"
             android:text="MEETING ROOM"
             android:textColor="@color/white"

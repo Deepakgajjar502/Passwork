@@ -268,6 +268,40 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:id="@+id/BookingTicketLayout"
+                android:padding="@dimen/_10sdp"
+                android:background="@color/gnt_test_background_color"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/ic_invoice"
+                    app:tint="@color/black"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="My Service Ticket"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    />
+
+            </LinearLayout>
+
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:padding="@dimen/_10sdp"
                 android:background="@color/gnt_test_background_color"
                 android:layout_marginTop="@dimen/_10sdp">

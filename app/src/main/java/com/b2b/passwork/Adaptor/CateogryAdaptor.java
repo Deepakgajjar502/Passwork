@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.b2b.passwork.Model.CategoryModel;
+import com.b2b.passwork.Model.Category.CategoryModel;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 
@@ -52,7 +51,7 @@ public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewT
 @Override
 public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
-        ((CateogryAdaptor.viewHolder)holder).txtCagetory.setText(CategoryList.get(position).getCategoryTitle());
+        ((CateogryAdaptor.viewHolder)holder).txtCagetory.setText(CategoryList.get(position).getName());
 
         ((CateogryAdaptor.viewHolder)holder).bind(CategoryList.get(position));
 

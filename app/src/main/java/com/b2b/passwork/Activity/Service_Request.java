@@ -1,10 +1,13 @@
 package com.b2b.passwork.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -37,13 +40,24 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
     View view3;
     @BindView(R.id.view4)
     View view4;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service__request);
         ButterKnife.bind(this);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(Service_Request.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+
+            }
+        });
 
         loadFragment(new ServiceCategory());
 
@@ -69,7 +83,7 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
     @Override
     public void screenOpen(int screenPosition) {
 
-        if(screenPosition == 1){
+        if (screenPosition == 1) {
 
             Title.setText("What can we assist you with ?");
             pagination.setText("1/4");
@@ -79,7 +93,7 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
             view4.setBackgroundResource(R.drawable.bg_book_btn);
 
 
-        }else if(screenPosition == 2){
+        } else if (screenPosition == 2) {
 
             Title.setText("More Detail");
             pagination.setText("2/4");
@@ -87,7 +101,7 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
             view2.setBackgroundResource(R.drawable.bg_category);
             view3.setBackgroundResource(R.drawable.bg_book_btn);
             view4.setBackgroundResource(R.drawable.bg_book_btn);
-        }else if(screenPosition == 3){
+        } else if (screenPosition == 3) {
 
             Title.setText("When & Where");
             pagination.setText("3/4");
@@ -95,7 +109,7 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
             view2.setBackgroundResource(R.drawable.bg_book_btn);
             view3.setBackgroundResource(R.drawable.bg_category);
             view4.setBackgroundResource(R.drawable.bg_book_btn);
-        }else if(screenPosition == 4){
+        } else if (screenPosition == 4) {
 
             Title.setText("Additional detail (Optional)");
             pagination.setText("4/4");
@@ -105,6 +119,19 @@ public class Service_Request extends AppCompatActivity implements fragment_posit
             view4.setBackgroundResource(R.drawable.bg_category);
         }
 
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            Intent intent = new Intent(Service_Request.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        }
 
     }
 }

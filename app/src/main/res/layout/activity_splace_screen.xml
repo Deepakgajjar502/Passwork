@@ -34,7 +34,7 @@
         android:layout_gravity="center"
         app:textAllCaps="true"
         android:id="@+id/appName"
-        android:fontFamily="@font/arial"
+
         android:layout_centerHorizontal="true"
         android:text="@string/app_name"/>
     </LinearLayout>

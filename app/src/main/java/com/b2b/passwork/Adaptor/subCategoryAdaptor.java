@@ -12,7 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.b2b.passwork.Model.CategoryModel;
+import com.b2b.passwork.Model.Category.CategoryModel;
+import com.b2b.passwork.Model.SubCategory.SubCategoryModel;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class subCategoryAdaptor extends RecyclerView.Adapter {
     Context context;
     // List<CategoryInformation> arrayList;
-    ArrayList<CategoryModel> CategoryList;
+    ArrayList<SubCategoryModel> CategoryList;
     String workspaceName, workspaceId;
     private OnItemClickListener onItemClickListener;
     Button btnNext;
@@ -31,7 +32,7 @@ public class subCategoryAdaptor extends RecyclerView.Adapter {
 
 
 
-    public subCategoryAdaptor(FragmentActivity activity, ArrayList<CategoryModel> categoryList, Button btnNext) {
+    public subCategoryAdaptor(FragmentActivity activity, ArrayList<SubCategoryModel> categoryList, Button btnNext) {
         this.context =  activity;
         this.CategoryList = categoryList;
         this.btnNext = btnNext;
@@ -51,7 +52,7 @@ public class subCategoryAdaptor extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
 
-        ((subCategoryAdaptor.viewHolder)holder).txtCagetory.setText(CategoryList.get(position).getCategoryTitle());
+        ((subCategoryAdaptor.viewHolder)holder).txtCagetory.setText(CategoryList.get(position).getName());
 
         ((subCategoryAdaptor.viewHolder)holder).bind(CategoryList.get(position));
 
@@ -89,7 +90,7 @@ public class subCategoryAdaptor extends RecyclerView.Adapter {
             onItemClickListener.onItemClick(view, getAdapterPosition());
         }
 
-        public void bind(CategoryModel model) {
+        public void bind(SubCategoryModel model) {
 
             if(lastCheckedPos== -1){
                 txtCagetory.setBackgroundResource(R.drawable.bg_book_btn);
@@ -123,7 +124,7 @@ public class subCategoryAdaptor extends RecyclerView.Adapter {
     }
 
 
-    public CategoryModel getSelect(){
+    public SubCategoryModel getSelect(){
 
         if(lastCheckedPos != -1){
             return CategoryList.get(lastCheckedPos);

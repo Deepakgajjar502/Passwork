@@ -28,7 +28,10 @@ public class Constant {
   public static final String GET_POLL_LIST= "polls/list";
   public static final String GET_POLL_RESULT= "polls/result-list";
   public static final String GET_POLL_SAVE= "polls/save";
-
+  public static final String GET_CATEGORY= "service-request/get-categories";
+  public static final String GET_SUBCATEGORY= "service-request/get-sub-categories";
+  public static final String GET_SUB_TICKET= "service-request/submit-ticket";
+  public static final String GET_MY_TICKET= "service-request/list-ticket";
 
 
 }

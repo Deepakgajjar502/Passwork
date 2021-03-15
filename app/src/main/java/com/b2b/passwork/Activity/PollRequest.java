@@ -19,7 +19,7 @@ import com.google.android.material.tabs.TabLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SurveysRequest extends AppCompatActivity implements View.OnClickListener {
+public class PollRequest extends AppCompatActivity implements View.OnClickListener {
 
     ViewPagerAdapter viewPagerAdapter;
     @BindView(R.id.tabs)
@@ -59,7 +59,7 @@ public class SurveysRequest extends AppCompatActivity implements View.OnClickLis
             case R.id.backButton:
                 Log.e("click", "working");
 
-                Intent intent = new Intent(SurveysRequest.this, MainActivity.class);
+                Intent intent = new Intent(PollRequest.this, MainActivity.class);
                 startActivity(intent);
 
                 break;

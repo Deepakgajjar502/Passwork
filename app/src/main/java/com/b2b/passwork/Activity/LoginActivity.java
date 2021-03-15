@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -60,9 +61,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.edt_password)
     EditText edtPassword;
     @BindView(R.id.btnLogin)
-    Button btnLogin;
+    ImageView btnLogin;
     @BindView(R.id.imgGmail)
-    Button imgGmail;
+    ImageView imgGmail;
     @BindView(R.id.Googlelogin_button)
     SignInButton GoogleloginButton;
     @BindView(R.id.FrameLayout2)

@@ -22,6 +22,13 @@
         android:background="@color/activated_color"
         android:text="@string/next"/>
 
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/white"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone" />
 
 </RelativeLayout>

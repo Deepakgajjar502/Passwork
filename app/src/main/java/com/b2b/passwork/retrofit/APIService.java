@@ -1,6 +1,7 @@
 package com.b2b.passwork.retrofit;
 
 
+import com.b2b.passwork.Model.Category.CategoryResponse;
 import com.b2b.passwork.Model.DefaultResponse;
 import com.b2b.passwork.Model.Employee.EmployeeResponse;
 import com.b2b.passwork.Model.FloorList.FloorListResponse;
@@ -12,8 +13,13 @@ import com.b2b.passwork.Model.ProfileResponse;
 import com.b2b.passwork.Model.Room.GetRoomResponse;
 import com.b2b.passwork.Model.SeatBookResponse;
 import com.b2b.passwork.Model.SeatList.SeatListResponse;
+import com.b2b.passwork.Model.SubCategory.SubCategoryModel;
+import com.b2b.passwork.Model.SubCategory.SubCateogryResponse;
+import com.b2b.passwork.Model.TicketDetail.TicketDetailResponse;
 import com.b2b.passwork.Model.Upcoming.UpComingResponse;
 import com.b2b.passwork.Model.WorkspaceList.workspaceListResponse;
+import com.b2b.passwork.Model.pollAnswerModel.PollAnsResponse;
+import com.b2b.passwork.Model.submitTicket.TicketResponse;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -76,7 +82,19 @@ public interface APIService {
     Call<PollListResponse> GetPollResult(@Header("Authorization") String token);
 
     @POST(Constant.GET_POLL_SAVE)
-    Call<DefaultResponse> getPollSave(@Header("Authorization") String token, @Body RequestBody body);
+    Call<PollAnsResponse> getPollSave(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_CATEGORY)
+    Call<CategoryResponse> getCatoegry(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_SUBCATEGORY)
+    Call<SubCateogryResponse> getSubCatoegry(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_SUB_TICKET)
+    Call<TicketResponse> getTicketSave(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_MY_TICKET)
+    Call<TicketDetailResponse> getTicket(@Header("Authorization") String token);
 
 }
 

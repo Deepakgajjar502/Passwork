@@ -80,7 +80,7 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:gravity="center"
         android:id="@+id/selectDate"
-        android:fontFamily="@font/open_scan_bold"
+        android:fontFamily="@font/open_sans_bold"
         />
 
 
@@ -129,7 +129,7 @@
                             android:textColor="@color/black"
                             android:theme="@style/Textview_bold"
                             android:gravity="center"
-                            android:fontFamily="@font/open_scan_bold"
+                            android:fontFamily="@font/open_sans_bold"
                             android:text="BUILDING"/>
 
 

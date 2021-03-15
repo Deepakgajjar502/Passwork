@@ -54,8 +54,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/white"
             android:text="Take pictures of the incident occured"/>
 
@@ -64,15 +64,17 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_15sdp"
+            android:id="@+id/selectImage"
+            android:gravity="center"
             android:background="@drawable/edittextbg">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="@dimen/_30sdp"
-
-            android:src="@drawable/ic_camera"
+            android:gravity="center"
+            android:id="@+id/imageview"
+            android:src="@drawable/ic_baseline_add_24"
             />
 
         </LinearLayout>
@@ -85,5 +87,15 @@
         android:id="@+id/btnNext"
         android:background="@color/activated_color"
         android:text="SUBMIT"/>
+
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:visibility="gone" />
+
 
 </RelativeLayout>

@@ -3,7 +3,6 @@ package com.b2b.passwork.Adaptor;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +16,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Activity.BookDesk;
+import com.b2b.passwork.Activity.PollRequest;
 import com.b2b.passwork.Activity.Service_Request;
-import com.b2b.passwork.Activity.SurveysRequest;
-import com.b2b.passwork.Activity.WorkspaceDetail;
 import com.b2b.passwork.Fragment.BookMeeting;
-import com.b2b.passwork.Fragment.CustomCalenderFragment;
 import com.b2b.passwork.R;
-import com.b2b.passwork.interfaces.OnItemClickListener;
-
-import static android.net.wifi.WifiConfiguration.Status.strings;
 
 public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
     Context context;
@@ -74,7 +68,7 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                         loadFragment(new BookMeeting());
                     }else if(position==2){
 
-                        Intent intent = new Intent(holder.itemView.getContext(), SurveysRequest.class);
+                        Intent intent = new Intent(holder.itemView.getContext(), PollRequest.class);
                         holder.itemView.getContext().startActivity(intent);
                         ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                     }else if(position==3){

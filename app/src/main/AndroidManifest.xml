@@ -14,8 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Service_Request"></activity>
-        <activity android:name=".Activity.SurveysRequest"></activity>
+        <activity android:name=".Activity.Service_Request" />
+        <activity android:name=".Activity.PollRequest" />
         <activity android:name=".Activity.QRCodeScan" />
         <activity android:name=".Activity.SuccefullyDeskBook" />
         <activity android:name=".Activity.BookDesk" />
@@ -23,6 +23,16 @@
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.b2b.passwork.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity android:name=".Activity.WorkspaceLayout" />
         <activity android:name=".Activity.E_Pass" />
         <activity android:name=".Activity.WelcomeActivity" />

@@ -32,6 +32,8 @@ import com.b2b.passwork.Model.DefaultResponse;
 import com.b2b.passwork.Model.PollList.OptionsItem;
 import com.b2b.passwork.Model.PollList.QuestionsItem;
 import com.b2b.passwork.Model.PollList.pollDataItem;
+import com.b2b.passwork.Model.pollAnswerModel.PollAnsOptionsItem;
+import com.b2b.passwork.Model.pollAnswerModel.PollAnsResponse;
 import com.b2b.passwork.R;
 import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
@@ -58,6 +60,7 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
 
 
     List<OptionsItem> AnswerList;
+    List<PollAnsOptionsItem> POllAnswerList = new ArrayList<>();
     String fragment, pollId, QusId, TOtalAns;
     List<String> selectedAns = new ArrayList<>();;
     List<String> selectedAnswer = new ArrayList<>();;
@@ -142,7 +145,6 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
                         ((Poll_Answer_Adaptor.viewHolder)holder).txtTv_option.setTextColor(context.getResources().getColor(R.color.light_blue));
 
 
-
                             if(questType){
 
                                 callSaveAPI(UserId, QusId, pollId, AnswerList.get(position).getOfferedAnswerId());
@@ -179,11 +181,11 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
 
                    String finalString   =  listString.substring( 0, listString.length() - 1 );
 
-                       callSaveAPI(UserId, QusId, pollId, finalString);
-                        Log.e("poll_offered_answer_id", finalString);
+                      callSaveAPI(UserId, QusId, pollId, finalString);
+                    /*    Log.e("poll_offered_answer_id", finalString);
                         Log.e("poll_id", pollId);
                         Log.e("poll_question_id", QusId);
-                        Log.e("customer_id", UserId);
+                        Log.e("customer_id", UserId);*/
                     }
                 });
 
@@ -212,12 +214,12 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
         jsonParams.put("customer_id", userId);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(jsonParams)).toString());
 
-        Call<DefaultResponse> responseBody = RestManager.getInstance().getService()
+        Call<PollAnsResponse> responseBody = RestManager.getInstance().getService()
                 .getPollSave(token, body);
         //"artist",
-        responseBody.enqueue(new Callback<DefaultResponse>() {
+        responseBody.enqueue(new Callback<PollAnsResponse>() {
             @Override
-            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response ) {
+            public void onResponse(Call<PollAnsResponse> call, Response<PollAnsResponse> response ) {
                 //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
                progressBar.setVisibility(View.GONE);
 
@@ -225,10 +227,13 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
 
                     if (response.isSuccessful()) {
 
-                        DefaultResponse   response1 = response.body();
+                        PollAnsResponse   response1 = response.body();
 
                         if (response1.getStatus()==1) {
 
+
+
+                            POllAnswerList = response1.getData().getOptions();
 
                             //StaticUtil.showToast(FragmentManager.ge, "Password update successfully");
 
@@ -236,7 +241,7 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
 
                             final iOSDialog iOSDialog = new iOSDialog(context);
                             iOSDialog.setTitle(context.getString(R.string.app_name));
-                            iOSDialog.setSubtitle("Your request saved successfully");
+                            iOSDialog.setSubtitle("Your request has been saved successfully");
                             iOSDialog.setPositiveLabel("OK");
                             //iOSDialog.setNegativeLabel(getActivity().getString(R.string.Lbl_Cancel));
                             iOSDialog.setBoldPositiveLabel(true);
@@ -250,7 +255,6 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
                                 }
                             });
                             iOSDialog.show();
-
 
                         } else {
 
@@ -275,7 +279,7 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
             }
 
             @Override
-            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+            public void onFailure(Call<PollAnsResponse> call, Throwable t) {
                 // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
               //  progressBar.setVisibility(View.GONE);
                // StaticUtil.showIOSLikeDialog(getActivity(), "Something went wrong");

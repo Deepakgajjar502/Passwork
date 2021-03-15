@@ -28,13 +28,13 @@
         <item name="colorAccent">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/open_sans_regular</item>
     </style>
 
     <style name="DefaultEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/open_sans_regular</item>
     </style>
 
     <style name="TextLabel_select" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -42,25 +42,25 @@
         <item name="colorAccent">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/open_sans_semi_bold</item>
     </style>
 
     <style name="EditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/open_sans_regular</item>
     </style>
 
     <style name="Textview_regular" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_regular</item>
+        <item name="fontFamily">@font/open_sans_regular</item>
     </style>
 
     <style name="Textview_bold" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
-        <item name="fontFamily">@font/nunito_bold</item>
+        <item name="fontFamily">@font/open_sans_bold</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
