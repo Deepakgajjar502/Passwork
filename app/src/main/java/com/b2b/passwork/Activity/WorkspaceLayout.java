@@ -137,12 +137,12 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
         workspaceAddress = workspace.get(UserSessionManager.IS_WORKSPACE_ADDRESS);
 
-        startDate = getIntent().getStringExtra("startDate");
+    /*    startDate = getIntent().getStringExtra("startDate");
         EndDate = getIntent().getStringExtra("endDate");
         workspaceId = getIntent().getStringExtra("workspace_id");
         floorId = getIntent().getStringExtra("floor_id");
         floorName = getIntent().getStringExtra("floor_name");
-        floors = (ArrayList<FloorsItem>) getIntent().getSerializableExtra("FloorList");
+        floors = (ArrayList<FloorsItem>) getIntent().getSerializableExtra("FloorList");*/
      /*   StatusBottomSheet = findViewById(R.id.DeskBookLayout);
         sheetBehavior = BottomSheetBehavior.from(StatusBottomSheet);
         sheetBehavior.setPeekHeight(0);*/

@@ -69,11 +69,11 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
             }
             if(UpcomingScheduleList.get(position).getType().equals("desk")){
                 BookType = "Personal";
-                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_desk));
+                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.desk_book_image));
                 ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Desk - "+UpcomingScheduleList.get(position).getSeats());
             }else {
                 BookType = "Meeting";
-                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_meeting_room));
+                ((SheduleAdaptor.viewHolder)holder).iconBook.setImageDrawable(context.getResources().getDrawable(R.drawable.meeting_room_image));
                 ((SheduleAdaptor.viewHolder)holder).BookingType.setText("Topic - "+UpcomingScheduleList.get(position).getMeetingTopic());
             }
 

@@ -62,7 +62,7 @@ public class Poll_Answer_Adaptor extends RecyclerView.Adapter {
     List<OptionsItem> AnswerList;
     List<PollAnsOptionsItem> POllAnswerList = new ArrayList<>();
     String fragment, pollId, QusId, TOtalAns;
-    List<String> selectedAns = new ArrayList<>();;
+    List<String> selectedAns = new ArrayList<>();
     List<String> selectedAnswer = new ArrayList<>();;
     Button btnSubmit;
     private OnItemClickListener onItemClickListener;

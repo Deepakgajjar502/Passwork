@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,15 +28,16 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
     // List<CategoryInformation> arrayList;
     Integer[] OfficeImage;
     String[] OfficeName;
-    String[] OfficeAddress;
+    Integer[] BGColors;
 
 
 
-    public WorkSpaceListAdaptor(FragmentActivity activity, String[] Name, Integer[] Image, String[] officeAddress) {
+    public WorkSpaceListAdaptor(FragmentActivity activity, String[] Name, Integer[] Image, Integer[] BGColor) {
         this.context =  activity;
         this.OfficeName = Name;
         this.OfficeImage = Image;
-        this.OfficeAddress = officeAddress;
+        this.BGColors = BGColor;
+
 
 
     }
@@ -51,8 +54,8 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         try {
 
-            ((WorkSpaceListAdaptor.viewHolder)holder).OfficeTitle.setText(OfficeName[position]);
-            ((WorkSpaceListAdaptor.viewHolder)holder).OfficeAddress.setText(OfficeAddress[position]);
+            ((WorkSpaceListAdaptor.viewHolder)holder).txtService.setText(OfficeName[position]);
+            ((WorkSpaceListAdaptor.viewHolder)holder).cardView.setCardBackgroundColor(ContextCompat.getColor(context, BGColors[position]));
          ((WorkSpaceListAdaptor.viewHolder)holder).officeImage.setImageResource(OfficeImage[position]);
             ((WorkSpaceListAdaptor.viewHolder)holder).officeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,14 +99,14 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
 
     class viewHolder extends RecyclerView.ViewHolder  {
         ImageView officeImage;
-        TextView OfficeTitle;
-        TextView OfficeAddress;
+        TextView txtService;
+        CardView cardView;
 
         public viewHolder(View itemView) {
             super(itemView);
-            officeImage = itemView.findViewById(R.id.office_image);
-            OfficeTitle =  itemView.findViewById(R.id.title);
-            OfficeAddress =  itemView.findViewById(R.id.address);
+            officeImage = itemView.findViewById(R.id.serviceicon);
+            txtService =  itemView.findViewById(R.id.txtService);
+            cardView =  itemView.findViewById(R.id.cardview);
         }
 
 

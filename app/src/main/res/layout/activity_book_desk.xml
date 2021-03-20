@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:layout_marginBottom="@dimen/_25sdp"
+    android:background="@color/white"
     tools:context=".Activity.BookDesk">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:background="@color/white"
         android:id="@+id/toolbar">
 
         <RelativeLayout
@@ -20,9 +22,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:tint="@color/white"
+            app:tint="@color/black"
             android:layout_alignParentLeft="true"
             android:id="@+id/backButton"
+            android:padding="@dimen/_5sdp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_left_arrow"/>
 
@@ -31,22 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/_15sdp"
             android:theme="@style/DefaultEditText"
             android:textStyle="bold"
             android:layout_centerInParent="true"
-            android:text="Availablity"/>
+            android:text="Select Date "/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:tint="@color/white"
-                android:layout_alignParentRight="true"
-                android:id="@+id/Calender"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_calendar"/>
+
 
         </RelativeLayout>
 
@@ -55,18 +50,190 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <noman.weekcalendar.WeekCalendar
-        android:id="@+id/weekCalendar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/selectCalenderType"
+        android:weightSum="2"
         android:layout_below="@id/toolbar"
-        app:weekTextColor="@color/white"
-        app:daysBackgroundColor="@color/colorPrimary"
-        app:daysTextColor="@color/white"
-        app:selectedBgColor="@color/accent"
-        app:todaysDateBgColor="@color/accent"
-        app:weekBackgroundColor="@color/colorPrimary"
-        android:background="@color/colorPrimary"/>
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/calender_select_bg"
+        >
+
+        <TextView
+            android:id="@+id/single_date_calender"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+           android:theme="@style/Textview_regular"
+            android:gravity="center"
+            android:textSize="@dimen/_11sdp"
+            android:layout_weight="1"
+            android:text="Single day"
+            android:background="@drawable/selected_calender_type"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/white"
+            />
+        <TextView
+            android:id="@+id/multiple_date_Calender"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/_11sdp"
+            android:layout_centerVertical="true"
+            android:theme="@style/Textview_regular"
+            android:gravity="center"
+            android:text="Multiple days"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            />
+
+        <!-- next button -->
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/monthTitle"
+        android:layout_below="@id/selectCalenderType"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <!-- prev button -->
+        <ImageView
+            android:id="@+id/calendar_prev_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_baseline_arrow_left_24"
+             />
+
+        <!-- date title -->
+        <TextView
+            android:id="@+id/calendar_date_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/calendar_prev_button"
+            android:layout_toLeftOf="@+id/calendar_next_button"
+            android:gravity="center"
+            android:theme="@style/Textview_regular"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/black"
+            />
+
+        <!-- next button -->
+        <ImageView
+            android:id="@+id/calendar_next_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_baseline_arrow_right_24"
+           />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/calendar_header"
+        android:layout_below="@id/monthTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="Su"/>
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:gravity="center_horizontal"
+
+            android:text="Mo"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="Tu"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="We"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="Th"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="Fr"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/gray"
+            android:text="Sa"/>
+
+
+
+    </LinearLayout>
+
+    <!-- days view -->
+  <!--  <GridView
+        android:id="@+id/calendar_grid"
+        android:layout_below="@id/calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:numColumns="7"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendar_grid"
+        android:layout_below="@id/calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp"/>
 
 
 
@@ -75,7 +242,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/white"
-        android:layout_below="@id/weekCalendar"
+        android:visibility="gone"
         android:theme="@style/Textview_bold"
         android:layout_marginTop="@dimen/_20sdp"
         android:gravity="center"
@@ -90,6 +257,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/selectDate"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_10sdp"
         android:orientation="vertical">
 
@@ -182,6 +350,18 @@
 
 
     </LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/_10sdp"
+        android:text="Confirm"
+       android:id="@+id/confirm_button"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:background="@drawable/selected_calender_type"/>
 
     <ProgressBar
         android:id="@+id/progress_bar"

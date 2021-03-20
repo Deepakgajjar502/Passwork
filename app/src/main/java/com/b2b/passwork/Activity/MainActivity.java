@@ -2,9 +2,11 @@ package com.b2b.passwork.Activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -13,6 +15,7 @@ import com.b2b.passwork.Fragment.BookMeeting;
 import com.b2b.passwork.Fragment.Homefragment;
 import com.b2b.passwork.Fragment.SettingFragment;
 import com.b2b.passwork.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +26,7 @@ public class MainActivity extends AppCompatActivity   {
 
 
     @BindView(R.id.bottomBar)
-    SmoothBottomBar bottomBar;
+    BottomNavigationView bottomBar;
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -38,7 +41,25 @@ public class MainActivity extends AppCompatActivity   {
 
 
         loadFragment(new Homefragment());
-        bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
+        bottomBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        loadFragment(new Homefragment());
+                        break;
+                    case R.id.book:
+
+                        break;
+                    case R.id.setting:
+                        loadFragment(new SettingFragment());
+                        break;
+                }
+                return false;
+            }
+        });
+
+     /*   bottomBar.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean onItemSelect(int i) {
 
@@ -60,7 +81,7 @@ public class MainActivity extends AppCompatActivity   {
 
                 return false;
             }
-        });
+        });*/
 
 
 

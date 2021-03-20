@@ -1,52 +1,50 @@
 package com.b2b.passwork.Activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.util.Pair;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.floor_adaptor;
+import com.b2b.passwork.Adaptor.weeklyAdaptor;
 import com.b2b.passwork.Model.FloorList.FloorListResponse;
 import com.b2b.passwork.Model.FloorList.FloorsItem;
-import com.b2b.passwork.Model.WorkspaceList.workspaceListResponse;
+import com.b2b.passwork.Model.dateModel;
 import com.b2b.passwork.R;
-import com.b2b.passwork.Utility.LinePagerIndicatorDecoration;
 import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 import com.b2b.passwork.retrofit.RestManager;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
-import org.joda.time.DateTime;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import noman.weekcalendar.WeekCalendar;
-import noman.weekcalendar.listener.OnDateClickListener;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -57,16 +55,14 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
     @BindView(R.id.backButton)
     ImageView backButton;
-    @BindView(R.id.Calender)
-    ImageView Calender;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.weekCalendar)
-    WeekCalendar weekCalendar;
+
     @BindView(R.id.workspaceDetail)
     LinearLayout workspaceDetail;
     UserSessionManager session;
-    MaterialDatePicker materialDatePicker;
+
     @BindView(R.id.selectDate)
     TextView selectDate;
     String StartDate = "", EndDate = "";
@@ -77,15 +73,45 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
     ProgressBar progressBar;
     floor_adaptor adaptor;
     List<FloorsItem> floors;
+    @BindView(R.id.calendar_prev_button)
+    ImageView calendarPrevButton;
+    @BindView(R.id.calendar_date_display)
+    TextView calendarDateDisplay;
+    @BindView(R.id.calendar_next_button)
+    ImageView calendarNextButton;
+    @BindView(R.id.monthTitle)
+    RelativeLayout monthTitle;
+    @BindView(R.id.calendar_header)
+    LinearLayout calendarHeader;
+    @BindView(R.id.calendar_grid)
+    RecyclerView calendarGrid;
+    Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+    List<Date> dates = new ArrayList<>();
+    List<dateModel> dateList = new ArrayList<>();
+
+    private static final int MAX_CALENDAR_DAY = 42;
+    @BindView(R.id.single_date_calender)
+    TextView singleDateCalender;
+    @BindView(R.id.multiple_date_Calender)
+    TextView multipleDateCalender;
+    //   weeklyCalenderAdaptor myGridAdapter;
+    weeklyAdaptor myGridAdapter;
+    boolean singleDate = true;
+    @BindView(R.id.confirm_button)
+    Button confirmButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_book_desk);
         ButterKnife.bind(this);
 
         backButton.setOnClickListener(this);
-        Calender.setOnClickListener(this);
+        multipleDateCalender.setOnClickListener(this);
+        singleDateCalender.setOnClickListener(this);
 
         session = new UserSessionManager(this);
         HashMap<String, String> user = session.getUserDetails();
@@ -94,7 +120,23 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         WorkspaceId = workspace.get(UserSessionManager.IS_WORKSPACE_ID);
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
 
+        SetUpCalender();
+        calendarPrevButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                calendar.add(Calendar.MONTH, -1);
+                SetUpCalender();
+            }
+        });
+
+        calendarNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendar.add(Calendar.MONTH, 1);
+                SetUpCalender();
+            }
+        });
         Calendar calendar = Calendar.getInstance();
         Date today = calendar.getTime();
 
@@ -103,56 +145,57 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 
-     EndDate = dateFormat.format(tomorrow);
+        EndDate = dateFormat.format(tomorrow);
         StartDate = dateFormat.format(tomorrow);
 
-        selectDate.setText("Selected Date is : " +EndDate);
+        selectDate.setText("Selected Date is : " + EndDate);
 
-        getFloorDetail(WorkspaceId);
-
-        weekCalendar.setOnDateClickListener(new OnDateClickListener() {
-            @Override
-            public void onDateClick(DateTime dateTime) {
+        //    getFloorDetail(WorkspaceId);
 
 
+    }
 
-                StartDate = dateTime.toLocalDate().toString();
-                EndDate = dateTime.toLocalDate().toString();
+    private void SetUpCalender() {
 
-
-                selectDate.setText("Selected Date is : " +EndDate);
-                getFloorDetail(WorkspaceId);
-
-            }
-        });
-
-        MaterialDatePicker.Builder<Pair<Long, Long>> materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker();
-        materialDatePicker = materialDateBuilder.build();
-
-        materialDatePicker.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onPositiveButtonClick(Object selection) {
+        Date d = new Date();
+        CharSequence s = android.text.format.DateFormat.format("yyyy-MM-dd", d.getTime());
+        Log.e("todayDate", s.toString());
 
 
-                        selectDate.setText("Selected Date is : " + materialDatePicker.getHeaderText());
-                        Pair selectedDates = (Pair) materialDatePicker.getSelection();
-//              then obtain the startDate & endDate from the range
-                        final Pair<Date, Date> rangeDate = new Pair<>(new Date((Long) selectedDates.first), new Date((Long) selectedDates.second));
-//              assigned variables
-                        Date startDate = rangeDate.first;
-                        Date endDate = rangeDate.second;
-//              Format the dates in ur desired display mode
-                        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-//              Display it by setText
+        String currentDate = dateFormat.format(calendar.getTime());
+        calendarDateDisplay.setText(currentDate);
+        dates.clear();
+      //  dateList.clear();
+        Calendar monthCalendar = (Calendar) calendar.clone();
+        monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        int FirstDayofMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        monthCalendar.add(Calendar.DAY_OF_MONTH, -FirstDayofMonth);
 
-                        StartDate = simpleFormat.format(startDate);
-                        EndDate = simpleFormat.format(endDate);
-                        Log.e("StartDate", StartDate);
 
-                    }
-                });
+        while (dates.size() < MAX_CALENDAR_DAY) {
+
+            dates.add(monthCalendar.getTime());
+            monthCalendar.add(Calendar.DAY_OF_MONTH, 1);
+
+
+        }
+
+        for (Date object : dates) {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String formattedDate = dateFormat.format(object);
+            dateModel model = new dateModel(false, formattedDate);
+            dateList.add(model);
+            //do something with object
+        }
+
+
+        myGridAdapter = new weeklyAdaptor(this, dates, calendar, singleDate, dateList, confirmButton);
+        calendarGrid.setLayoutManager(new GridLayoutManager(BookDesk.this, 7));
+        //  myGridAdapter.setOnItemClickListener(BookDesk.this);
+        calendarGrid.setAdapter(myGridAdapter);
+
+
     }
 
     private void getFloorDetail(String workspaceId) {
@@ -184,7 +227,7 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
                         if (response1.getStatus() == 1) {
                             floors = response1.getFloors();
-                            adaptor = new floor_adaptor(BookDesk.this,floors, workspaceName,WorkspaceId );
+                            adaptor = new floor_adaptor(BookDesk.this, floors, workspaceName, WorkspaceId);
                             LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(BookDesk.this, LinearLayoutManager.VERTICAL, false);
                             floorDetail.setLayoutManager(horizontaLayoutManagaer);
                             adaptor.setOnItemClickListener(BookDesk.this);
@@ -231,8 +274,34 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
             case R.id.Calender:
 
-                materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
 
+                //do your stuff
+                break;
+
+            case R.id.single_date_calender:
+
+                singleDateCalender.setBackground(getResources().getDrawable(
+                        R.drawable.selected_calender_type));
+                multipleDateCalender.setBackground(null);
+                singleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.white));
+                multipleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.black));
+                singleDate = true;
+                myGridAdapter = new weeklyAdaptor(this, dates, calendar, true, dateList, confirmButton);
+                calendarGrid.setAdapter(myGridAdapter);
+
+                //do your stuff
+                break;
+
+            case R.id.multiple_date_Calender:
+
+                multipleDateCalender.setBackground(getResources().getDrawable(
+                        R.drawable.selected_calender_type));
+                singleDateCalender.setBackground(null);
+                singleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.black));
+                multipleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.white));
+                singleDate = false;
+                myGridAdapter = new weeklyAdaptor(this, dates, calendar, false, dateList, confirmButton);
+                calendarGrid.setAdapter(myGridAdapter);
                 //do your stuff
                 break;
 
@@ -245,28 +314,22 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
     public void onItemClick(View v, int position) {
 
 
-            if(v.getId()==R.id.workspace)
-            {
-                if(StartDate.equals("")){
-                    StaticUtil.showIOSLikeDialog(BookDesk.this, "Please Select Date");
 
-                }else {
-
-                    String floor_name = floors.get(position).getFloorName();
-                    Intent intent = new Intent(BookDesk.this, WorkspaceLayout.class);
-                    intent.putExtra("workspace_id",WorkspaceId );
-                    intent.putExtra("floor_id", floors.get(position).getFloorId()+"" );
-                    intent.putExtra("startDate",StartDate );
-                    intent.putExtra("endDate",EndDate );
-                    intent.putExtra("floor_name",floor_name );
-                    intent.putExtra("FloorList",(Serializable)floors );
-                    startActivity(intent);
-                }
+       /* if(v.getId()==R.id.single_calendar_date)
+        {
+            Log.e("click", "multiple");
+            *//*if(!singleDate){
+                Log.e("click", "multiple");
+            }*//*
 
 
-            }
 
-        }
+        }*/
+
+
+    }
 
 
 }
+
+

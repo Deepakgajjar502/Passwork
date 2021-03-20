@@ -1,5 +1,6 @@
 package com.b2b.passwork.Fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,21 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.b2b.passwork.Activity.WorkspaceLayout;
+import com.b2b.passwork.Activity.BookDesk;
+import com.b2b.passwork.Activity.MainActivity;
 import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
 import com.b2b.passwork.Model.Upcoming.UpComingResponse;
@@ -31,12 +30,10 @@ import com.b2b.passwork.Model.Upcoming.upcomingDataItem;
 import com.b2b.passwork.Model.WorkspaceList.WorkspacesItem;
 import com.b2b.passwork.Model.WorkspaceList.workspaceListResponse;
 import com.b2b.passwork.R;
-import com.b2b.passwork.Utility.LinePagerIndicatorDecoration;
 import com.b2b.passwork.Utility.PicassoHelper;
 import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
 import com.b2b.passwork.retrofit.RestManager;
-import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -64,10 +61,10 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     ImageView profile;
 
 
-    String[] OfficeTitle = new String[]{"Desk Booking", "Meeting Room", "Surveys", "Service Request"};
-    String[] OfficesubTitle = new String[]{"Find your colleagues and book your favourite desk", "View meeting room availability and book your preference",  "Take participants in survey for help better making discussion",  "Reach out to us for any support or supplies requests"};
+    String[] OfficeTitle = new String[]{"Community Poll", "Service Request", "Visitor Managment"};
+    Integer[] BGColor = new Integer[]{R.color.service_color_a, R.color.service_color_c, R.color.service_color_b};
 
-    Integer[] OfficeImage = new Integer[]{R.drawable.book_desk, R.drawable.meeting_room, R.drawable.poll, R.drawable.service};
+    Integer[] OfficeImage = new Integer[]{R.drawable.ic_trial_balloon, R.drawable.ic_authorized_dealer, R.drawable.ic_visitor_card};
 
 
     WorkSpaceListAdaptor Adaptor;
@@ -81,18 +78,14 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     TextView round;
     @BindView(R.id.ListWorkSpace)
     ViewPager2 ListWorkSpace;
-    @BindView(R.id.workspace)
-    LinearLayout workspace;
-    @BindView(R.id.selectDate)
-    TextInputLayout selectDate;
+
+
     final Calendar myCalendar = Calendar.getInstance();
     DatePickerDialog.OnDateSetListener date;
     @BindView(R.id.sheducl)
     TextView sheducl;
-    @BindView(R.id.edt_select_workspaceDate)
-    EditText edtSelectWorkspace;
-    @BindView(R.id.workspaceDetail)
-    LinearLayout workspaceDetail;
+
+
     UserSessionManager session;
     String CorporateId, Token;
     @BindView(R.id.progress_bar)
@@ -102,7 +95,12 @@ public class Homefragment extends Fragment implements View.OnClickListener {
     List<upcomingDataItem> UpcomingScheduleList;
     @BindView(R.id.NoRecordUpcoming)
     LinearLayout NoRecordUpcoming;
-
+    @BindView(R.id.ListofService)
+    RecyclerView RecyService;
+    @BindView(R.id.DeskBookingCardview)
+    CardView DeskBookingCardview;
+    @BindView(R.id.MeetingBookingCardview)
+    CardView MeetingBookingCardview;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,6 +109,9 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_home_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        DeskBookingCardview.setOnClickListener(this);
+        MeetingBookingCardview.setOnClickListener(this);
 
         session = new UserSessionManager(getActivity());
         HashMap<String, String> user = session.getUserDetails();
@@ -127,14 +128,17 @@ public class Homefragment extends Fragment implements View.OnClickListener {
             getWorkspaceList(CorporateId);
         }
 
-        edtSelectWorkspace.setOnClickListener(this);
-        workspace.setOnClickListener(this);
+
         Picasso.get().load(R.drawable.progile)
                 .transform(new PicassoHelper.PicassoCircleTransformation())
                 .into(profile);
 
-        Adaptor = new WorkSpaceListAdaptor(getActivity(), OfficeTitle, OfficeImage, OfficesubTitle);
-        ListWorkSpace.setAdapter(Adaptor);
+        Adaptor = new WorkSpaceListAdaptor(getActivity(), OfficeTitle, OfficeImage, BGColor);
+        LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyService.setLayoutManager(horizontaLayoutManagaer);
+        RecyService.setAdapter(Adaptor);
+
+        /*ListWorkSpace.setAdapter(Adaptor);
 
         ListWorkSpace.setClipToPadding(false);
         ListWorkSpace.setClipChildren(false);
@@ -151,7 +155,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
                 page.setScaleY(0.85f + r * 0.15f);
             }
         });
-        ListWorkSpace.setPageTransformer(compositePageTransformer);
+        ListWorkSpace.setPageTransformer(compositePageTransformer);*/
 
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -203,20 +207,20 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
                             UpcomingScheduleList = response1.getData();
                             if (UpcomingScheduleList != null) {
-                                if(UpcomingScheduleList.size()!=0){
-                                sheduleAdaptor = new SheduleAdaptor(getActivity(), UpcomingScheduleList);
-                                LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                                ListWorkShedule.setLayoutManager(horizontaLayoutManagaer);
-                                ListWorkShedule.setAdapter(sheduleAdaptor);
-                             //   ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
-                                horizontaLayoutManagaer.findFirstVisibleItemPosition();
-                                ListWorkShedule.setVisibility(View.VISIBLE);
-                                NoRecordUpcoming.setVisibility(View.GONE);
+                                if (UpcomingScheduleList.size() != 0) {
+                                    sheduleAdaptor = new SheduleAdaptor(getActivity(), UpcomingScheduleList);
+                                    LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                                    ListWorkShedule.setLayoutManager(horizontaLayoutManagaer);
+                                    ListWorkShedule.setAdapter(sheduleAdaptor);
+                                    //   ListWorkShedule.addItemDecoration(new LinePagerIndicatorDecoration());
+                                    horizontaLayoutManagaer.findFirstVisibleItemPosition();
+                                    ListWorkShedule.setVisibility(View.VISIBLE);
+                                    NoRecordUpcoming.setVisibility(View.GONE);
+                                } else {
+                                    ListWorkShedule.setVisibility(View.GONE);
+                                    NoRecordUpcoming.setVisibility(View.VISIBLE);
+                                }
                             } else {
-                                ListWorkShedule.setVisibility(View.GONE);
-                                NoRecordUpcoming.setVisibility(View.VISIBLE);
-                            }}
-                                else {
                                 ListWorkShedule.setVisibility(View.GONE);
                                 NoRecordUpcoming.setVisibility(View.VISIBLE);
                             }
@@ -320,22 +324,15 @@ public class Homefragment extends Fragment implements View.OnClickListener {
 
 
         switch (view.getId()) {
-            case R.id.edt_select_workspaceDate:
-                Log.e("click", "working");
-                new DatePickerDialog(getActivity(), R.style.DialogTheme, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
-                //do your stuff
-                break;
+            case R.id.DeskBookingCardview:
 
-            case R.id.workspace:
-                Log.e("click", "working");
-                Intent intent = new Intent(getContext(), WorkspaceLayout.class);
+
+                Intent intent = new Intent(getContext(), BookDesk.class);
                 startActivity(intent);
+               // ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 
 
-                //do your stuff
                 break;
 
         }
