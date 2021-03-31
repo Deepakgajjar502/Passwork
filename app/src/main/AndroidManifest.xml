@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.SelectBookingSpace"></activity>
+        <activity android:name=".Activity.MeetingSelectDate"></activity>
+        <activity android:name=".Activity.SelectBookingMettingSpace" />
+        <activity android:name=".Activity.SelectBookingSpace" />
         <activity android:name=".Activity.Service_Request" />
         <activity android:name=".Activity.PollRequest" />
         <activity android:name=".Activity.QRCodeScan" />
@@ -47,6 +49,26 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.MainActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_id" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <service
+            android:name="com.b2b.passwork.Utility.FirebaseMessagingService"
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.b2b.passwork.Utility.FirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

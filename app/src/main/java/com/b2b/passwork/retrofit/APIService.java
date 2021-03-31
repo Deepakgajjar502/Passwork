@@ -10,10 +10,11 @@ import com.b2b.passwork.Model.MeetingBookResponse;
 import com.b2b.passwork.Model.PollList.PollListResponse;
 import com.b2b.passwork.Model.ProfileResponse;
 
+import com.b2b.passwork.Model.Room.GetBay.NewGetBay.NewGetBayResponse;
 import com.b2b.passwork.Model.Room.GetRoomResponse;
-import com.b2b.passwork.Model.SeatBookResponse;
+import com.b2b.passwork.Model.SeatBookResponses;
+
 import com.b2b.passwork.Model.SeatList.SeatListResponse;
-import com.b2b.passwork.Model.SubCategory.SubCategoryModel;
 import com.b2b.passwork.Model.SubCategory.SubCateogryResponse;
 import com.b2b.passwork.Model.TicketDetail.TicketDetailResponse;
 import com.b2b.passwork.Model.Upcoming.UpComingResponse;
@@ -54,7 +55,7 @@ public interface APIService {
     Call<SeatListResponse> getSeatList(@Header("Authorization") String token, @Body RequestBody body);
 
     @POST(Constant.GET_SAVE_BOOKING)
-    Call<SeatBookResponse> getSAVEBOOK(@Header("Authorization") String token, @Body RequestBody body);
+    Call<SeatBookResponses> getSAVEBOOK(@Header("Authorization") String token, @Body RequestBody body);
 
     @POST(Constant.GET_SAVE_BOOKING)
     Call<MeetingBookResponse> getMEETINGBOOK(@Header("Authorization") String token, @Body RequestBody body);
@@ -67,6 +68,9 @@ public interface APIService {
 
     @POST(Constant.GET_ROOM)
     Call<GetRoomResponse> getRoomList(@Header("Authorization") String token, @Body RequestBody body);
+
+    @POST(Constant.GET_ROOM)
+    Call<NewGetBayResponse> getBayList(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("workspace/details-employees-by-corporate-id/{id}")
     Call<EmployeeResponse> getEmployeeList(@Header("Authorization") String token, @Path("id") String id);

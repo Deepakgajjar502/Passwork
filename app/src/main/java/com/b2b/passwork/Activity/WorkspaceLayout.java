@@ -1,9 +1,6 @@
 package com.b2b.passwork.Activity;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
@@ -11,7 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,13 +20,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.core.util.Pair;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.b2b.passwork.Adaptor.EmployeeAdaptor;
 import com.b2b.passwork.Adaptor.SeatListAdaptor;
-import com.b2b.passwork.Model.FloorList.FloorsItem;
-import com.b2b.passwork.Model.SeatBookResponse;
+import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
+import com.b2b.passwork.Model.Employee.EmployeeResponse;
+import com.b2b.passwork.Model.Employee.EmployeesItem;
+import com.b2b.passwork.Model.SeatBookResponses;
+import com.b2b.passwork.Model.SeatList.AvailablityItem;
 import com.b2b.passwork.Model.SeatList.SeatListResponse;
 import com.b2b.passwork.Model.SeatList.SeatsItem;
 import com.b2b.passwork.R;
@@ -39,26 +40,18 @@ import com.b2b.passwork.interfaces.OnItemClickListener;
 import com.b2b.passwork.retrofit.RestManager;
 import com.ebanx.swipebtn.OnActiveListener;
 import com.ebanx.swipebtn.SwipeButton;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import org.joda.time.DateTime;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import noman.weekcalendar.WeekCalendar;
-import noman.weekcalendar.listener.OnDateClickListener;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -67,65 +60,71 @@ import retrofit2.Response;
 
 public class WorkspaceLayout extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
+    String startDate, EndDate, workspaceId, floorId, floorName, UserId, InvetoryName, InvetoryID, CorporateId;
+
+    UserSessionManager session;
+    String Token, workspaceName, workspaceAddress;
+    SeatListAdaptor adapter;
+    List<SeatsItem> seats = new ArrayList<>();
+    List<SeatsItem> bookSeats = new ArrayList<>();
+    List<AvailablityItem> avaiableSeatDetail = new ArrayList<>();;
+    List<AvailablityItem> avaiableSeatDetailFinal = new ArrayList<>();
+    List<Integer> seatIdList;
+    int nPrevSelGridItem = -1;
+    String selectedItem;
+
+    int maxSelectSeat = 1;
+    String seatId = "";
+
+    int lastItemSelectedPos = -1;
+    List<EmployeesItem> Employees = new ArrayList<>();
+    List<EmployeesItem> SelectEmployees = new ArrayList<>();
+    ArrayList<String> listofEmployee = new ArrayList<>();
+
+    Boolean multipleSelection = false;
+    String baySelectDate;
+    @BindView(R.id.backButton)
+    ImageView backButton;
+    @BindView(R.id.floorDetail)
+    TextView floorDetail;
+
     @BindView(R.id.Title)
     TextView Title;
     @BindView(R.id.address)
     TextView address;
-    @BindView(R.id.officeLayout)
-    ImageView officeLayout;
-    @BindView(R.id.grid)
-    RecyclerView grid;
-    String startDate, EndDate, workspaceId, floorId, floorName, UserId;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    UserSessionManager session;
-    String Token, workspaceName, workspaceAddress;
-    SeatListAdaptor adapter;
-    List<SeatsItem> seats;
-    List<SeatsItem> bookSeats;
-    int nPrevSelGridItem = -1;
-    String selectedItem;
-    @BindView(R.id.backButton)
-    ImageView backButton;
-    int maxSelectSeat = 1;
-    String seatId = "";
-    int selectedItemPos = -1;
-    int lastItemSelectedPos = -1;
-    BottomSheetBehavior sheetBehavior;
-    LinearLayout StatusBottomSheet;
-    @BindView(R.id.txtTotalSeat)
-    TextView txtTotalSeat;
-    @BindView(R.id.txtOccupiedSeat)
-    TextView txtOccupiedSeat;
-    @BindView(R.id.txtAvaialbleSeat)
-    TextView txtAvaialbleSeat;
-    @BindView(R.id.FloorSeatDetail)
-    LinearLayout FloorSeatDetail;
-    ArrayList<FloorsItem> floors = new ArrayList<>();
-    @BindView(R.id.floorDetail)
-    TextView floorDetail;
+
+    @BindView(R.id.TotalSelectedEmp)
+    TextView TotalSelectedEmp;
+    @BindView(R.id.toggleLayout)
+    RelativeLayout toggleLayout;
     @BindView(R.id.selectedDate)
     TextView selectedDate;
 
-    ArrayList<String> listofFloorName = new ArrayList<>();
-    @BindView(R.id.Calender)
-    ImageView Calender;
-    @BindView(R.id.weekCalendar)
-    WeekCalendar weekCalendar;
-    MaterialDatePicker materialDatePicker;
-    @BindView(R.id.bookforOther)
-    SwitchMaterial bookforOther;
-    @BindView(R.id.TotalSelectedEmp)
-    TextView TotalSelectedEmp;
-    @BindView(R.id.Avaialble)
-    CardView Avaialble;
-    Boolean multipleSelection = false;
+
+    @BindView(R.id.txtOccupiedSeat)
+    TextView txtOccupiedSeat;
+
+
+    @BindView(R.id.FloorSeatDetail)
+    LinearLayout FloorSeatDetail;
+
+    @BindView(R.id.grid)
+    RecyclerView grid;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    String showDate;
+    @BindView(R.id.floorName)
+    TextView txtfloorName;
+    @BindView(R.id.inventoryName)
+    TextView inventoryName;
+    EmployeeAdaptor adaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_workspace_layout);
         ButterKnife.bind(this);
 
@@ -133,156 +132,82 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         HashMap<String, String> user = session.getUserDetails();
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
         UserId = user.get(UserSessionManager.KEY_ID);
+        CorporateId = user.get(UserSessionManager.KEY_COMPANY_ID);
         HashMap<String, String> workspace = session.getworkspaceList();
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
         workspaceAddress = workspace.get(UserSessionManager.IS_WORKSPACE_ADDRESS);
+        workspaceId = workspace.get(UserSessionManager.IS_WORKSPACE_ID);
 
-    /*    startDate = getIntent().getStringExtra("startDate");
-        EndDate = getIntent().getStringExtra("endDate");
-        workspaceId = getIntent().getStringExtra("workspace_id");
-        floorId = getIntent().getStringExtra("floor_id");
-        floorName = getIntent().getStringExtra("floor_name");
-        floors = (ArrayList<FloorsItem>) getIntent().getSerializableExtra("FloorList");*/
-     /*   StatusBottomSheet = findViewById(R.id.DeskBookLayout);
-        sheetBehavior = BottomSheetBehavior.from(StatusBottomSheet);
-        sheetBehavior.setPeekHeight(0);*/
+        startDate = getIntent().getStringExtra("SelectDate");
+        EndDate = getIntent().getStringExtra("SelectDate");
+        floorName = getIntent().getStringExtra("floorName");
+        InvetoryName = getIntent().getStringExtra("InvName");
+        InvetoryID = getIntent().getStringExtra("InvId");
+        baySelectDate = getIntent().getStringExtra("baySelecteDate");
+        showDate = getIntent().getStringExtra("showDate");
+        multipleSelection = getIntent().getBooleanExtra("multipleSelection", false);
+
         backButton.setOnClickListener(this);
-        Calender.setOnClickListener(this);
+
         Title.setText(workspaceName);
         address.setText(workspaceAddress);
+        selectedDate.setText("Selected Date : " + showDate);
+        txtfloorName.setText(floorName);
+        inventoryName.setText(InvetoryName);
         grid.setLayoutManager(new GridLayoutManager(WorkspaceLayout.this, 6));
-        floorDetail.setText(floorName);
+
         floorDetail.setOnClickListener(this);
-        if (startDate.equals(EndDate)) {
-            selectedDate.setText("Selected Date : " + startDate);
-        } else {
-            selectedDate.setText("Selected Date : " + startDate + " to " + EndDate);
-        }
-        getSeats(workspaceId, floorId, startDate, EndDate);
 
-        for (int l = 0; l < floors.size(); l++) {
+        getSeats(workspaceId, InvetoryID, baySelectDate, baySelectDate);
 
-            listofFloorName.add(floors.get(l).getFloorName());
-
-
+        if(multipleSelection) {
+            getEmployee(CorporateId);
         }
 
-
-        bookforOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
-                if(isChecked){
-
-                    multipleSelection = true;
-                }
-                else {
-
-                    multipleSelection = false;
-                }
-            }
-        });
-
-        weekCalendar.setOnDateClickListener(new OnDateClickListener() {
-            @Override
-            public void onDateClick(DateTime dateTime) {
-
-
-                startDate = dateTime.toLocalDate().toString();
-                EndDate = dateTime.toLocalDate().toString();
-
-
-                selectedDate.setText("Selected Date : " + startDate);
-
-                getSeats(workspaceId, floorId, startDate, EndDate);
-            }
-        });
-
-        MaterialDatePicker.Builder<Pair<Long, Long>> materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker();
-        materialDatePicker = materialDateBuilder.build();
-
-        materialDatePicker.addOnPositiveButtonClickListener(
-                new MaterialPickerOnPositiveButtonClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onPositiveButtonClick(Object selection) {
-
-
-                        selectedDate.setText("Selected Date is : " + materialDatePicker.getHeaderText());
-                        Pair selectedDates = (Pair) materialDatePicker.getSelection();
-//              then obtain the startDate & endDate from the range
-                        final Pair<Date, Date> rangeDate = new Pair<>(new Date((Long) selectedDates.first), new Date((Long) selectedDates.second));
-//              assigned variables
-                        Date StartDate = rangeDate.first;
-                        Date endDate = rangeDate.second;
-//              Format the dates in ur desired display mode
-                        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
-//              Display it by setText
-
-                        startDate = simpleFormat.format(StartDate);
-                        EndDate = simpleFormat.format(endDate);
-                        getSeats(workspaceId, floorId, startDate, EndDate);
-
-                    }
-                });
+        Log.e("multipleSelection", multipleSelection+"");
 
 
         //  bookseatAPI(seatId, workspaceId, startDate, EndDate);
     }
 
-
-    private void bookseatAPI(String seatId, String workspaceId, String startDate, String endDate) {
-
-
-        progressBar.setVisibility(View.VISIBLE);
-
+    private void getEmployee(String corporateId) {
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
-        //    jsonParams.put("id", workspaceId);
-        jsonParams.put("type", "desk");
-        jsonParams.put("workspace_id", workspaceId);
-        //     jsonParams.put("facility_id", "1");
-        //    jsonParams.put("guest_count", "0");
-        //    jsonParams.put("meeting_topic", "asd");
-        jsonParams.put("seats", seatId);
-        jsonParams.put("employees", UserId);
-        jsonParams.put("start_datetime", startDate);
-        jsonParams.put("end_datetime", endDate);
+        jsonParams.put("workspace_id", corporateId);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
 
-        Call<SeatBookResponse> responseBody = RestManager.getInstance().getService()
-                .getSAVEBOOK(token, body);
+        Call<EmployeeResponse> responseBody = RestManager.getInstance().getService()
+                .getEmployeeList(token, corporateId);
 
         //"artist",
-        responseBody.enqueue(new Callback<SeatBookResponse>() {
+        responseBody.enqueue(new Callback<EmployeeResponse>() {
             @Override
-            public void onResponse(Call<SeatBookResponse> call, Response<SeatBookResponse> response) {
+            public void onResponse(Call<EmployeeResponse> call, Response<EmployeeResponse> response) {
                 //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
                 progressBar.setVisibility(View.GONE);
                 if (response.body() != null) {
 
                     if (response.isSuccessful()) {
 
-                        SeatBookResponse response1 = response.body();
+                        EmployeeResponse response1 = response.body();
 
                         if (response1.getStatus() == 1) {
+                            Employees = response1.getEmployees();
 
-                            Intent intent = new Intent(WorkspaceLayout.this, SuccefullyDeskBook.class);
-                            intent.putExtra("bookingNumber", response1.getBookingNumber().get(0));
-                            intent.putExtra("startDate", startDate);
-                            intent.putExtra("endDate", endDate);
-                            intent.putExtra("workspaceName", workspaceName);
-                            intent.putExtra("workspaceAddress", workspaceAddress);
-                            intent.putExtra("seatId", seatId);
-                            startActivity(intent);
 
-                            //  successbook(response1.getBookingNumber());
+                            //   adaptor = new floor_adaptor(getActivity(), floors, workspaceName, WorkspaceId);
 
+                            for (int l = 0; l < Employees.size(); l++) {
+
+                                listofEmployee.add(Employees.get(l).getFirstName() + " " + Employees.get(l).getLastName());
+
+
+                            }
 
                         } else {
 
-                            StaticUtil.showIOSLikeDialog(WorkspaceLayout.this, "Someting went wrong");
+
                         }
 
 
@@ -294,7 +219,7 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
             }
 
             @Override
-            public void onFailure(Call<SeatBookResponse> call, Throwable t) {
+            public void onFailure(Call<EmployeeResponse> call, Throwable t) {
                 // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
                 progressBar.setVisibility(View.GONE);
                 StaticUtil.showIOSLikeDialog(WorkspaceLayout.this, "Someting went wrong");
@@ -303,42 +228,92 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         });
 
 
+
+
+
+
     }
 
-    private void successbook(String bookingNumber) {
 
-        final iOSDialog iOSDialog = new iOSDialog(this);
-        iOSDialog.setTitle(this.getString(R.string.app_name));
-        iOSDialog.setSubtitle("Your Desk Booked Successfully, Booking Number #" + bookingNumber);
-        iOSDialog.setPositiveLabel("OK");
+    private void bookseatAPI(String seatId, String workspaceId, String startDate, String endDate) {
 
-        iOSDialog.setBoldPositiveLabel(true);
 
-        iOSDialog.setPositiveListener(new View.OnClickListener() {
+        progressBar.setVisibility(View.VISIBLE);
+
+        Map<String, String> jsonParams = new ArrayMap<>();
+
+        jsonParams.put("type", "desk");
+        jsonParams.put("workspace_id", workspaceId);
+        jsonParams.put("seats", seatId);
+        jsonParams.put("employees", UserId);
+        jsonParams.put("start_datetime", startDate);
+        jsonParams.put("end_datetime", endDate);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
+        String token = "Bearer " + Token;
+
+        Call<SeatBookResponses> responseBody = RestManager.getInstance().getService()
+                .getSAVEBOOK(token, body);
+
+        //"artist",
+        responseBody.enqueue(new Callback<SeatBookResponses>() {
             @Override
-            public void onClick(View view) {
+            public void onResponse(Call<SeatBookResponses> call, Response<SeatBookResponses> response) {
+                //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                if (response.body() != null) {
 
-                Intent intent = new Intent(WorkspaceLayout.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                    if (response.isSuccessful()) {
+
+                        SeatBookResponses response1 = response.body();
+
+                        if (response1.getStatus().equals("1")) {
+
+                            Intent intent = new Intent(WorkspaceLayout.this, SuccefullyDeskBook.class);
+                            intent.putExtra("bookingNumber", response1.getBookingNumber().get(0));
+                            intent.putExtra("startDate", showDate);
+                            intent.putExtra("endDate", showDate);
+                            intent.putExtra("workspaceName", workspaceName);
+                            intent.putExtra("workspaceAddress", workspaceAddress);
+                            intent.putExtra("seatId", seatId);
+                            startActivity(intent);
+
+                            //  successbook(response1.getBookingNumber());
 
 
-                iOSDialog.dismiss();
+                        } else {
+
+                            StaticUtil.showIOSLikeDialog(WorkspaceLayout.this, response1.getMessage());
+                        }
+
+
+                    } else {
+                        StaticUtil.showIOSLikeDialog(WorkspaceLayout.this, "Someting went wrong");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SeatBookResponses> call, Throwable t) {
+                // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
+                progressBar.setVisibility(View.GONE);
+                StaticUtil.showIOSLikeDialog(WorkspaceLayout.this, "Someting went wrong");
+                Log.e("error1", t.getMessage().toString());
             }
         });
-        iOSDialog.show();
 
 
     }
+
 
     private void getSeats(String workspaceId, String floorId, String startDate, String endDate) {
 
         progressBar.setVisibility(View.VISIBLE);
 
         Map<String, String> jsonParams = new ArrayMap<>();
-//put something inside the map, could be null
+
         jsonParams.put("workspace_id", workspaceId);
-        jsonParams.put("floor_id", floorId);
+        jsonParams.put("bay_id", floorId);
         jsonParams.put("start_datetime", startDate);
         jsonParams.put("end_datetime", endDate);
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
@@ -356,32 +331,52 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
                 if (response.body() != null) {
 
                     if (response.isSuccessful()) {
+                        seats.clear();
+                        avaiableSeatDetail.clear();
+                        bookSeats.clear();
 
                         SeatListResponse response1 = response.body();
 
                         if (response1.getStatus() == 1) {
                             seats = response1.getSeats();
-                            bookSeats = new ArrayList<>();
+                            avaiableSeatDetail = response1.getAvailablity();
+                            bookSeats =new ArrayList<>();
+
+
+
                             adapter = new SeatListAdaptor(WorkspaceLayout.this, seats);
-                            adapter.setOnItemClickListener(WorkspaceLayout.this);
+                          adapter.setOnItemClickListener(WorkspaceLayout.this);
                             grid.setAdapter(adapter);
-                            txtTotalSeat.setText(seats.size() + "");
 
-                            for (int l = 0; l < seats.size(); l++) {
+                            boolean breakLoop = false;
 
+                            while (!breakLoop) {
 
-                                if (!seats.get(l).isAvailable()) {
-                                    // Log.e("Avaiable", seats.get(l).isAvailable()+"");
-                                    bookSeats.add(seats.get(l));
+                                for(int l=0; l<avaiableSeatDetail.size(); l++){
+
+                                    if(!avaiableSeatDetail.get(l).isStatus()){
+                                        breakLoop = true;
+                                        avaiableSeatDetailFinal.add(avaiableSeatDetail.get(l));
+
+                                    }else {
+
+                                        if(avaiableSeatDetail.size()-1 ==l){
+                                            breakLoop = true;
+                                        }
+                                    }
+
                                 }
 
-                            }
+                                }
 
-                            FloorSeatDetail.setVisibility(View.VISIBLE);
-                            if (bookSeats != null) {
+
+
+
+                                FloorSeatDetail.setVisibility(View.VISIBLE);
+                            if (avaiableSeatDetailFinal!= null) {
                                 //Do something after 100ms
-                                txtOccupiedSeat.setText(bookSeats.size() + "");
-                                txtAvaialbleSeat.setText((seats.size() - bookSeats.size()) + "");
+                                txtOccupiedSeat.setText(avaiableSeatDetailFinal.size() + "");
+
                             }
 
                         } else {
@@ -412,29 +407,8 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onItemClick(View v, int position) {
 
-        ImageView imageView = v.findViewById(R.id.grid_image);
-        if (v.getId() == R.id.seatLayout) {
-
-            if (seats.get(position).isAvailable()) {
-                if (!seats.get(position).getSelected()) {
-                    for (int l = 0; l < seats.size(); l++) {
-
-
-                        if (seats.get(l).getSelected()) {
-                            seats.get(l).setSelected(false);
-                            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair));
-                            imageView.setColorFilter(ContextCompat.getColor(this, R.color.white));
-                            Log.e("seatId", seats.get(l).getSeatId() + "");
-                            adapter.notifyItemChanged(l);
-                        }
-                    }
-
-
-                    seatId = seats.get(position).getSeatId() + "";
-                    imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_armchair_selected));
-                    seats.get(position).setSelected(true);
-                    imageView.setColorFilter(ContextCompat.getColor(this, R.color.dark_blue));
-                }
+//        ImageView imageView = v.findViewById(R.id.grid_image);
+          if (v.getId() == R.id.single_calendar_date) {
 
 
                 if(multipleSelection){
@@ -442,13 +416,14 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
                 }else {
 
-                    DailogDeskBookDetail();
+                   // DailogDeskBookDetail(seats.get(lastCheckedPos).getSeatId());
                 }
             }
-        }
+
     }
 
-    private void DailogDeskBookDetail() {
+
+     public void DailogDeskBookDetail(int seatId) {
 
         final Dialog dialog = new Dialog(this, R.style.DialogTheme);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -472,20 +447,20 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
         WorkspaceTitle.setText(workspaceName);
         WorkspaceAddress.setText(workspaceAddress);
         DeskTitle.setText("Desk " + seatId);
+        SelectedStartDate.setText("START DATE : " + showDate);
+        /*if (startDate.equals(EndDate)) {
 
-        if (startDate.equals(EndDate)) {
-            SelectedStartDate.setText("START DATE : " + startDate);
         } else {
             SelectedStartDate.setText("START DATE : " + startDate);
             SelectedEndDate.setText("END DATE : " + EndDate);
-        }
+        }*/
         FloorName.setText(floorName);
 
         btnBookNOw.setOnActiveListener(new OnActiveListener() {
             @Override
             public void onActive() {
 
-                bookseatAPI(seatId, workspaceId, startDate, EndDate);
+                bookseatAPI(seatId+"", workspaceId, startDate, EndDate);
 
             }
         });
@@ -505,24 +480,6 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void bookDailog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Floor");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.select_dialog_singlechoice, listofFloorName);
-        builder.setAdapter(dataAdapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Toast.makeText(WorkspaceLayout.this, floors.get(which).getFloorName(), Toast.LENGTH_SHORT).show();
-                getSeats(workspaceId, floors.get(which).getFloorId() + "", startDate, EndDate);
-
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -535,71 +492,77 @@ public class WorkspaceLayout extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.floorDetail:
+          /*  case R.id.floorDetail:
 
                 bookDailog();
 
-                break;
-            case R.id.Calender:
+                break;*/
 
-                materialDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
-
-                //do your stuff
-                break;
         }
     }
 
-    private void toggleBottomSheet() {
 
-        if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            sheetBehavior.setPeekHeight(0);
+    public void onClickonSeat(int seatId) {
+        Log.e("onCLick", "yes");
 
+            if(multipleSelection){
 
-        } else {
-            // sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            //sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            //sheetBehavior.setPeekHeight(0);
-
-        }
-
-
-        SwipeButton btnBookNOw = (SwipeButton) findViewById(R.id.swipe_btn);
-        TextView DeskTitle = (TextView) findViewById(R.id.deskTitle);
-        TextView SelectedStartDate = (TextView) findViewById(R.id.BookingStartDate);
-        TextView SelectedEndDate = (TextView) findViewById(R.id.BookingEndDate);
-        TextView WorkspaceTitle = (TextView) findViewById(R.id.deskWorkspaceTitle);
-        TextView WorkspaceAddress = (TextView) findViewById(R.id.deskWorkspaceAddress);
-        TextView FloorName = (TextView) findViewById(R.id.FloorName);
-
-        ImageView CLoseimage = (ImageView) findViewById(R.id.btn_close);
-
-        WorkspaceTitle.setText(workspaceName);
-        WorkspaceAddress.setText(workspaceAddress);
-        DeskTitle.setText("Desk " + seatId);
-        SelectedStartDate.setText("START DATE : " + startDate + " to " + "END DATE : " + EndDate);
-        //  SelectedEndDate.setText("END DATE : " + EndDate);
-        FloorName.setText(floorName);
-
-        btnBookNOw.setOnActiveListener(new OnActiveListener() {
-            @Override
-            public void onActive() {
-
-                bookseatAPI(seatId, workspaceId, startDate, EndDate);
-
+                MulipleEmployeeBook(seatId);
+                Log.e("multipleSelection", "true");
+            }else {
+                Log.e("multipleSelection", "falase");
+                DailogDeskBookDetail(seatId);
             }
-        });
 
-        CLoseimage.setOnClickListener(new View.OnClickListener() {
+
+
+
+    }
+
+    private void MulipleEmployeeBook(int seatId) {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.select_employee_dailogbox);
+
+        ImageView imageView = (ImageView)  dialog.findViewById(R.id.cancelImage);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                dialog.dismiss();
             }
         });
 
+        RecyclerView recyclerView = dialog.findViewById(R.id.employeeList);
+
+
+        adaptor = new EmployeeAdaptor(this, Employees);
+        LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(horizontaLayoutManagaer);
+        recyclerView.setAdapter(adaptor);
+
+
+        /*TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+        text.setText(msg);
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });*/
+
+        dialog.show();
+
+
+
+
+
+
+
+
 
     }
-
-
 }

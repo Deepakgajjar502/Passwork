@@ -69,9 +69,9 @@ public class GuestListAdator extends RecyclerView.Adapter {
 
     class viewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView GuestName;
-        TextView GuestEmail;
-        TextView GuestMobile;
+        EditText GuestName;
+        EditText GuestEmail;
+        EditText GuestMobile;
         ImageView deleteRow;
 
         public viewHolder(View itemView) {

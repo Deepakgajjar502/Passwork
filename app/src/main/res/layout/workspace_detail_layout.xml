@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -8,158 +8,307 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_230sdp"
-        android:clickable="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:fitsSystemWindows="true"
-        android:background="@drawable/dashboard_bg"
-        android:longClickable="false"
-        android:animationCache="true"
-        android:duplicateParentState="true"
-        android:filterTouchesWhenObscured="true"
-        >
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="false"
-            app:contentScrim="@color/accent"
-            app:expandedTitleTextAppearance="@android:color/transparent"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-            app:scrimAnimationDuration="200"
-            app:statusBarScrim="?attr/colorPrimaryDark" >
 
                 <!--Page Image Profile-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_alignParentTop="true"
                     android:id="@+id/layout_Image"
                     >
 
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/view_pager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
 
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/bg_gradient"/>
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:foreground="@drawable/bg_gradient"
+                        android:src="@drawable/office_a"/>
 
 
 
-                    <me.relex.circleindicator.CircleIndicator
-                        android:id="@+id/indicator"
-                        android:background="@null"
-                        android:layout_below="@id/view_pager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_marginTop="-50dp"
-                       />
+                    <ImageView
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:id="@+id/ImageBack"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:src="@drawable/icon_back_vector"
+                        android:gravity="center"
+                        app:tint="@color/white" />
 
-                    <FrameLayout
-                        android:translationZ="9dp"
-                        android:layout_width="31dp"
-                        android:layout_height="31dp"
-                        android:foregroundGravity="center_horizontal"
-                        android:layout_marginStart="11dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:id="@+id/back"
-                        android:clickable="true"
-                        android:layout_marginEnd="11dp"
-                        android:layout_marginTop="@dimen/_25sdp"
-                        android:foreground="@drawable/custom_ripple"
-                        android:backgroundTint="#ffffff"
-                        android:background="@drawable/circlegradient">
-                        <ImageView
-                            android:layout_marginStart="-1dp"
-                            android:id="@+id/ImageBack"
-                            android:layout_gravity="center"
-                            android:layout_width="11dp"
-                            android:layout_height="11dp"
-                            android:src="@drawable/icon_back_vector"
-                            android:gravity="center" />
-                    </FrameLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_alignParentBottom="true">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/RoomName"
                 android:textColor="@color/white"
                 android:text="Paris"
-                android:textStyle="bold"
-                android:textSize="@dimen/_12sdp"
+                android:theme="@style/Textview_bold"
+                android:layout_centerHorizontal="true"
+
+                android:textSize="@dimen/_15sdp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/_28sdp"
 
                 />
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/RoomDispriction"
-                            android:textColor="@color/white"
-                            android:text="Room Detail"
-                            android:textSize="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_35sdp"
-                            />
 
 
 
-                    </LinearLayout>
+
             </RelativeLayout>
 
 
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+
 
 
     <RelativeLayout
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
+        android:layout_below="@id/layout_Image"
         >
 
-        <View
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/rounded_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_above="@id/booking"
 
             android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
                 android:orientation="horizontal"
                 android:nestedScrollingEnabled="true">
     <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
 
         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RoomDispriction"
+            android:textColor="@color/black"
+            android:text="Room Detail"
+            android:theme="@style/TextLabel_select"
+            android:layout_margin="@dimen/_5sdp"
+            android:textSize="@dimen/_12sdp"
+
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/FloorName"
+            android:layout_margin="@dimen/_5sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:drawableTint="@color/gray"
+            android:drawableLeft="@drawable/ic_stairs"
+            android:layout_alignParentStart="true"
+            android:theme="@style/Textview_regular"
+            android:textColor="@color/gray"
+            android:layout_below="@id/RoomDispriction"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_below="@id/FloorName"
+            android:id="@+id/line"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@color/activated_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Detail"
+            android:text="Detail"
+
+            android:layout_margin="@dimen/_8sdp"
+            android:drawablePadding="@dimen/_8sdp"
+            android:drawableTint="@color/black"
+            android:drawableLeft="@drawable/ic_information"
+            android:layout_alignParentStart="true"
+            android:theme="@style/Textview_bold"
+            android:textColor="@color/black"
+            android:layout_below="@id/line"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_below="@id/Detail"
+            android:id="@+id/linea"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@color/activated_color"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SelectDateLayout"
+            android:layout_below="@id/linea"
+            android:layout_margin="@dimen/_8sdp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selected Date"
+                android:layout_alignParentStart="true"
+                android:theme="@style/Textview_regular"
+                android:textColor="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtSelectedDate"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/accent"
+                android:theme="@style/Textview_regular"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/txtSelectedDate"
+                android:layout_marginTop="@dimen/_8sdp"
+
+                android:background="@color/activated_color"/>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/startTimeLayout"
+            android:layout_below="@id/SelectDateLayout"
+            android:layout_margin="@dimen/_8sdp"
+          >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Time"
+                android:layout_alignParentStart="true"
+                android:theme="@style/Textview_regular"
+                android:textColor="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtStartTime"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/accent"
+                android:theme="@style/Textview_regular"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/txtStartTime"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/activated_color"/>
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/durationLayout"
+            android:layout_below="@id/startTimeLayout"
+            android:layout_margin="@dimen/_8sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Duration"
+                android:layout_alignParentStart="true"
+                android:theme="@style/Textview_regular"
+                android:textColor="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtDuration"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/accent"
+                android:theme="@style/Textview_regular"
+
+                />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/txtDuration"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/activated_color"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/capacityLayout"
+            android:layout_below="@id/durationLayout"
+            android:layout_margin="@dimen/_8sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max capacity"
+                android:layout_alignParentStart="true"
+                android:theme="@style/Textview_regular"
+                android:textColor="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtcapacity"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/accent"
+                android:theme="@style/Textview_regular"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_below="@id/txtcapacity"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/activated_color"/>
+
+        </RelativeLayout>
 
 
         <LinearLayout
@@ -168,210 +317,426 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_below="@id/capacityLayout"
             android:id="@+id/mainLayout"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start Time"
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                />
-
-            <androidx.recyclerview.widget.RecyclerView
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="@dimen/_10sdp"
+                card_view:cardMaxElevation="@dimen/_10sdp"
+                card_view:cardCornerRadius="@dimen/_5sdp">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/TimeSlot"
-                android:layout_marginTop="@dimen/_5sdp"
 
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Meeting Duration"
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                />
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/meetingTItleLayout"
+                    >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/TimeDuration"
-                android:layout_margin="@dimen/_5sdp"
 
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="23 Jun 2021"
-                android:drawableRight="@drawable/ic_calendar"
-                android:textColor="@color/black"
-                android:drawableTint="@color/black"
-                android:id="@+id/selectedDate"
-                android:textSize="@dimen/_15sdp"
-
-                />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:theme="@style/TextLabel_meeting">
-                <EditText
+                <TextView
                     android:id="@+id/edt_Meeting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
-                    android:layout_marginEnd="-4dp"
-                    android:hint="Meeting Agenda"
+                    android:text="Meeting agenda"
+                    android:layout_margin="@dimen/_10sdp"
                     android:inputType="text"
                     android:maxLength="50"
+                    android:layout_centerVertical="true"
                     android:maxLines="1"
+
                     android:textSize="16sp"
                     android:singleLine="true"
                     android:textColor="@color/black"
                     android:theme="@style/DefaultEditText_meeting" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/ic_edit"
+                    android:padding="@dimen/_5sdp"
+                    android:id="@+id/imgMeetingAgenda"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/_10sdp"
+                    />
+
+                </RelativeLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Capacity : 10 max"
-                android:textSize="@dimen/_8sdp"
-                android:id="@+id/capacity"
-                android:layout_gravity="right"
-                android:gravity="right"
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:id="@+id/editMeetingLayout"
+                    android:visibility="gone"
+                    android:layout_below="@id/meetingTItleLayout"
+                    >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type here"
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Add Participants"
-                        android:textAllCaps="false"
-                        android:layout_margin="@dimen/_5sdp"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:drawableRight="@drawable/ic_baseline_add_24"
-                        android:textColor="@color/white"
-                        android:drawableTint="@color/white"
-                        android:drawablePadding="@dimen/_5sdp"
-                        android:background="@drawable/btn_bg"
-                        android:id="@+id/AddEmployee"/>
+                    android:id="@+id/edtMeetingAganda"
+                    />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selected_calender_type"
+                    android:layout_below="@id/edtMeetingAganda"
+                    android:text="Add"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:id="@+id/btnAdd"
+                    android:textAllCaps="false"
+                    android:theme="@style/TextLabel_select"
+                    android:layout_alignParentRight="true"
+
+                    />
+
+                </RelativeLayout>
 
 
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editMeetingLayout"
+                    android:id="@+id/prograssLAyout"
+                    android:visibility="gone"
+                    android:background="@color/service_color_a"
+                    >
 
                     <TextView
+                        android:id="@+id/txtProgress"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textSize="@dimen/_15sdp"
-                        android:textColor="@color/black"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="Progress"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:inputType="text"
+                        android:drawableRight="@drawable/ic_edit"
+                        android:drawableTint="@color/white"
                         android:drawablePadding="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:visibility="invisible"
-                        android:id="@+id/TotalSelectedEmp"
-                        android:drawableRight="@drawable/ic_arrow"
-                        android:drawableTint="@color/black"
-                        android:text="Total 5 select"
-                        android:drawableLeft="@drawable/ic_group"/>
-
-                </LinearLayout>
+                        android:maxLength="50"
+                        android:layout_centerHorizontal="true"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:theme="@style/DefaultEditText_meeting" />
 
 
-                </LinearLayout>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:nestedScrollingEnabled="true"
-            android:id="@+id/AddGuestListview"/>
-
-
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="2"
-                android:orientation="horizontal">
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="@dimen/_10sdp"
+                card_view:cardMaxElevation="@dimen/_10sdp"
+                card_view:cardCornerRadius="@dimen/_5sdp">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:id="@+id/AddParticipantLayout"
+                    >
 
-                    <Button
+                    <TextView
+                        android:id="@+id/txtAdd_Participants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Add Guest"
-                        android:drawableTint="@color/white"
+                        android:text="Add participants"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:inputType="text"
+                        android:maxLength="50"
+
+                        android:layout_centerVertical="true"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/DefaultEditText_meeting" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:src="@drawable/ic_baseline_add_circle_24"
+                        app:tint="@color/black"
+                        android:id="@+id/BtnaddParticipants"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/_10sdp"
+                        />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/AddParticipantLayout"
+                    android:id="@+id/prograssAddEmployee"
+                    android:visibility="gone"
+                    android:background="@color/service_color_a"
+                    >
+
+                    <TextView
+                        android:id="@+id/txtProgressAddEmployee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Progress"
                         android:layout_margin="@dimen/_5sdp"
-                        android:textColor="@color/white"
-                        android:textAllCaps="false"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:drawableRight="@drawable/ic_baseline_add_24"
+                        android:padding="@dimen/_5sdp"
+                        android:inputType="text"
+                        android:drawableRight="@drawable/ic_edit"
+                        android:drawableTint="@color/white"
                         android:drawablePadding="@dimen/_5sdp"
-                        android:background="@drawable/btn_bg"
-                        android:id="@+id/AddGuest"/>
+                        android:maxLength="50"
+                        android:layout_centerHorizontal="true"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:theme="@style/DefaultEditText_meeting" />
 
 
 
-                </LinearLayout>
+                </RelativeLayout>
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                android:layout_margin="@dimen/_10sdp"
+                card_view:cardMaxElevation="@dimen/_10sdp"
+                card_view:cardCornerRadius="@dimen/_5sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addGuestLayout"
+                    >
+
+                    <TextView
+                        android:id="@+id/txtAdd_Guest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Add guests"
+                        android:layout_margin="@dimen/_10sdp"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:layout_centerVertical="true"
+                        android:maxLines="1"
+                        android:textSize="16sp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:theme="@style/DefaultEditText_meeting" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:id="@+id/AddGuestBtn"
+                        android:src="@drawable/ic_baseline_add_circle_24"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="@dimen/_10sdp"
+                        app:tint="@color/black" />
+
+
+                </RelativeLayout>
 
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_below="@id/addGuestLayout"
+                            android:visibility="gone"
+                            android:id="@+id/GuestLayout"
+                            android:orientation="vertical">
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textGuestName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Guest Name">
+
+                            <EditText
+                                android:id="@+id/edt_GuestName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="-4dp"
+                                android:layout_marginEnd="-4dp"
+
+                                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:maxLength="50"
+                                android:maxLines="1"
+                                android:textSize="@dimen/_12sdp"
+                                android:drawablePadding="@dimen/_5sdp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:theme="@style/DefaultEditText_meeting" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Email">
+
+                            <EditText
+                                android:id="@+id/edt_Email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="-4dp"
+                                android:layout_marginEnd="-4dp"
+
+                                android:inputType="textEmailAddress"
+
+                                android:maxLength="50"
+                                android:maxLines="1"
+                                android:drawablePadding="@dimen/_5sdp"
+                                android:textSize="@dimen/_12sdp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:theme="@style/DefaultEditText_meeting" />
+
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/textMobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Mobile">
+
+                            <EditText
+                                android:id="@+id/edt_Mobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="-4dp"
+                                android:layout_marginEnd="-4dp"
+                                android:drawablePadding="@dimen/_5sdp"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:maxLines="1"
+                                android:textSize="@dimen/_12sdp"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:theme="@style/DefaultEditText_meeting" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <Button
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/selected_calender_type"
+
+                                android:text="Add"
+                                android:layout_margin="@dimen/_5sdp"
+                                android:textColor="@color/white"
+                                android:id="@+id/btnAddGuestDetail"
+                                android:textAllCaps="false"
+                                android:theme="@style/TextLabel_select"
+                               android:layout_gravity="end"
+                                android:gravity="center"
+
+                                />
+
+                        </LinearLayout>
 
 
 
-                </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/addGuestLayout"
+                        android:id="@+id/prograssAddGuest"
+                        android:visibility="gone"
+                        android:background="@color/service_color_a"
+                        >
+
+                        <TextView
+                            android:id="@+id/txtProgressGuest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_margin="@dimen/_5sdp"
+                            android:padding="@dimen/_5sdp"
+                            android:inputType="text"
+                            android:drawableRight="@drawable/ic_edit"
+                            android:drawableTint="@color/white"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:maxLength="50"
+                            android:layout_centerHorizontal="true"
+                            android:maxLines="1"
+                            android:textSize="16sp"
+                            android:singleLine="true"
+                            android:textColor="@color/white"
+                            android:theme="@style/DefaultEditText_meeting" />
 
 
-            </LinearLayout>
+
+                    </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addGuestLayout"
+                    android:id="@+id/prograssAddGuestLayout"
+                    android:visibility="gone"
+
+                    >
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+
+                        android:nestedScrollingEnabled="true"
+                        android:id="@+id/AddGuestListview"/>
+
+                </RelativeLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
 
 
 
@@ -381,36 +746,40 @@
 
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BOOK NOW"
-            android:id="@+id/booking"
-            android:paddingStart="@dimen/_20sdp"
-            android:paddingEnd="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:layout_margin="@dimen/_10sdp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_book_btn"
-            android:layout_below="@id/mainLayout"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateTint="@color/white"
-            android:layout_marginTop="@dimen/_50sdp"
-            android:visibility="gone" />
+
+
 
 
     </RelativeLayout>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BOOK NOW"
+            android:id="@+id/booking"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/selected_calender_type"
+             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/black"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:visibility="gone" />
     <!--    </com.liaoinstan.springview.widget.SpringView>-->
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

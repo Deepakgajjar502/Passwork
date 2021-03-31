@@ -11,8 +11,8 @@ public class Constant {
 
    // public static final String URL_API = BASE_URL+"secure/";
 
-  public static final String BASE_URL = "https://passwork.rarome.com/api/";
-
+ // public static final String BASE_URL = "https://passwork.rarome.com/api/";
+ public static final String BASE_URL = "https://api.passwork.in/";
   public static final String LIST_lOGIN = "user/login";
   public static final String USER_PROFILE = "user/get-profile";
   public static final String USER_PROFILE_UPDATE = "user/update-profile";
@@ -32,6 +32,7 @@ public class Constant {
   public static final String GET_SUBCATEGORY= "service-request/get-sub-categories";
   public static final String GET_SUB_TICKET= "service-request/submit-ticket";
   public static final String GET_MY_TICKET= "service-request/list-ticket";
-
+ public static final int NOTIFICATION_ID = 100;
+ public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
 
 }

@@ -6,13 +6,14 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/_30sdp"
     app:layout_behavior="@string/bottom_sheet_behavior"
     android:orientation="vertical"
   >
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/black"
     tools:context=".Activity.WorkspaceLayout">
 
 
@@ -21,11 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:theme="@style/ToolbarTheme"
+        android:layout_marginTop="@dimen/_25sdp"
         app:titleTextColor="@color/white"
         android:layout_gravity="top"
         app:layout_collapseMode="pin"
         app:titleTextAppearance="@style/Toolbar.TitleText"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/black"
         android:elevation="5dp" >
 
         <RelativeLayout
@@ -46,30 +48,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_16sdp"
+                android:theme="@style/Textview_bold"
                 android:id="@+id/floorDetail"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
-                android:text="Select Seat"/>
+                android:text="Select Desk"/>
 
 
-            <ImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-               android:layout_toRightOf="@id/floorDetail"
-                android:backgroundTint="@color/white"
-                app:tint="@color/white"
-                android:id="@+id/downButton"
-                android:src="@drawable/ic_arrow_drop_down_24"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:tint="@color/white"
-                android:layout_alignParentRight="true"
-                android:id="@+id/Calender"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_calendar"/>
 
 
 
@@ -79,27 +64,24 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <noman.weekcalendar.WeekCalendar
-        android:id="@+id/weekCalendar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        app:weekTextColor="@color/white"
-        app:daysBackgroundColor="@color/colorPrimary"
-        app:daysTextColor="@color/white"
-        app:selectedBgColor="@color/accent"
-        app:todaysDateBgColor="@color/accent"
-        app:weekBackgroundColor="@color/colorPrimary"
-        android:background="@color/colorPrimary"/>
+        android:background="@color/white"
+        >
+
+
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/weekCalendar"
         android:textSize="@dimen/_16sdp"
         android:visibility="visible"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:textColor="@color/black"
+        android:theme="@style/Textview_bold"
         android:id="@+id/Title"
         android:layout_centerHorizontal="true"
         />
@@ -110,141 +92,88 @@
         android:layout_below="@id/Title"
         android:textSize="@dimen/_12sdp"
         android:visibility="visible"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:textColor="@color/white"
+        android:theme="@style/Textview_regular"
+
+        android:textColor="@color/colorAccent"
         android:id="@+id/address"
         android:layout_centerHorizontal="true"
         />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/address"
-        android:layout_margin="@dimen/_5sdp"
-        android:id="@+id/toggleLayout"
-        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/address"
+            android:textSize="@dimen/_12sdp"
+            android:visibility="visible"
+            android:theme="@style/Textview_regular"
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:id="@+id/bookforOther"
-        android:layoutDirection="ltr"
-       />
-
-
+            android:textColor="@color/gray"
+            android:id="@+id/floorName"
+            android:layout_centerHorizontal="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:layout_below="@id/floorName"
             android:textSize="@dimen/_12sdp"
-            android:layout_toRightOf="@id/bookforOther"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:text="Desk Book for Other"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/white"
-            android:layout_alignParentEnd="true"
-            android:drawablePadding="@dimen/_5sdp"
+            android:visibility="visible"
+            android:theme="@style/Textview_regular"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:textColor="@color/gray"
+            android:id="@+id/inventoryName"
+            android:layout_centerHorizontal="true"
+            />
 
-            android:visibility="invisible"
-            android:id="@+id/TotalSelectedEmp"
-            android:drawableRight="@drawable/ic_arrow"
-            android:drawableTint="@color/white"
-            android:text="5 selected"
-            android:drawableLeft="@drawable/ic_group"/>
-
-
-    </RelativeLayout>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toggleLayout"
+        android:layout_below="@id/inventoryName"
         android:textSize="@dimen/_12sdp"
+        android:theme="@style/Textview_regular"
         android:layout_marginTop="@dimen/_2sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/_3sdp"
+        android:textColor="@color/black"
         android:id="@+id/selectedDate"
         android:layout_centerHorizontal="true"
         />
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="wrap_content"
         android:id="@+id/FloorSeatDetail"
         android:orientation="horizontal"
+
+        android:padding="@dimen/_5sdp"
         android:visibility="invisible"
-        android:weightSum="3"
+        android:weightSum="2"
         android:layout_below="@id/selectedDate">
 
-        <androidx.cardview.widget.CardView
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            card_view:cardCornerRadius="10dp"
-            android:layout_margin="@dimen/_3sdp"
-            android:id="@+id/TotalSeat"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="@dimen/_5sdp"
-            card_view:cardBackgroundColor="@color/accent"
-            card_view:cardElevation="5dp"
-            card_view:cardMaxElevation="6dp">
+
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_margin="@dimen/_3sdp"
+            android:orientation="horizontal">
+
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_margin="@dimen/_3sdp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/txtTotalSeat"
-                    android:textColor="@color/black"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_20sdp"
-                    />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/black"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Total"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            card_view:cardCornerRadius="10dp"
-            android:layout_margin="@dimen/_5sdp"
-            android:id="@+id/OccupiedSeat"
-            android:layout_weight="1"
-            card_view:cardBackgroundColor="@color/accent"
-            card_view:cardElevation="5dp"
-            card_view:cardMaxElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
+               android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_5sdp"
+                android:background="@drawable/selected_calender_type"
                 android:layout_margin="@dimen/_3sdp"
                 android:orientation="horizontal">
 
@@ -252,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtOccupiedSeat"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textStyle="bold"
@@ -265,64 +194,43 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_12sdp"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Occupied"/>
+                android:text="Booked"/>
 
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        </LinearLayout>
 
 
-        <androidx.cardview.widget.CardView
+
+
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            card_view:cardCornerRadius="10dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
-            android:id="@+id/Avaialble"
             android:layout_weight="1"
-            card_view:cardBackgroundColor="@color/accent"
-            card_view:cardElevation="5dp"
-            card_view:cardMaxElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_margin="@dimen/_3sdp"
-                android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtAvaialbleSeat"
-                android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="@dimen/_20sdp"
-                />
-
+            android:visibility="gone"
+            android:id="@+id/toggleLayout"
+          >
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_5sdp"
                 android:textColor="@color/black"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Available"/>
+                android:layout_alignParentEnd="true"
+                android:drawablePadding="@dimen/_5sdp"
+                android:visibility="visible"
+                android:id="@+id/TotalSelectedEmp"
+                android:drawableRight="@drawable/ic_arrow"
+                android:drawableTint="@color/black"
+                android:text="5 selected"
+                android:drawableLeft="@drawable/ic_group"/>
 
-            </LinearLayout>
 
-
-        </androidx.cardview.widget.CardView>
-
+        </RelativeLayout>
 
 
 
@@ -330,45 +238,47 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/layout_office"
-        android:visibility="gone"
-        android:adjustViewBounds="true"
-        android:layout_below="@id/Title"
-        android:id="@+id/officeLayout"/>
 
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:id="@+id/line"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_below="@id/FloorSeatDetail"
+            android:background="@color/gnt_test_background_color"/>
 
-     <!--   <GridView
-            android:numColumns="auto_fit"
-              android:layout_above="@id/swipe_btn"
-            android:gravity="center"
-            android:columnWidth="@dimen/_50sdp"
-            android:stretchMode="columnWidth"
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/grid"
-            android:layout_below="@id/address"
-            />-->
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/gray"
+            android:layout_alignParentStart="true"
+           android:layout_margin="@dimen/_5sdp"
+            android:id="@+id/selectDesk"
+            android:layout_below="@id/line"
+            android:text="Select Desk"
+            />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/grid"
-        android:layout_below="@id/FloorSeatDetail"
+        android:layout_margin="@dimen/_5sdp"
+        android:layout_below="@id/selectDesk"
 
         />
 
 
-
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:indeterminateTint="@color/white"
+        android:indeterminateTint="@color/black"
         android:layout_marginTop="@dimen/_50sdp"
         android:visibility="gone" />
 

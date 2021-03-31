@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,12 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         try {
 
+            ((SheduleAdaptor.viewHolder)holder).iconBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.e("onclick","working" );
+                }
+            });
             String BookType;
 
             String startDateTime =UpcomingScheduleList.get(position).getStartDatetime();
@@ -89,30 +96,32 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
 
             String finalStartDate = StartDate;
             String finalEndDate = EndDate;
-            ((SheduleAdaptor.viewHolder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+
+
+            /*((SheduleAdaptor.viewHolder) holder).iconBook.setOnClickListener(new View.OnClickListener() {
 
            @Override
                 public void onClick(View v) {
 
                String SeatNumber = "";
-               if(UpcomingScheduleList.get(position).getType().equals("desk")){
+              *//* if(UpcomingScheduleList.get(position).getType().equals("desk")){
                    SeatNumber = "DESK-"+UpcomingScheduleList.get(position).getSeats();
                }else {
                    SeatNumber = "MEETING AGENDA-"+UpcomingScheduleList.get(position).getMeetingTopic();
-               }
+               }*//*
+               Log.e("seat","working" );
 
-
-                    Intent intent = new Intent(holder.itemView.getContext(), E_Pass.class);
+                 *//*   Intent intent = new Intent(holder.itemView.getContext(), E_Pass.class);
                     intent.putExtra("workspaceName", UpcomingScheduleList.get(position).getWorkspaceName());
                     intent.putExtra("SeatNumber", SeatNumber);
                     intent.putExtra("StartDate", finalStartDate);
                     intent.putExtra("EndDate", finalEndDate);
-               intent.putExtra("workspaceId", UpcomingScheduleList.get(position).getWorkspaceId());
-               intent.putExtra("Booking", UpcomingScheduleList.get(position).getBookingNumber());
-                    holder.itemView.getContext().startActivity(intent);
-                    ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
+                    intent.putExtra("workspaceId", UpcomingScheduleList.get(position).getWorkspaceId());
+                    intent.putExtra("Booking", UpcomingScheduleList.get(position).getBookingNumber());
+                    holder.itemView.getContext().startActivity(intent);*//*
+                 //   ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_up,R.anim.slide_out_up);
                 }
-            });
+            });*/
         }catch (Exception ex){
             Log.d("Sri","ex"+ex);
         }
@@ -132,7 +141,7 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
         TextView OfficeTitle;
         TextView OfficeDate;
         TextView BookingType;
-        CardView cardView;
+        LinearLayout cardView;
         ImageView iconBook;
 
 
@@ -144,6 +153,7 @@ public class SheduleAdaptor extends RecyclerView.Adapter {
             BookingType =  itemView.findViewById(R.id.type);
             cardView =  itemView.findViewById(R.id.cardview);
             iconBook =  itemView.findViewById(R.id.icon_book);
+
         }
     }
 

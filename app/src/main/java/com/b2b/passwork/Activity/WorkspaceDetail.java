@@ -4,38 +4,31 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.b2b.passwork.Adaptor.AvaialbleTimeSlot_Adaptor;
-import com.b2b.passwork.Adaptor.DurationTimeAdaptor;
 import com.b2b.passwork.Adaptor.GuestListAdator;
 import com.b2b.passwork.Adaptor.SelectedEmployeeAdapter;
 import com.b2b.passwork.Adaptor.workspaceDetailPageAdaptor;
@@ -43,7 +36,6 @@ import com.b2b.passwork.Model.AddGuestModel;
 import com.b2b.passwork.Model.Employee.EmployeeResponse;
 import com.b2b.passwork.Model.Employee.EmployeesItem;
 import com.b2b.passwork.Model.MeetingBookResponse;
-import com.b2b.passwork.Model.SeatBookResponse;
 import com.b2b.passwork.Model.TimeDurationModel;
 import com.b2b.passwork.Model.TimeslotModel;
 import com.b2b.passwork.R;
@@ -51,16 +43,12 @@ import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 import com.b2b.passwork.retrofit.RestManager;
-import com.ebanx.swipebtn.OnActiveListener;
-import com.ebanx.swipebtn.SwipeButton;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,19 +56,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.relex.circleindicator.CircleIndicator;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static java.lang.Integer.parseInt;
 
 public class WorkspaceDetail extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
@@ -88,54 +74,33 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     Integer[] SheduleOfficeImage = new Integer[]{R.drawable.office_e, R.drawable.office_f};
 
     workspaceDetailPageAdaptor adapter;
-    @BindView(R.id.view_pager2)
-    ViewPager viewPager2;
-    int currentPage = 0;
-    Timer timer;
-    final long DELAY_MS = 500;//delay in milliseconds before task is to be executed
-    final long PERIOD_MS = 4000; //
-    @BindView(R.id.indicator)
-    CircleIndicator indicator;
+
     @BindView(R.id.ImageBack)
     ImageView ImageBack;
-    @BindView(R.id.back)
-    FrameLayout back;
+
     @BindView(R.id.layout_Image)
     RelativeLayout layoutImage;
-    @BindView(R.id.collapsingToolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @BindView(R.id.appBarLayout)
-    AppBarLayout appBarLayout;
+
+
     @BindView(R.id.parent)
-    CoordinatorLayout parent;
+    RelativeLayout parent;
     @BindView(R.id.mainLayout)
     LinearLayout mainLayout;
 
 
-    AvaialbleTimeSlot_Adaptor madapter;
-    @BindView(R.id.TimeSlot)
-    RecyclerView TimeSlot;
-    DurationTimeAdaptor durationAdator;
-    @BindView(R.id.TimeDuration)
-    RecyclerView TimeDuration;
     @BindView(R.id.edt_Meeting)
-    EditText edtMeeting;
-    @BindView(R.id.selectedDate)
-    TextView SelectedDate;
+    TextView edtMeeting;
+
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
-    String RoomName, RoomDisc, CorporateId, Token, workspaceId, BayId;
-    int maxSeat;
+    String RoomName, RoomDisc, CorporateId, Token, workspaceId, BayId, maxSeat;
+
     @BindView(R.id.RoomName)
     TextView txtRoomName;
     @BindView(R.id.RoomDispriction)
     TextView txtRoomDispriction;
-    @BindView(R.id.capacity)
-    TextView capacity;
-    @BindView(R.id.AddEmployee)
-    Button AddEmployee;
-    @BindView(R.id.AddGuest)
-    Button AddGuest;
+    ;
+
     @BindView(R.id.booking)
     Button booking;
     UserSessionManager session;
@@ -145,8 +110,7 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     List<EmployeesItem> Employees;
     List<EmployeesItem> SelectEmployees = new ArrayList<>();
     ArrayList<String> listofEmployee = new ArrayList<>();
-    @BindView(R.id.TotalSelectedEmp)
-    TextView TotalSelectedEmp;
+
     final List<String> selectedEmplyee = new ArrayList<>();
     final ArrayList<AddGuestModel> GuestList = new ArrayList<>();
     @BindView(R.id.AddGuestListview)
@@ -155,10 +119,97 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     ArrayList<AddGuestModel> GuestListwithDetail = new ArrayList<>();
     String selected;
     String guestJson;
-    List<TimeslotModel> your_array_list  = new ArrayList<TimeslotModel>();;
-    List<TimeDurationModel> durationList = new ArrayList<TimeDurationModel>();;
-    String StartTime, durationTime, selectedDate, EndTIme;
+    List<TimeslotModel> your_array_list = new ArrayList<TimeslotModel>();
+
+    List<TimeDurationModel> durationList = new ArrayList<TimeDurationModel>();
+
+    String StartTime, durationTime, selectedDate, EndTIme, floorName;
     SelectedEmployeeAdapter seletedEmplyee;
+    @BindView(R.id.txtStartTime)
+    TextView txtStartTime;
+    @BindView(R.id.txtDuration)
+    TextView txtDuration;
+    @BindView(R.id.txtcapacity)
+    TextView txtcapacity;
+    @BindView(R.id.FloorName)
+    TextView FloorName;
+    @BindView(R.id.txtSelectedDate)
+    TextView txtSelectedDate;
+    @BindView(R.id.imgMeetingAgenda)
+    ImageView imgMeetingAgenda;
+    @BindView(R.id.edtMeetingAganda)
+    EditText edtMeetingAganda;
+    @BindView(R.id.editMeetingLayout)
+    RelativeLayout editMeetingLayout;
+    @BindView(R.id.txtProgress)
+    TextView txtProgress;
+
+    @BindView(R.id.prograssLAyout)
+    RelativeLayout prograssLAyout;
+    @BindView(R.id.meetingTItleLayout)
+    RelativeLayout meetingTItleLayout;
+    @BindView(R.id.btnAdd)
+    Button btnAdd;
+    @BindView(R.id.txtAdd_Participants)
+    TextView txtAddParticipants;
+    @BindView(R.id.txtAdd_Guest)
+    TextView txtAddGuest;
+    @BindView(R.id.BtnaddParticipants)
+    ImageView BtnaddParticipants;
+    @BindView(R.id.txtProgressAddEmployee)
+    TextView txtProgressAddEmployee;
+    @BindView(R.id.prograssAddEmployee)
+    RelativeLayout prograssAddEmployee;
+    @BindView(R.id.AddGuestBtn)
+    ImageView AddGuestBtn;
+    @BindView(R.id.edt_GuestName)
+    EditText edtGuestName;
+    @BindView(R.id.edt_Email)
+    EditText edtEmail;
+    @BindView(R.id.edt_Mobile)
+    EditText edtMobile;
+    @BindView(R.id.btnAddGuestDetail)
+    Button BtnAddGuestDetail;
+    @BindView(R.id.GuestLayout)
+    LinearLayout GuestLayout;
+    @BindView(R.id.addGuestLayout)
+    RelativeLayout addGuestLayout;
+    @BindView(R.id.line)
+    View line;
+    @BindView(R.id.Detail)
+    TextView Detail;
+    @BindView(R.id.linea)
+    View linea;
+    @BindView(R.id.SelectDateLayout)
+    RelativeLayout SelectDateLayout;
+    @BindView(R.id.startTimeLayout)
+    RelativeLayout startTimeLayout;
+    @BindView(R.id.durationLayout)
+    RelativeLayout durationLayout;
+    @BindView(R.id.capacityLayout)
+    RelativeLayout capacityLayout;
+    @BindView(R.id.AddParticipantLayout)
+    RelativeLayout AddParticipantLayout;
+    @BindView(R.id.textGuestName)
+    TextInputLayout textGuestName;
+    @BindView(R.id.textmail)
+    TextInputLayout textmail;
+    @BindView(R.id.textMobile)
+    TextInputLayout textMobile;
+    @BindView(R.id.txtProgressGuest)
+    TextView txtProgressGuest;
+    @BindView(R.id.prograssAddGuest)
+    RelativeLayout prograssAddGuest;
+    String timeType;
+    @BindView(R.id.prograssAddGuestLayout)
+    RelativeLayout prograssAddGuestLayout;
+    String sendTime;
+      boolean[] checkedItems;
+       List<String> selectedItems = new ArrayList<>();
+    String[] mStringArray;
+    ArrayList<Integer> mUserItems = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,12 +221,33 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         RoomName = getIntent().getStringExtra("roomName");
         RoomDisc = getIntent().getStringExtra("roomDis");
         BayId = getIntent().getStringExtra("BayId");
-        maxSeat = getIntent().getIntExtra("capacity", 0);
+        maxSeat = getIntent().getStringExtra("capacity");
         StartTime = getIntent().getStringExtra("startTime");
         EndTIme = getIntent().getStringExtra("EndTime");
         selectedDate = getIntent().getStringExtra("date");
+        floorName = getIntent().getStringExtra("floorName");
+        timeType = getIntent().getStringExtra("timeType");
 
-        Log.e("BayId", BayId);
+        if(timeType.equals("PM")) {
+
+           String[] hours = StartTime.split(":");
+            String  hourtime = hours[0];
+
+
+
+            int  hour = parseInt(hourtime, 10) + 12;
+
+
+            sendTime = hour+":00";
+        }else {
+            sendTime = StartTime;
+        }
+        Log.e("BayId",BayId+"" );
+        txtcapacity.setText(maxSeat);
+        txtStartTime.setText(StartTime + " " + timeType);
+        txtDuration.setText(EndTIme + " HR");
+        FloorName.setText(floorName);
+
 
         SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd");
         Date dateObj = null;
@@ -187,8 +259,8 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         SimpleDateFormat postFormater = new SimpleDateFormat("dd-MMM-yyyy");
 
         String newDateStr = postFormater.format(dateObj);
+        txtSelectedDate.setText(newDateStr);
 
-        SelectedDate.setText(newDateStr);
         session = new UserSessionManager(this);
         HashMap<String, String> user = session.getUserDetails();
         Token = user.get(UserSessionManager.KEY_ACCESS_TOKEN);
@@ -199,71 +271,26 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         workspaceId = workSpaceDetail.get(UserSessionManager.IS_WORKSPACE_ID);
         txtRoomName.setText(RoomName);
         txtRoomDispriction.setText(RoomDisc);
-        capacity.setText("Capacity : " + maxSeat + " Max");
 
-        SelectedDate.setOnClickListener(this);
-        back.setOnClickListener(this);
-        AddEmployee.setOnClickListener(this);
-        AddGuest.setOnClickListener(this);
+        //capacity.setText("Capacity : " + maxSeat + " Max");
+
+
         booking.setOnClickListener(this);
-        TotalSelectedEmp.setOnClickListener(this);
+        meetingTItleLayout.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
+        prograssLAyout.setOnClickListener(this);
+        edtMeeting.setOnClickListener(this);
+        imgMeetingAgenda.setOnClickListener(this);
+        txtAddParticipants.setOnClickListener(this);
+        BtnaddParticipants.setOnClickListener(this);
+        txtProgressAddEmployee.setOnClickListener(this);
+        prograssAddEmployee.setOnClickListener(this);
+        txtProgress.setOnClickListener(this);
+        AddGuestBtn.setOnClickListener(this);
+        BtnAddGuestDetail.setOnClickListener(this);
+        txtAddGuest.setOnClickListener(this);
+        txtProgressGuest.setOnClickListener(this);
 
-       /* Date c = Calendar.getInstance().getTime();
-
-
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(c);
-
-        SelectedDate.setText(formattedDate);*/
-
-
-        TimeslotModel model = new TimeslotModel("10:00", "AM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("11:00", "AM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("12:00", "AM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("01:00", "PM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("02:00", "PM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("03:00", "PM",  false);
-        your_array_list.add(model);
-        model = new TimeslotModel("04:00", "PM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("05:00", "PM", false);
-        your_array_list.add(model);
-        model = new TimeslotModel("06:00", "PM", false);
-        your_array_list.add(model);
-
-
-        TimeDurationModel durationModel = new TimeDurationModel("00:30", "MIN", false);
-        durationList.add(durationModel);
-       durationModel = new TimeDurationModel("01:00", "HR", false);
-        durationList.add(durationModel);
-
-        durationModel = new TimeDurationModel("02:00", "HR",false);
-        durationList.add(durationModel);
-
-     durationModel = new TimeDurationModel("03:00",  "HR", false);
-        durationList.add(durationModel);
-
-        durationModel = new TimeDurationModel("04:00", "HR",false);
-        durationList.add(durationModel);
-        durationModel = new TimeDurationModel("05:00", "HR", false);
-        durationList.add(durationModel);
-        durationModel = new TimeDurationModel("06:00", "HR", false);
-        durationList.add(durationModel);
-
-        durationModel = new TimeDurationModel("07:00", "HR", false);
-        durationList.add(durationModel);
-
-
-        madapter = new AvaialbleTimeSlot_Adaptor(your_array_list, this);
-        LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        TimeSlot.setLayoutManager(horizontaLayoutManagaer);
-        madapter.setOnItemClickListener(this);
-        TimeSlot.setAdapter(madapter);
 
         guestAdator = new GuestListAdator(GuestList, this);
         LinearLayoutManager VerticalLayoutManagaer1 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -273,49 +300,6 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
 
         AddGuestListview.setNestedScrollingEnabled(true);
 
-        durationAdator = new DurationTimeAdaptor(durationList, this);
-        LinearLayoutManager horizontaLayoutManagaer1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        TimeDuration.setLayoutManager(horizontaLayoutManagaer1);
-        durationAdator.setOnItemClickListener(this);
-        TimeDuration.setAdapter(durationAdator);
-
-        adapter = new workspaceDetailPageAdaptor(WorkspaceDetail.this, SheduleOfficeImage);
-        viewPager2.setAdapter(adapter);
-
-        indicator.setViewPager(viewPager2);
-        indicator.animatePageSelected(0);
-
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == 3 - 1) {
-                    currentPage = 0;
-                }
-                viewPager2.setCurrentItem(currentPage++, true);
-            }
-        };
-
-        timer = new Timer(); // This will create a new Thread
-        timer.schedule(new TimerTask() { // task to be scheduled
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY_MS, PERIOD_MS);
-        myCalendar = Calendar.getInstance();
-        date = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel();
-            }
-
-        };
 
         getEmployee(CorporateId);
 
@@ -323,14 +307,6 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     }
 
 
-
-    private void updateLabel() {
-
-        String myFormat = "dd-MMM-yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        SelectedDate.setText(sdf.format(myCalendar.getTime()));
-    }
 
     @Override
     public void onClick(View view) {
@@ -344,36 +320,141 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.AddGuest:
-                AddGuestModel dataModel = new AddGuestModel("", "", "");
-                GuestList.add(dataModel);
-              /*  int position = GuestList.size();
-                if(position>1) {
-                    View view1 = AddGuestListview.getChildAt(position-1);
-                    EditText nameEditText = (EditText) view1.findViewById(R.id.edt_GuestName);
-                    EditText EmailEditText = (EditText) view1.findViewById(R.id.edt_Email);
-                    EditText MobileEditText = (EditText) view1.findViewById(R.id.edt_Mobile);
-                    String name = nameEditText.getText().toString();
-                    String EmailId = EmailEditText.getText().toString();
-                    String MobileNo = MobileEditText.getText().toString();
+            case R.id.meetingTItleLayout:
 
+                imgMeetingAgenda.setVisibility(View.INVISIBLE);
+                //  editMeetingLayout.setVisibility(View.VISIBLE);
 
+                showView(editMeetingLayout);
 
-                    AddGuestModel model = new AddGuestModel(name, EmailId, MobileNo);
-                    GuestList.add(model);
+                break;
 
-                }*/
+            case R.id.edt_Meeting:
 
-                guestAdator.notifyDataSetChanged();
-
+                //   imgMeetingAgenda.setVisibility(View.INVISIBLE);
+                //     editMeetingLayout.setVisibility(View.VISIBLE);
+                hideView(imgMeetingAgenda);
+                showView(editMeetingLayout);
 
 
                 break;
 
-            case R.id.AddEmployee:
-                selectEmployee();
+            case R.id.imgMeetingAgenda:
+
+                //   imgMeetingAgenda.setVisibility(View.INVISIBLE);
+                //   editMeetingLayout.setVisibility(View.VISIBLE);
+
+                hideView(editMeetingLayout);
+                showView(imgMeetingAgenda);
 
                 break;
+
+            case R.id.btnAdd:
+
+                hideView(editMeetingLayout);
+
+                prograssLAyout.setVisibility(View.VISIBLE);
+                txtProgress.setText(edtMeetingAganda.getText().toString().trim());
+
+                break;
+
+            case R.id.prograssLAyout:
+
+
+                hideView(prograssLAyout);
+                showView(editMeetingLayout);
+
+                break;
+
+            case R.id.txtProgress:
+
+
+                hideView(prograssLAyout);
+                showView(editMeetingLayout);
+
+                break;
+
+            case R.id.txtAdd_Participants:
+
+                customSelectEmployee();
+                //selectEmployee();
+
+                break;
+            case R.id.BtnaddParticipants:
+
+                //selectEmployee();
+
+                break;
+
+
+            case R.id.prograssAddEmployee:
+
+                SelectEmployeeDetail();
+
+                break;
+
+
+            case R.id.txtProgressAddEmployee:
+
+                SelectEmployeeDetail();
+
+                break;
+
+
+            case R.id.AddGuestBtn:
+
+                showView(GuestLayout);
+                if (prograssAddGuest.getVisibility() == View.VISIBLE) {
+                    prograssAddGuest.setVisibility(View.GONE);
+                    // Its visible
+                }
+                if (prograssAddGuestLayout.getVisibility() == View.VISIBLE) {
+                    prograssAddGuestLayout.setVisibility(View.GONE);
+                    // Its visible
+                }
+                //   SelectEmployeeDetail();
+
+                break;
+
+            case R.id.txtAdd_Guest:
+
+                showView(GuestLayout);
+                if (prograssAddGuest.getVisibility() == View.VISIBLE) {
+                    prograssAddGuest.setVisibility(View.GONE);
+                    // Its visible
+                }
+                if (prograssAddGuestLayout.getVisibility() == View.VISIBLE) {
+                    prograssAddGuestLayout.setVisibility(View.GONE);
+                    // Its visible
+                }
+                //  SelectEmployeeDetail();
+
+                break;
+            case R.id.btnAddGuestDetail:
+
+                hideView(GuestLayout);
+                String name = edtGuestName.getText().toString();
+                String EmailId = edtEmail.getText().toString();
+                String MobileNo = edtMobile.getText().toString();
+                AddGuestModel model = new AddGuestModel(name, EmailId, MobileNo);
+                GuestList.add(model);
+                //  SelectEmployeeDetail();
+                txtProgressGuest.setText(GuestList.size() + " Guest");
+                prograssAddGuest.setVisibility(View.VISIBLE);
+                edtGuestName.setText("");
+                edtEmail.setText("");
+                edtMobile.setText("");
+
+                break;
+
+            case R.id.txtProgressGuest:
+
+                prograssAddGuestLayout.setVisibility(View.VISIBLE);
+                prograssAddGuest.setVisibility(View.GONE);
+                break;
+
+
+
 
             case R.id.back:
 
@@ -387,16 +468,12 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
 
                 break;
 
-            case R.id.TotalSelectedEmp:
-
-                SelectEmployeeDetail();
-                Log.e("work", "click");
-
-                break;
 
 
         }
     }
+
+
 
     private void SelectEmployeeDetail() {
 
@@ -417,16 +494,16 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                TotalSelectedEmp.setText( SelectEmployees.size() + " Participants");
-
+                //  TotalSelectedEmp.setText(SelectEmployees.size() + " Participants");
+                txtProgressAddEmployee.setText(SelectEmployees.size() + " Participants");
                 for (int i = 0; i < SelectEmployees.size(); i++) {
 
 
-                    // tvSelectedItemsPreview.setText(tvSelectedItemsPreview.getText() + selectedItems.get(i) + ", ");
-                    if(i==0){
-                        selected = SelectEmployees.get(i).getId()+ ",";
-                    }  else {
-                        selected = selected+SelectEmployees.get(i).getId()+ ",";
+                    // txtProgressAddEmployee.setText(txtProgressAddEmployee.getText() + listofEmployee.get(i) + ", ");
+                    if (i == 0) {
+                        selected = SelectEmployees.get(i).getId() + ",";
+                    } else {
+                        selected = selected + SelectEmployees.get(i).getId() + ",";
                     }
                 }
             }
@@ -444,88 +521,76 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         dialog.show();
 
 
-
-
-
-
     }
 
     private void bookNowMeetingRoom() {
 
-        JSONObject jObjectData = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < GuestList.size(); i++) {
-            View view = AddGuestListview.getChildAt(i);
-            EditText nameEditText = (EditText) view.findViewById(R.id.edt_GuestName);
-            EditText EmailEditText = (EditText) view.findViewById(R.id.edt_Email);
-            EditText MobileEditText = (EditText) view.findViewById(R.id.edt_Mobile);
-            String name = nameEditText.getText().toString();
-            String EmailId = EmailEditText.getText().toString();
-            String MobileNo = MobileEditText.getText().toString();
+
+        if (GuestList.size() == 0) {
+            guestJson = "";
+        } else {
+            JSONObject jObjectData = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < GuestList.size(); i++) {
+
+                try {
+                    jObjectData.put("name", GuestList.get(i).getGuestName());
+                    jObjectData.put("email", GuestList.get(i).getGuestEmailId());
+                    jObjectData.put("mobile", GuestList.get(i).getGuestMobile());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                jsonArray.put(jObjectData);
+                //  int position = GuestList.size();
+              /*  GuestList.remove(position - 1);
+                AddGuestModel model = new AddGuestModel(name, EmailId, MobileNo);
+                GuestList.add(model);*/
+
+            }
+            JSONObject finalobject = new JSONObject();
             try {
-                jObjectData.put("name", name);
-                jObjectData.put("email", EmailId);
-                jObjectData.put("mobile", MobileNo);
+                finalobject.put("GuestList", jsonArray);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            jsonArray.put(jObjectData);
-            int position = GuestList.size();
-            GuestList.remove(position-1);
-            AddGuestModel model = new AddGuestModel(name, EmailId, MobileNo);
-            GuestList.add(model);
-
+            guestJson = finalobject.toString();
         }
-        JSONObject finalobject = new JSONObject();
-        try {
-            finalobject.put("GuestList", jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if(GuestList.size()==0){
-            guestJson = "";
-        }else {
-            guestJson =  finalobject.toString();
-        }
-
-
-        Log.e( "guestJson", guestJson);
 
 
         String emplSelect = "";
 
-        if(selected.endsWith(",")) {
+        if (selected.endsWith(",")) {
 
-              emplSelect= selected.substring(0, selected.length() - 1);
+            emplSelect = selected.substring(0, selected.length() - 1);
         }
-        Log.e("selected", emplSelect);
+        //   Log.e("selected", emplSelect);
 
 
+        bookseatAPI(BayId, workspaceId, GuestList.size(), edtMeetingAganda.getText().toString(), emplSelect, guestJson);
 
-        bookseatAPI(BayId, workspaceId,  GuestList.size(), edtMeeting.getText().toString(),emplSelect , guestJson);
     }
 
     private void bookseatAPI(String bayId, String workspaceId, int size, String toString, String emplSelect, String guestJson) {
 
-      //  progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
         Map<String, String> jsonParams = new ArrayMap<>();
 //put something inside the map, could be null
         //    jsonParams.put("id", workspaceId);
         jsonParams.put("type", "meeting");
         jsonParams.put("workspace_id", workspaceId);
-          jsonParams.put("bay_id", bayId);
-          jsonParams.put("guest_count", size+"");
-           jsonParams.put("meeting_topic", toString);
+        jsonParams.put("bay_id", bayId);
+        jsonParams.put("guest_count", size + "");
+        jsonParams.put("meeting_topic", toString);
         jsonParams.put("guest_info", guestJson);
         jsonParams.put("employees", emplSelect);
-        jsonParams.put("start_datetime", selectedDate+ " " + "14:00");
-        jsonParams.put("end_datetime", selectedDate+ " " + "15:00");
+        jsonParams.put("start_datetime", selectedDate + " " + sendTime);
+        jsonParams.put("end_datetime", selectedDate + " " + sendTime);
 
         String json = jsonParams.toString();
-        Log.e("json",json );
+        //  Log.e("json", json);
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
         String token = "Bearer " + Token;
@@ -549,8 +614,8 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
 
                             Intent intent = new Intent(WorkspaceDetail.this, SuccefullyDeskBook.class);
                             intent.putExtra("bookingNumber", response1.getBookingNumber());
-                            intent.putExtra("startDate", selectedDate+ " " + StartTime);
-                            intent.putExtra("endDate", selectedDate+ " " + EndTIme);
+                            intent.putExtra("startDate", selectedDate + " " + sendTime);
+                            intent.putExtra("endDate", selectedDate + " " + sendTime);
                             intent.putExtra("workspaceName", RoomName);
                             intent.putExtra("workspaceAddress", RoomDisc);
                             intent.putExtra("seatId", "Topic-" + toString);
@@ -582,8 +647,6 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         });
 
 
-
-
     }
 
     private void getEmployee(String corporateId) {
@@ -612,8 +675,6 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
                         if (response1.getStatus() == 1) {
                             Employees = response1.getEmployees();
 
-
-                            //   adaptor = new floor_adaptor(getActivity(), floors, workspaceName, WorkspaceId);
 
                             for (int l = 0; l < Employees.size(); l++) {
 
@@ -646,12 +707,33 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void customSelectEmployee() {
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dailog_mult_select_employee);
+
+        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.employeeList);
+
+
+        EditText searchEdit = (EditText) dialog.findViewById(R.id.edtSearch);
+        TextView txtclearAll = (TextView) dialog.findViewById(R.id.txtCleaAll) ;
+        TextView txtCancel = (TextView) dialog.findViewById(R.id.txtCancel) ;
+        TextView txtAdd = (TextView) dialog.findViewById(R.id.txtAdd) ;
+
+        dialog.show();
+
+
+
+    }
+
     private void selectEmployee() {
 
-        final boolean[] checkedItems = new boolean[listofEmployee.size()];
-        final List<String> selectedItems = listofEmployee;
+        checkedItems = new boolean[listofEmployee.size()];
 
-        String[] mStringArray = listofEmployee.toArray(new String[0]);
+
+          mStringArray = listofEmployee.toArray(new String[0]);
         AlertDialog.Builder builder = new AlertDialog.Builder(WorkspaceDetail.this);
 
         // set the title for the alert dialog
@@ -660,12 +742,31 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
         // set the icon for the alert dialog
         builder.setIcon(R.drawable.logo);
 
+
         // now this is the function which sets the alert dialog for multiple item selection ready
-        builder.setMultiChoiceItems(mStringArray, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+        builder.setMultiChoiceItems(mStringArray, null, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checkedItems[which] = isChecked;
-                String currentItem = selectedItems.get(which);
+
+
+
+             /*       selectedItems.add(mStringArray[which]);
+
+                }else if(selectedItems.contains(mStringArray[which])) {
+                    selectedItems.remove(mStringArray[which]);
+                } */
+                  if(isChecked) {
+                    if(! mUserItems.contains(which)){
+                        mUserItems.add(which);
+                     //   checkedItems[which] = isChecked;
+                    }
+                }else if(mUserItems.contains(which)){
+                    mUserItems.remove(which);
+                }
+
+
+
+              //  String currentItem = selectedItems.get(which);
             }
         });
 
@@ -678,13 +779,26 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                String item = "";
+                for (int i =0; i<mUserItems.size(); i++ ){
+                    item = item+ mStringArray[mUserItems.get(i)];
+
+                    if(i != mUserItems.size() - 1){
+                        item = item + ",";
+                    }
+                }
+
+
+               // txtProgressAddEmployee.setText(mUserItems.size() + " Participants");
+               /* selectedItems = selectedEmplyee;
                 for (int i = 0; i < checkedItems.length; i++) {
                     if (checkedItems[i]) {
-                        Log.e("checkedItem", checkedItems.length+"");
-                      //  selectedEmplyee.add(selectedItems.get(i));
+                        Log.e("checkedItem", checkedItems.length + "");
+                        //  selectedEmplyee.add(selectedItems.get(i));
                         SelectEmployees.add(Employees.get(i));
-                        Log.e("posion", i+"");
-                       // tvSelectedItemsPreview.setText(tvSelectedItemsPreview.getText() + selectedItems.get(i) + ", ");
+                     //   selectedEmplyee.add(selectedItems.get(i));
+                        Log.e("posion", i + "");
+                        // tvSelectedItemsPreview.setText(tvSelectedItemsPreview.getText() + selectedItems.get(i) + ", ");
 
                     }
 
@@ -693,20 +807,24 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
                 for (int i = 0; i < SelectEmployees.size(); i++) {
 
 
-                        // tvSelectedItemsPreview.setText(tvSelectedItemsPreview.getText() + selectedItems.get(i) + ", ");
-                        if(i==0){
-                            selected = SelectEmployees.get(i).getId()+ ",";
-                        }  else {
-                            selected = selected+SelectEmployees.get(i).getId()+ ",";
-                        }
+                    // tvSelectedItemsPreview.setText(tvSelectedItemsPreview.getText() + selectedItems.get(i) + ", ");
+                    if (i == 0) {
+                        selected = SelectEmployees.get(i).getId() + ",";
+                    } else {
+                        selected = selected + SelectEmployees.get(i).getId() + ",";
                     }
+                }
 
+*/
+                if (mUserItems.size() >= 1) {
+                    txtProgressAddEmployee.setText(mUserItems.size() + " Participants");
+                    //   TotalSelectedEmp.setText(SelectEmployees.size() + " Participants");
+                    //    prograssAddEmployee.setVisibility(View.VISIBLE);
+                    showView(prograssAddEmployee);
 
-                if (SelectEmployees.size() >= 1) {
-                    TotalSelectedEmp.setText( SelectEmployees.size() + " Participants");
-                    TotalSelectedEmp.setVisibility(View.VISIBLE);
                 } else {
-                    TotalSelectedEmp.setVisibility(View.INVISIBLE);
+                    //   prograssAddEmployee.setVisibility(View.INVISIBLE);
+                    hideView(prograssAddEmployee);
                 }
 
 
@@ -721,18 +839,7 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        // handle the neutral button of the dialog to clear
-        // the selected items boolean checkedItem
-       /* builder.setNeutralButton("CLEAR ALL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                for (int i = 0; i < checkedItems.length; i++) {
-                    checkedItems[i] = false;
-                }
-            }
-        });
-*/
-        // create the builder
+
         builder.create();
 
         // create the alert dialog with the
@@ -745,110 +852,44 @@ public class WorkspaceDetail extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onItemClick(View v, int position) {
 
-        if(v.getId()==R.id.Delete)
-        {
+        if (v.getId() == R.id.Delete) {
             GuestList.remove(position);
             guestAdator.notifyDataSetChanged();
 
 
         }
 
-        if(v.getId()==R.id.Deleteimage)
-        {
-          //  selectedEmplyee.remove(position);
+        if (v.getId() == R.id.Deleteimage) {
+            //  selectedEmplyee.remove(position);
             SelectEmployees.remove(position);
             seletedEmplyee.notifyDataSetChanged();
 
 
         }
-        if(v.getId()==R.id.txttimeSlot)
-        {
-            TextView TimeSlot = v.findViewById(R.id.txttimeSlot);
 
 
-            for (int l = 0; l < your_array_list.size(); l++) {
+    }
+
+    private void showView(View view) {
+        Animation slideDown = AnimationUtils.loadAnimation(this, R.anim.slide_down);
+
+        //toggling visibility
+        view.setVisibility(View.VISIBLE);
+
+        //adding sliding effect
+        view.startAnimation(slideDown);
+
+    }
+
+    private void hideView(View view) {
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
 
 
-                if (your_array_list.get(l).getSelected()) {
-                    your_array_list.get(l).setSelected(false);
-                    TimeSlot.setTextColor(getResources().getColor(R.color.black));
+        //toggling visibility
+        view.setVisibility(View.GONE);
 
-                    Log.e("seatId", your_array_list.get(l).getTimeSlot() + "");
-                    final int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        TimeSlot.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_book_btn) );
-                    } else {
-                        TimeSlot.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_book_btn));
-                    }
-                    madapter.notifyItemChanged(l);
-
-                }
-            }
-
-
-            StartTime = your_array_list.get(position).getTimeSlot() + "";
-            TimeSlot.setTextColor(getResources().getColor(R.color.white));
-            your_array_list.get(position).setSelected(true);
-            final int sdk = android.os.Build.VERSION.SDK_INT;
-            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                TimeSlot.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_select_btn) );
-            } else {
-                TimeSlot.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_select_btn));
-            }
-
-
-
-
-        }  if(v.getId()==R.id.txttimeduration)
-        {
-            TextView TimeSlot = v.findViewById(R.id.txttimeduration);
-
-            for (int l = 0; l < durationList.size(); l++) {
-
-
-                if (durationList.get(l).getSelected()) {
-                    durationList.get(l).setSelected(false);
-                    TimeSlot.setTextColor(getResources().getColor(R.color.black));
-                    final int sdk = android.os.Build.VERSION.SDK_INT;
-                    if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                        TimeSlot.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_book_btn) );
-                    } else {
-                        TimeSlot.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_book_btn));
-                    }
-                    Log.e("seatId", durationList.get(l).getTimeDuration() + "");
-                    durationAdator.notifyItemChanged(l);
-
-                }
-            }
-
-
-
-            durationTime = durationList.get(position).getTimeDuration() + "";
-            TimeSlot.setTextColor(getResources().getColor(R.color.white));
-            durationList.get(position).setSelected(true);
-
-            final int sdk = android.os.Build.VERSION.SDK_INT;
-            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                TimeSlot.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.bg_select_btn) );
-            } else {
-                TimeSlot.setBackground(ContextCompat.getDrawable(this, R.drawable.bg_select_btn));
-            }
-
-          /*  SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            String currentDateandTime = StartTime;
-
-            Date date = null;
-            try {
-                date = sdf.parse(currentDateandTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            calendar.add(Calendar.HOUR, 1);*/
-
-        }
-
+        //adding sliding effect
+        view.startAnimation(slideUp);
     }
 
 

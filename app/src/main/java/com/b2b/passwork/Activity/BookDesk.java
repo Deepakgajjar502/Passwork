@@ -2,11 +2,11 @@ package com.b2b.passwork.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,21 +17,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Adaptor.floor_adaptor;
 import com.b2b.passwork.Adaptor.weeklyAdaptor;
-import com.b2b.passwork.Model.FloorList.FloorListResponse;
 import com.b2b.passwork.Model.FloorList.FloorsItem;
 import com.b2b.passwork.Model.dateModel;
 import com.b2b.passwork.R;
-import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.Utility.UserSessionManager;
 import com.b2b.passwork.interfaces.OnItemClickListener;
-import com.b2b.passwork.retrofit.RestManager;
-
-import org.json.JSONObject;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,15 +36,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class BookDesk extends AppCompatActivity implements View.OnClickListener, OnItemClickListener {
 
@@ -100,7 +89,10 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
     boolean singleDate = true;
     @BindView(R.id.confirm_button)
     Button confirmButton;
-
+    int lastCheckedPos = -1;
+    @BindView(R.id.bookforOther)
+    SwitchMaterial bookforOther;
+    Boolean multipleSelection = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +111,23 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         HashMap<String, String> workspace = session.getworkspaceList();
         WorkspaceId = workspace.get(UserSessionManager.IS_WORKSPACE_ID);
         workspaceName = workspace.get(UserSessionManager.IS_WORKSPACE_TILE);
+
+        bookforOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if (isChecked) {
+
+                    multipleSelection = true;
+                    SetUpCalender();
+                } else {
+
+                    multipleSelection = false;
+                    SetUpCalender();
+                }
+            }
+        });
+
 
         SetUpCalender();
         calendarPrevButton.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +174,7 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         String currentDate = dateFormat.format(calendar.getTime());
         calendarDateDisplay.setText(currentDate);
         dates.clear();
-      //  dateList.clear();
+        dateList.clear();
         Calendar monthCalendar = (Calendar) calendar.clone();
         monthCalendar.set(Calendar.DAY_OF_MONTH, 1);
         int FirstDayofMonth = monthCalendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -190,7 +199,7 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
         }
 
 
-        myGridAdapter = new weeklyAdaptor(this, dates, calendar, singleDate, dateList, confirmButton);
+        myGridAdapter = new weeklyAdaptor(this, dates, calendar, singleDate, dateList, confirmButton, lastCheckedPos, multipleSelection);
         calendarGrid.setLayoutManager(new GridLayoutManager(BookDesk.this, 7));
         //  myGridAdapter.setOnItemClickListener(BookDesk.this);
         calendarGrid.setAdapter(myGridAdapter);
@@ -198,66 +207,6 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
     }
 
-    private void getFloorDetail(String workspaceId) {
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        Map<String, String> jsonParams = new ArrayMap<>();
-//put something inside the map, could be null
-        jsonParams.put("workspace_id", workspaceId);
-        jsonParams.put("start_datetime", StartDate);
-        jsonParams.put("end_datetime", EndDate);
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
-        String token = "Bearer " + Token;
-
-        Call<FloorListResponse> responseBody = RestManager.getInstance().getService()
-                .getFloorList(token, body);
-
-        //"artist",
-        responseBody.enqueue(new Callback<FloorListResponse>() {
-            @Override
-            public void onResponse(Call<FloorListResponse> call, Response<FloorListResponse> response) {
-                //  RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
-                progressBar.setVisibility(View.GONE);
-                if (response.body() != null) {
-
-                    if (response.isSuccessful()) {
-
-                        FloorListResponse response1 = response.body();
-
-                        if (response1.getStatus() == 1) {
-                            floors = response1.getFloors();
-                            adaptor = new floor_adaptor(BookDesk.this, floors, workspaceName, WorkspaceId);
-                            LinearLayoutManager horizontaLayoutManagaer = new LinearLayoutManager(BookDesk.this, LinearLayoutManager.VERTICAL, false);
-                            floorDetail.setLayoutManager(horizontaLayoutManagaer);
-                            adaptor.setOnItemClickListener(BookDesk.this);
-                            floorDetail.setAdapter(adaptor);
-
-
-                        } else {
-
-
-                        }
-
-
-                    } else {
-                        StaticUtil.showIOSLikeDialog(BookDesk.this, "Someting went wrong");
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<FloorListResponse> call, Throwable t) {
-                // RotateDialog.newInstance((Activity) getApplicationContext()).stopLoading();
-                progressBar.setVisibility(View.GONE);
-                StaticUtil.showIOSLikeDialog(BookDesk.this, "Someting went wrong");
-                Log.e("error", t.getMessage().toString());
-            }
-        });
-
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -272,11 +221,6 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
 
                 break;
 
-            case R.id.Calender:
-
-
-                //do your stuff
-                break;
 
             case R.id.single_date_calender:
 
@@ -286,7 +230,8 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
                 singleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.white));
                 multipleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.black));
                 singleDate = true;
-                myGridAdapter = new weeklyAdaptor(this, dates, calendar, true, dateList, confirmButton);
+                lastCheckedPos = -2;
+                myGridAdapter = new weeklyAdaptor(this, dates, calendar, true, dateList, confirmButton, lastCheckedPos, multipleSelection);
                 calendarGrid.setAdapter(myGridAdapter);
 
                 //do your stuff
@@ -300,7 +245,8 @@ public class BookDesk extends AppCompatActivity implements View.OnClickListener,
                 singleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.black));
                 multipleDateCalender.setTextColor(ContextCompat.getColor(this, R.color.white));
                 singleDate = false;
-                myGridAdapter = new weeklyAdaptor(this, dates, calendar, false, dateList, confirmButton);
+                lastCheckedPos = -1;
+                myGridAdapter = new weeklyAdaptor(this, dates, calendar, false, dateList, confirmButton, lastCheckedPos, multipleSelection);
                 calendarGrid.setAdapter(myGridAdapter);
                 //do your stuff
                 break;

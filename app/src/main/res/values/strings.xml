@@ -2,7 +2,8 @@
     <string name="app_name">Passwork</string>
 
     <string name="server_client_id" translatable="false">845194297638-lpt1fovjfl5vmea6l4ak9qfrnekacvo2.apps.googleusercontent.com</string>
-
+    <string name="notification_channel_id">com.b2b.passwork.channel</string>
+    <string name="notification_channel_name">passwork</string>
 
     <string name="next">Next</string>
     <string name="skip">Skip</string>

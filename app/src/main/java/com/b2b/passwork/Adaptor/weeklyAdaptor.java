@@ -1,8 +1,10 @@
 package com.b2b.passwork.Adaptor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.b2b.passwork.Activity.SelectBookingSpace;
 import com.b2b.passwork.Model.dateModel;
 import com.b2b.passwork.R;
+import com.b2b.passwork.Utility.StaticUtil;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 
 import java.text.ParseException;
@@ -36,16 +39,22 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
     LayoutInflater inflater;
     List<dateModel> dateList = new ArrayList<>();
     List<String> selectedDate = new ArrayList<>();
+    List<String> showselectedDate = new ArrayList<>();
+    List<String> baySelectedDate = new ArrayList<>();
     Context mcontext;
     private OnItemClickListener onItemClickListener;
     private static int lastCheckedPos = -1;
     Boolean selectType;
     Button btnConfirm;
     String finalString = "0";
+    String showSelectDate = "0";
+    String baySelectDate = "0";
+    String SingleDate = "0";
+    String Multipledate = "0";
     int todayMonth;
-
+    Boolean multipleSelection;
     Calendar TodayCalender;
-    public weeklyAdaptor(Context context, List<Date> dates, Calendar calendar, Boolean selectionType, List<dateModel> dateList, Button confirmButton) {
+    public weeklyAdaptor(Context context, List<Date> dates, Calendar calendar, Boolean selectionType, List<dateModel> dateList, Button confirmButton, int lastCheckedPos, Boolean multipleSelection) {
         this.dates = dates;
         this.currentDate = calendar;
         inflater = LayoutInflater.from(context);
@@ -53,6 +62,8 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
         this.selectType = selectionType;
         this.dateList = dateList;
         this.btnConfirm = confirmButton;
+        this.lastCheckedPos = lastCheckedPos;
+        this.multipleSelection = multipleSelection;
     }
 
 
@@ -101,25 +112,6 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
               TodayCalender = Calendar.getInstance();
             TodayCalender.setTime(today);
 
-            // today date color
-           /* if(DayNo==TodayCalender.get(Calendar.DAY_OF_MONTH) &&  displayMonth==TodayCalender.get(Calendar.MONTH)+1 && displayYear== TodayCalender.get(Calendar.YEAR)){
-
-                ((weeklyAdaptor.viewHolder) holder).textView.setTextColor(Color.parseColor("#DC143C"));
-            }*/
-
-          /*  if (lastCheckedPos == -1) {
-                ((weeklyAdaptor.viewHolder) holder).textView.setBackgroundResource(R.drawable.calender_select_bg);
-                ((weeklyAdaptor.viewHolder) holder).textView.setTextColor(ContextCompat.getColor(mcontext, R.color.black));
-            } else {
-                if (lastCheckedPos == position) {
-                    ((weeklyAdaptor.viewHolder) holder).textView.setBackgroundResource(R.drawable.selected_calender_type);
-                    ((weeklyAdaptor.viewHolder) holder).textView.setTextColor(ContextCompat.getColor(mcontext, R.color.white));
-                } else {
-
-                    ((weeklyAdaptor.viewHolder) holder).textView.setBackgroundResource(R.drawable.calender_select_bg);
-                    ((weeklyAdaptor.viewHolder) holder).textView.setTextColor(ContextCompat.getColor(mcontext, R.color.black));
-                }
-            }*/
             if(displayMonth == currentMonth && displayYear == currentYear){
                 ((weeklyAdaptor.viewHolder) holder).textView.setVisibility(View.VISIBLE);
                 if(todayMonth == currentMonth) {
@@ -151,11 +143,26 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View view) {
 
-                    Log.e("finalString", finalString);
+                    if(finalString.equals("0")){
+
+                        StaticUtil.showIOSLikeDialog((Activity) mcontext, "Please select date");
+
+
+
+                    }else {
+
                     Intent intent = new Intent(mcontext, SelectBookingSpace.class);
                     intent.putExtra("date",finalString );
+                        intent.putExtra("datetype",selectType );
+                    intent.putExtra("showdate",showSelectDate );
+                        intent.putExtra("bayshowdate",baySelectDate );
+                        intent.putExtra("multipleSelection",multipleSelection );
                     mcontext.startActivity(intent);
-
+                    Log.e("date", finalString);
+                        Log.e("showdate", showSelectDate);
+                        Log.e("bayshowdate", baySelectDate);
+                        Log.e("multipleSelection", multipleSelection+"");
+                    }
 
                 }
             });
@@ -185,24 +192,39 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
             super(itemView);
 
             textView = itemView.findViewById(R.id.single_calendar_date);
-           /* if(!selectType) {
-                textView.setOnClickListener(this);
-            }*/
+
         }
 
-        /*@Override
-        public void onClick(View view) {
-            onItemClickListener.onItemClick(view, getAdapterPosition());
-        }*/
+
 
         public void bind(Boolean date, int displayMonth, int currentMonth, int displayYear, int currentYear, int dayNo) {
 
             if (date) {
 
                 if (lastCheckedPos == -1) {
-                  //  textView.setBackgroundResource(R.drawable.calender_select_bg);
-                 //   textView.setTextColor(ContextCompat.getColor(mcontext, R.color.black));
 
+                    if(displayMonth == currentMonth && displayYear == currentYear){
+                        textView.setVisibility(View.VISIBLE);
+                        if(todayMonth == currentMonth) {
+                            if (dayNo >= TodayCalender.get(Calendar.DAY_OF_MONTH)) {
+                                textView.setTextColor(Color.parseColor("#000000"));
+                                //  Log.e("DayNo>", "currentMonth");
+                            } else {
+                                textView.setTextColor(Color.parseColor("#B3B2B2"));
+                                // Log.e("DayNo>!", "currentMonth");
+                            }
+                        }else if(todayMonth > currentMonth) {
+
+                            textView.setTextColor(Color.parseColor("#B3B2B2"));
+                            //   Log.e("todayMonth>", "currentMonth");
+                        }
+                        else {
+                            textView.setTextColor(Color.parseColor("#000000"));
+                            //   Log.e("only else", "yes");
+                        }
+                        textView.setBackgroundResource(R.drawable.calender_select_bg);
+
+                    }
                 } else {
                     if (lastCheckedPos == getAdapterPosition()) {
                         textView.setBackgroundResource(R.drawable.selected_calender_type);
@@ -252,12 +274,16 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                         String selectedDate = dateList.get(getAdapterPosition()).getDate();
 
                         DateTimeFormatter formatter = null;
+                        DateTimeFormatter showFormatter = null;
                         LocalDate localDate = null;
+                        LocalDate showlocalDate = null;
                         int selectMonth = 0;
                         int selectDay = 0;
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             formatter = DateTimeFormatter.ofPattern( "yyyy-MM-dd" );
+
                              localDate = LocalDate.parse( selectedDate , formatter );
+                         //   showlocalDate = LocalDate.parse( selectedDate , showFormatter );
                             selectMonth = localDate.getMonthValue();
                             selectDay = localDate.getDayOfMonth();
                         }
@@ -266,7 +292,7 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
 
 
 
-                            if(todayMonth == selectMonth) {
+                            if(todayMonth == currentMonth) {
                                 if (selectDay >= TodayCalender.get(Calendar.DAY_OF_MONTH)) {
                                     textView.setBackgroundResource(R.drawable.selected_calender_type);
                                     textView.setTextColor(ContextCompat.getColor(mcontext, R.color.white));
@@ -274,26 +300,46 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                                         notifyItemChanged(lastCheckedPos);
                                         lastCheckedPos = getAdapterPosition();
 
-                                        finalString   =  dateList.get(lastCheckedPos).getDate();
-                                      //  Log.e("lastCheckedPos", "yes");
+                                        finalString   =  dateList.get(lastCheckedPos).getDate() + " 14:00";
+                                        baySelectDate = dateList.get(lastCheckedPos).getDate();
+                                        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+                                        SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
+
+                                        try {
+                                            Date  oneWayTripDate = input.parse(finalString);                 // parse input
+                                            showSelectDate = output.format(oneWayTripDate);    // format output
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+
                                     }
                                   //  Log.e("DayNo", "yes");
                                 } else {
                                  //   Log.e("DayNonot", "yes");
                                 }
-                            }else if(todayMonth > selectMonth) {
+                                   Log.e("click", "todayMonth == selectMonth");
+                            }else if(todayMonth > currentMonth) {
                              //   Log.e("todayMonth", "yes");
-
+                                Log.e("click", "todayMonth > selectMonth");
                             }
                             else {
-                              //  Log.e("todayMonthNotwork", "yes");
+                               Log.e("click", "else");
                                 textView.setBackgroundResource(R.drawable.selected_calender_type);
                                 textView.setTextColor(ContextCompat.getColor(mcontext, R.color.white));
                                 if (lastCheckedPos != getAdapterPosition()) {
                                     notifyItemChanged(lastCheckedPos);
                                     lastCheckedPos = getAdapterPosition();
+                                    baySelectDate = dateList.get(lastCheckedPos).getDate();
+                                    finalString   =  dateList.get(lastCheckedPos).getDate()  + " 14:00";
+                                    SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+                                    SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
 
-                                    finalString   =  dateList.get(lastCheckedPos).getDate();
+                                    try {
+                                        Date  oneWayTripDate = input.parse(finalString);                 // parse input
+                                        showSelectDate = output.format(oneWayTripDate);    // format output
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
 
@@ -332,7 +378,19 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                    //     Log.e("TodayCalender", TodayCalender.get(Calendar.DAY_OF_MONTH)+"");
                         if(todayMonth == selectMonth) {
                             if (selectDay >= TodayCalender.get(Calendar.DAY_OF_MONTH)) {
-                                selectedDate.add(dateList.get(getAdapterPosition()).getDate());
+
+                                SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+                                SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
+
+                                try {
+                                    Date  oneWayTripDate = input.parse(dateList.get(getAdapterPosition()).getDate());                 // parse input
+                                    showSelectDate = output.format(oneWayTripDate);    // format output
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                selectedDate.add(dateList.get(getAdapterPosition()).getDate()  + " 14:00");
+                                baySelectedDate.add(dateList.get(getAdapterPosition()).getDate());
+                                showselectedDate.add(showSelectDate);
                                 textView.setBackgroundResource(R.drawable.selected_calender_type);
                                 textView.setTextColor(ContextCompat.getColor(mcontext, R.color.white));
 
@@ -342,8 +400,22 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                                     listString += s + ",";
                                 }
 
+                                String showlistString = "";
+                                for (String s : showselectedDate) {
+
+                                    showlistString += s + "/";
+                                }
+
+                                String BaylistString = "";
+                                for (String s : baySelectedDate) {
+
+                                    BaylistString += s + ",";
+                                }
+
                                 finalString = listString.substring(0, listString.length() - 1);
-                        //        Log.e("DayNo", "yes");
+                                showSelectDate = showlistString.substring(0, showlistString.length() - 1);
+                                baySelectDate = BaylistString.substring(0, BaylistString.length() - 1);
+
                             } else {
                        //         Log.e("DayNonot", "yes");
                             }
@@ -352,7 +424,22 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
 
                         }
                         else {
-                            selectedDate.add(dateList.get(getAdapterPosition()).getDate());
+
+                            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat output = new SimpleDateFormat("dd-MM-yyyy");
+
+                            try {
+                                Date  oneWayTripDate = input.parse(dateList.get(getAdapterPosition()).getDate());                 // parse input
+                                showSelectDate = output.format(oneWayTripDate);    // format output
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                            selectedDate.add(dateList.get(getAdapterPosition()).getDate()  + " 14:00");
+                            baySelectedDate.add(dateList.get(getAdapterPosition()).getDate());
+                            showselectedDate.add(showSelectDate);
                             textView.setBackgroundResource(R.drawable.selected_calender_type);
                             textView.setTextColor(ContextCompat.getColor(mcontext, R.color.white));
 
@@ -362,7 +449,20 @@ public class weeklyAdaptor  extends RecyclerView.Adapter {
                                 listString += s + ",";
                             }
 
+                            String showlistString = "";
+                            for (String s : showselectedDate) {
+
+                                showlistString += s + " / ";
+                            }
+                            String BaylistString = "";
+                            for (String s : baySelectedDate) {
+
+                                BaylistString += s + ",";
+                            }
+
                             finalString = listString.substring(0, listString.length() - 1);
+                            showSelectDate = showlistString.substring(0, showlistString.length() - 1);
+                            baySelectDate = BaylistString.substring(0, BaylistString.length() - 1);
                           //  Log.e("DayNo", "yes");
                         }
 

@@ -30,7 +30,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
-
+    String mToken;
     UserSessionManager session;
 
     @Override
@@ -93,6 +96,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        retrieveDeviceToken();
+    }
+
+    private void retrieveDeviceToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( LoginActivity.this,  new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                mToken = instanceIdResult.getToken();
+                Log.e("Token", mToken);
+            }
+        });
 
 
     }
@@ -149,6 +164,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //put something inside the map, could be null
         jsonParams.put("email", edtEmail.getText().toString());
         jsonParams.put("password", edtPassword.getText().toString());
+        jsonParams.put("mobile_type", "android");
+        jsonParams.put("notification_token", mToken);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),(new JSONObject(jsonParams)).toString());
 
         Call<LoginResponse> responseBody = RestManager.getInstance().getService()

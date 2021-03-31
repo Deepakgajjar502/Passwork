@@ -61,7 +61,7 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                 @Override
                 public void onClick(View view) {
 
-                    if(position==0) {
+                 /*   if(position==0) {
                         Intent intent = new Intent(holder.itemView.getContext(), BookDesk.class);
                         holder.itemView.getContext().startActivity(intent);
                         ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
@@ -69,12 +69,12 @@ public class WorkSpaceListAdaptor extends RecyclerView.Adapter  {
                     }else if(position==1){
 
                         loadFragment(new BookMeeting());
-                    }else if(position==2){
+                    }else*/ if(position==0){
 
                         Intent intent = new Intent(holder.itemView.getContext(), PollRequest.class);
                         holder.itemView.getContext().startActivity(intent);
                         ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-                    }else if(position==3){
+                    }else if(position==1){
 
                         Intent intent = new Intent(holder.itemView.getContext(), Service_Request.class);
                         holder.itemView.getContext().startActivity(intent);

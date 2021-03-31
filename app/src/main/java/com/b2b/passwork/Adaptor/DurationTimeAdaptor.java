@@ -1,6 +1,7 @@
 package com.b2b.passwork.Adaptor;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.b2b.passwork.Model.TimeDurationModel;
+import com.b2b.passwork.Model.TimeslotModel;
 import com.b2b.passwork.R;
 import com.b2b.passwork.interfaces.OnItemClickListener;
 
@@ -22,12 +24,12 @@ public class DurationTimeAdaptor extends RecyclerView.Adapter {
     List<TimeDurationModel> your_array_list;
 
     private OnItemClickListener onItemClickListener;
-    TimeSlot_Adaptor madapter;
+    private static int lastCheckedPos = -1;
 
-    public DurationTimeAdaptor(List<TimeDurationModel> your_array_list, Context context) {
+    public DurationTimeAdaptor(List<TimeDurationModel> your_array_list, Context context, int lastCheckedPos) {
         this.context =  context;
         this.your_array_list = your_array_list;
-
+        this.lastCheckedPos = lastCheckedPos;
 
     }
 
@@ -46,7 +48,7 @@ public class DurationTimeAdaptor extends RecyclerView.Adapter {
 
             ((DurationTimeAdaptor.viewHolder)holder).TimeSlot.setText(your_array_list.get(position).getTimeDuration() + " "+ your_array_list.get(position).getType() );
 
-
+            ((DurationTimeAdaptor.viewHolder)holder).bind();
 
         }catch (Exception ex){
             Log.d("Sri","ex"+ex);
@@ -76,12 +78,51 @@ public class DurationTimeAdaptor extends RecyclerView.Adapter {
         public void onClick(View view) {
             onItemClickListener.onItemClick(view, getAdapterPosition());
         }
+
+        public void bind() {
+
+            if(lastCheckedPos== -1){
+                TimeSlot.setBackgroundResource(R.drawable.calender_select_bg);
+            }else {
+                if(lastCheckedPos == getAdapterPosition()){
+                    TimeSlot.setBackgroundResource(R.drawable.selected_calender_type);
+                    TimeSlot.setTextColor(Color.parseColor("#ffffff"));
+                }else {
+                    TimeSlot.setBackgroundResource(R.drawable.calender_select_bg);
+                    TimeSlot.setTextColor(Color.parseColor("#000000"));
+                }
+            }
+            TimeSlot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TimeSlot.setBackgroundResource(R.drawable.selected_calender_type);
+                    TimeSlot.setTextColor(Color.parseColor("#ffffff"));
+                    if(lastCheckedPos != getAdapterPosition()){
+                        notifyItemChanged(lastCheckedPos);
+                        lastCheckedPos = getAdapterPosition();
+
+
+                    }
+
+
+                }
+            });
+
+
+        }
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener)
     {
         this.onItemClickListener = onItemClickListener;
     }
 
+    public TimeDurationModel getSelect(){
+
+        if(lastCheckedPos != -1){
+            return your_array_list.get(lastCheckedPos);
+        }
+        return  null;
+    }
 
 
 }

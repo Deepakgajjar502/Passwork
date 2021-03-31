@@ -116,8 +116,7 @@
        android:id="@+id/NoRecordUpcoming"
         android:visibility="gone"
         android:layout_margin="@dimen/_5sdp"
-
-       android:layout_below="@id/ListofShedule">
+     >
 
         <TextView
             android:layout_width="match_parent"
@@ -125,7 +124,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/_10sdp"
             android:text="There are currently no upcoming schedule."
-            android:textColor="@color/white"
+            android:textColor="@color/black"
 
             android:textSize="@dimen/_15sdp"
             />

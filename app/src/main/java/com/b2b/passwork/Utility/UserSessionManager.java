@@ -1,11 +1,18 @@
 package com.b2b.passwork.Utility;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.b2b.passwork.Activity.LoginActivity;
+import com.b2b.passwork.Activity.SplaceScreen;
 
 import java.util.HashMap;
 
@@ -62,6 +69,25 @@ public class UserSessionManager {
     public static final String IS_WORKSPACE_ID = "Isworkspace_id";
     public static final String IS_WORKSPACE_TILE = "IsworkspaceTitle";
     public static final String IS_WORKSPACE_ADDRESS = "Isworkspace_address";
+    private static UserSessionManager instance;
+    private static Context context;
+
+    @SuppressLint("CommitPrefEdits")
+    public static UserSessionManager getInstance(Context context)
+    {
+        UserSessionManager.context = context;
+        if (instance == null) {
+            instance = new UserSessionManager(context);
+        }
+        if(isDataSettingOn()==false)
+        {
+            if(!(context instanceof SplaceScreen))
+            {
+                showSettingsAlert();
+            }
+        }
+        return instance;
+    }
 
 
 
@@ -383,8 +409,47 @@ public class UserSessionManager {
     public boolean isUserLoggedIn() {
         return pref.getBoolean(IS_USER_LOGIN, false);
     }
+    public static boolean isDataSettingOn() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileConn = networkInfo.isConnected();
+        NetworkInfo networkInfo1 = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiConn = networkInfo1.isConnected();
+        return isMobileConn == true || isWifiConn == true;
+    }
 
+    public static void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
 
+        // Setting Dialog Title
+        alertDialog.setTitle("UserData Settings");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("UserData access is not enabled. Please visit to settings menu and Enable the data?");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                context.startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                System.exit(0);
+            }
+        });
+        Log.i("showSettingsAlert", "calling for showSettingsAlert before try catch");
+        try {
+            // Showing Alert Message
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

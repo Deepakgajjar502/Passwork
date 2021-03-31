@@ -46,7 +46,7 @@ public class SuccefullyDeskBook extends AppCompatActivity implements View.OnClic
         seatId = getIntent().getStringExtra("seatId");
 
         DeskDetail.setText("Desk " + seatId);
-        dateDetail.setText(startDate + " to " + endDate);
+        dateDetail.setText(startDate );
         BookingNumber.setText("Booking Number is " + bookingNumber);
         WorkSpaceName.setText(workspaceName);
         deskWorkspaceAddress.setText(workspaceAddress);

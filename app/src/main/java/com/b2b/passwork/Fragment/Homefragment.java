@@ -23,6 +23,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.b2b.passwork.Activity.BookDesk;
 import com.b2b.passwork.Activity.MainActivity;
+import com.b2b.passwork.Activity.SelectBookingMettingSpace;
 import com.b2b.passwork.Adaptor.SheduleAdaptor;
 import com.b2b.passwork.Adaptor.WorkSpaceListAdaptor;
 import com.b2b.passwork.Model.Upcoming.UpComingResponse;
@@ -138,24 +139,7 @@ public class Homefragment extends Fragment implements View.OnClickListener {
         RecyService.setLayoutManager(horizontaLayoutManagaer);
         RecyService.setAdapter(Adaptor);
 
-        /*ListWorkSpace.setAdapter(Adaptor);
 
-        ListWorkSpace.setClipToPadding(false);
-        ListWorkSpace.setClipChildren(false);
-        ListWorkSpace.setOffscreenPageLimit(3);
-        ListWorkSpace.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        //    ListWorkSpace.setCurrentItem(1);
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(20));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r * 0.15f);
-            }
-        });
-        ListWorkSpace.setPageTransformer(compositePageTransformer);*/
 
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -331,6 +315,16 @@ public class Homefragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getContext(), BookDesk.class);
                 startActivity(intent);
                // ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+
+
+                break;
+
+            case R.id.MeetingBookingCardview:
+
+
+                Intent intent1 = new Intent(getContext(), SelectBookingMettingSpace.class);
+                startActivity(intent1);
+                // ((Activity) view.getContext()).overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 
 
                 break;

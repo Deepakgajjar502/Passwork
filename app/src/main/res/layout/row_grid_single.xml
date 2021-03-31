@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_50sdp"
-    android:layout_height="@dimen/_50sdp"
-    android:id="@+id/seatLayout"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
 
-    android:padding="@dimen/_5sdp" >
-
-    <ImageView
-        android:id="@+id/grid_image"
-        android:layout_width="@dimen/_50sdp"
-        android:src="@drawable/ic_armchair"
-        android:padding="@dimen/_5sdp"
-        android:layout_height="@dimen/_50sdp"
-        app:tint="@color/white">
-    </ImageView>
+    android:id="@+id/calendar_dateLayout"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/grid_text"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/single_calendar_date"
         android:text="1"
-        android:textSize="@dimen/_9sdp" >
-    </TextView>
+        android:theme="@style/Textview_regular"
+        android:padding="@dimen/_10sdp"
+        android:layout_margin="@dimen/_3sdp"
+        android:background="@drawable/calender_select_bg"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="@dimen/_12sdp"
+        />
 
-</RelativeLayout>
+
+
+</LinearLayout>
